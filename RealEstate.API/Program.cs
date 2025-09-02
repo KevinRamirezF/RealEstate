@@ -1,4 +1,5 @@
 
+using RealEstate.Application;
 using RealEstate.Infrastructure;
 
 namespace RealEstate.API
@@ -10,9 +11,17 @@ namespace RealEstate.API
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+            builder.Services.AddApplicationServices();
             builder.Services.AddInfrastructureServices(builder.Configuration);
 
+            // Add Output Caching
+            builder.Services.AddOutputCache(options =>
+            {
+                options.AddBasePolicy(policy => policy.Cache());
+            });
+
             builder.Services.AddControllers();
+            
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -28,8 +37,9 @@ namespace RealEstate.API
 
             app.UseHttpsRedirection();
 
-            app.UseAuthorization();
+            app.UseOutputCache();
 
+            app.UseAuthorization();
 
             app.MapControllers();
 
