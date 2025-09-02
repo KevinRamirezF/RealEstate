@@ -1,106 +1,97 @@
 using FluentValidation;
 using RealEstate.Application.Common.Interfaces;
+using RealEstate.Application.DTOs.Output;
+using RealEstate.Application.Mappers;
 using RealEstate.Application.Validators;
 using RealEstate.Domain.Entities;
 using RealEstate.Domain.Enums;
+using System.Reflection;
 
 namespace RealEstate.Application.Commands.Properties;
 
 public class CreatePropertyCommandHandler
 {
     private readonly IUnitOfWork _unitOfWork;
+    private readonly PropertyMapper _mapper;
     private readonly CreatePropertyDtoValidator _validator;
 
-    public CreatePropertyCommandHandler(IUnitOfWork unitOfWork, CreatePropertyDtoValidator validator)
+    public CreatePropertyCommandHandler(IUnitOfWork unitOfWork, PropertyMapper mapper, CreatePropertyDtoValidator validator)
     {
         _unitOfWork = unitOfWork;
+        _mapper = mapper;
         _validator = validator;
     }
 
-    public async Task<CreatePropertyResult> Handle(CreatePropertyCommand command, CancellationToken cancellationToken = default)
+    public async Task<PropertyDetailDto> HandleAsync(CreatePropertyCommand command, CancellationToken cancellationToken = default)
     {
-        // Validate input
-        var validationResult = await _validator.ValidateAsync(command.Property, cancellationToken);
-        if (!validationResult.IsValid)
-        {
-            throw new ValidationException(validationResult.Errors);
-        }
+        await _validator.ValidateAndThrowAsync(command.Data, cancellationToken);
 
         // Check if owner exists
-        var owner = await _unitOfWork.Owners.GetByIdAsync(command.Property.OwnerId, cancellationToken);
+        var owner = await _unitOfWork.Owners.GetByIdAsync(command.Data.OwnerId, cancellationToken);
         if (owner == null)
-        {
-            throw new ArgumentException($"Owner with ID {command.Property.OwnerId} does not exist.");
-        }
+            throw new ValidationException($"Owner with ID {command.Data.OwnerId} does not exist.");
 
         // Check code internal uniqueness
-        var codeExists = await _unitOfWork.Properties.ExistsByCodeInternalAsync(command.Property.CodeInternal, cancellationToken: cancellationToken);
-        if (codeExists)
-        {
-            throw new ArgumentException($"Property with CodeInternal '{command.Property.CodeInternal}' already exists.");
-        }
+        if (await _unitOfWork.Properties.ExistsByCodeInternalAsync(command.Data.CodeInternal, cancellationToken: cancellationToken))
+            throw new ValidationException($"Property with CodeInternal '{command.Data.CodeInternal}' already exists.");
 
         // Parse enums
-        var propertyType = Enum.Parse<PropertyType>(command.Property.PropertyType);
-        var listingStatus = Enum.Parse<ListingStatus>(command.Property.ListingStatus);
+        var propertyType = Enum.Parse<PropertyType>(command.Data.PropertyType);
+        var listingStatus = Enum.Parse<ListingStatus>(command.Data.ListingStatus);
 
         // Create property entity
         var property = Property.Create(
-            command.Property.OwnerId,
-            command.Property.CodeInternal,
-            command.Property.Name,
+            command.Data.OwnerId,
+            command.Data.CodeInternal,
+            command.Data.Name,
             propertyType,
-            command.Property.Price,
-            command.Property.AddressLine1,
-            command.Property.City,
-            command.Property.State,
-            command.Property.PostalCode
+            command.Data.Price,
+            command.Data.AddressLine1,
+            command.Data.City,
+            command.Data.State,
+            command.Data.PostalCode
         );
 
         // Set optional properties using reflection (since properties have private setters)
-        SetPropertyValue(property, nameof(Property.Description), command.Property.Description);
-        SetPropertyValue(property, nameof(Property.YearBuilt), command.Property.YearBuilt);
-        SetPropertyValue(property, nameof(Property.Bedrooms), command.Property.Bedrooms);
-        SetPropertyValue(property, nameof(Property.Bathrooms), command.Property.Bathrooms);
-        SetPropertyValue(property, nameof(Property.ParkingSpaces), command.Property.ParkingSpaces);
-        SetPropertyValue(property, nameof(Property.AreaSqft), command.Property.AreaSqft);
-        SetPropertyValue(property, nameof(Property.LotSizeSqft), command.Property.LotSizeSqft);
-        SetPropertyValue(property, nameof(Property.Currency), command.Property.Currency);
-        SetPropertyValue(property, nameof(Property.HoaFee), command.Property.HoaFee);
-        SetPropertyValue(property, nameof(Property.AddressLine2), command.Property.AddressLine2);
-        SetPropertyValue(property, nameof(Property.Country), command.Property.Country);
-        SetPropertyValue(property, nameof(Property.Lat), command.Property.Lat);
-        SetPropertyValue(property, nameof(Property.Lng), command.Property.Lng);
-        SetPropertyValue(property, nameof(Property.ListingStatus), listingStatus);
-        SetPropertyValue(property, nameof(Property.ListingDate), command.Property.ListingDate ?? DateOnly.FromDateTime(DateTime.Today));
-        SetPropertyValue(property, nameof(Property.LastSoldPrice), command.Property.LastSoldPrice);
-        SetPropertyValue(property, nameof(Property.IsFeatured), command.Property.IsFeatured);
-        SetPropertyValue(property, nameof(Property.IsPublished), command.Property.IsPublished);
+        var propertyType2 = typeof(Property);
+        SetProperty(property, propertyType2, nameof(Property.Description), command.Data.Description);
+        SetProperty(property, propertyType2, nameof(Property.YearBuilt), command.Data.YearBuilt);
+        SetProperty(property, propertyType2, nameof(Property.Bedrooms), command.Data.Bedrooms);
+        SetProperty(property, propertyType2, nameof(Property.Bathrooms), command.Data.Bathrooms);
+        SetProperty(property, propertyType2, nameof(Property.ParkingSpaces), command.Data.ParkingSpaces);
+        SetProperty(property, propertyType2, nameof(Property.AreaSqft), command.Data.AreaSqft);
+        SetProperty(property, propertyType2, nameof(Property.LotSizeSqft), command.Data.LotSizeSqft);
+        SetProperty(property, propertyType2, nameof(Property.Currency), command.Data.Currency);
+        SetProperty(property, propertyType2, nameof(Property.HoaFee), command.Data.HoaFee);
+        SetProperty(property, propertyType2, nameof(Property.AddressLine2), command.Data.AddressLine2);
+        SetProperty(property, propertyType2, nameof(Property.Country), command.Data.Country);
+        SetProperty(property, propertyType2, nameof(Property.Lat), command.Data.Lat);
+        SetProperty(property, propertyType2, nameof(Property.Lng), command.Data.Lng);
+        SetProperty(property, propertyType2, nameof(Property.ListingStatus), listingStatus);
+        SetProperty(property, propertyType2, nameof(Property.ListingDate), command.Data.ListingDate ?? DateOnly.FromDateTime(DateTime.Today));
+        SetProperty(property, propertyType2, nameof(Property.LastSoldPrice), command.Data.LastSoldPrice);
+        SetProperty(property, propertyType2, nameof(Property.IsFeatured), command.Data.IsFeatured);
+        SetProperty(property, propertyType2, nameof(Property.IsPublished), command.Data.IsPublished);
 
-        // Add to repository
         await _unitOfWork.Properties.AddAsync(property, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return new CreatePropertyResult
-        {
-            Id = property.Id,
-            CodeInternal = property.CodeInternal,
-            Name = property.Name,
-            Price = property.Price,
-            ListingStatus = property.ListingStatus.ToString(),
-            CreatedAt = property.CreatedAt,
-            RowVersion = property.RowVersion
-        };
+        // Get the created property with all details populated
+        var createdProperty = await _unitOfWork.Properties.GetPropertyDetailAsync(property.Id, cancellationToken);
+        return createdProperty!;
     }
 
-    private static void SetPropertyValue(object obj, string propertyName, object? value)
+    private static void SetProperty(object obj, Type type, string propertyName, object? value)
     {
-        if (value == null) return;
-        
-        var property = obj.GetType().GetProperty(propertyName);
+        var property = type.GetProperty(propertyName, BindingFlags.Public | BindingFlags.Instance);
         if (property != null && property.CanWrite)
         {
             property.SetValue(obj, value);
+        }
+        else
+        {
+            var backingField = type.GetField($"<{propertyName}>k__BackingField", BindingFlags.NonPublic | BindingFlags.Instance);
+            backingField?.SetValue(obj, value);
         }
     }
 }

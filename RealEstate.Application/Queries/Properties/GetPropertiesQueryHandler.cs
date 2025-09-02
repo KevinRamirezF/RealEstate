@@ -1,35 +1,26 @@
 using FluentValidation;
 using RealEstate.Application.Common.Interfaces;
+using RealEstate.Application.DTOs.Common;
+using RealEstate.Application.DTOs.Output;
 using RealEstate.Application.Validators;
 
 namespace RealEstate.Application.Queries.Properties;
 
 public class GetPropertiesQueryHandler
 {
-    private readonly IPropertyRepository _propertyRepository;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly PropertyFiltersValidator _validator;
 
-    public GetPropertiesQueryHandler(IPropertyRepository propertyRepository, PropertyFiltersValidator validator)
+    public GetPropertiesQueryHandler(IUnitOfWork unitOfWork, PropertyFiltersValidator validator)
     {
-        _propertyRepository = propertyRepository;
+        _unitOfWork = unitOfWork;
         _validator = validator;
     }
 
-    public async Task<GetPropertiesResult> Handle(GetPropertiesQuery query, CancellationToken cancellationToken = default)
+    public async Task<PagedResult<PropertyListDto>> HandleAsync(GetPropertiesQuery query, CancellationToken cancellationToken = default)
     {
-        // Validate filters
-        var validationResult = await _validator.ValidateAsync(query.Filters, cancellationToken);
-        if (!validationResult.IsValid)
-        {
-            throw new ValidationException(validationResult.Errors);
-        }
+        await _validator.ValidateAndThrowAsync(query.Filters, cancellationToken);
 
-        // Get paged properties
-        var properties = await _propertyRepository.GetPagedPropertiesAsync(query.Filters, cancellationToken);
-
-        return new GetPropertiesResult
-        {
-            Properties = properties
-        };
+        return await _unitOfWork.Properties.GetPagedPropertiesAsync(query.Filters, cancellationToken);
     }
 }
