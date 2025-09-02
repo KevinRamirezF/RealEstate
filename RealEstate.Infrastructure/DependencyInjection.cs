@@ -3,8 +3,10 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using RealEstate.Application.Common.Interfaces;
 using RealEstate.Infrastructure.Identity;
 using RealEstate.Infrastructure.Persistence;
+using RealEstate.Infrastructure.Repositories;
 using System;
 
 namespace RealEstate.Infrastructure
@@ -24,7 +26,13 @@ namespace RealEstate.Infrastructure
                 .AddEntityFrameworkStores<RealEstateDbContext>()
                 .AddDefaultTokenProviders();
 
-            // You can add other services like repositories or compiled queries here
+            // Register repositories
+            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            services.AddScoped<IPropertyRepository, PropertyRepository>();
+            services.AddScoped<IOwnerRepository, OwnerRepository>();
+
+            // Register Unit of Work
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             return services;
         }
