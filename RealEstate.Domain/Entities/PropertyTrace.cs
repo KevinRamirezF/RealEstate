@@ -1,4 +1,5 @@
 using System;
+using RealEstate.Domain.Enums;
 
 namespace RealEstate.Domain.Entities;
 
@@ -6,23 +7,35 @@ public class PropertyTrace
 {
     public Guid Id { get; private set; }
     public Guid PropertyId { get; private set; }
-    public DateTime DateSale { get; private set; }
-    public string Name { get; private set; }
-    public decimal Value { get; private set; }
-    public decimal Tax { get; private set; }
+    public TraceEventType EventType { get; private set; }
+    public DateTimeOffset EventDate { get; private set; }
+    public string? ActorName { get; private set; }
+    public decimal? OldValue { get; private set; }
+    public decimal? NewValue { get; private set; }
+    public decimal? TaxAmount { get; private set; }
+    public string? Notes { get; private set; }
+    public DateTimeOffset CreatedAt { get; private set; }
 
-    private PropertyTrace(Guid id, Guid propertyId, DateTime dateSale, string name, decimal value, decimal tax)
+    private PropertyTrace() { }
+
+    private PropertyTrace(Guid id, Guid propertyId, TraceEventType eventType, string? notes = null,
+        decimal? oldValue = null, decimal? newValue = null, decimal? taxAmount = null, string? actorName = null)
     {
         Id = id;
         PropertyId = propertyId;
-        DateSale = dateSale;
-        Name = name;
-        Value = value;
-        Tax = tax;
+        EventType = eventType;
+        EventDate = DateTimeOffset.UtcNow;
+        ActorName = actorName;
+        OldValue = oldValue;
+        NewValue = newValue;
+        TaxAmount = taxAmount;
+        Notes = notes;
+        CreatedAt = DateTimeOffset.UtcNow;
     }
 
-    internal static PropertyTrace Create(Guid propertyId, string name, decimal value, decimal tax)
+    public static PropertyTrace Create(Guid propertyId, TraceEventType eventType, string? notes = null,
+        decimal? oldValue = null, decimal? newValue = null, decimal? taxAmount = null, string? actorName = null)
     {
-        return new PropertyTrace(Guid.NewGuid(), propertyId, DateTime.UtcNow, name, value, tax);
+        return new PropertyTrace(Guid.NewGuid(), propertyId, eventType, notes, oldValue, newValue, taxAmount, actorName);
     }
 }
