@@ -1,116 +1,83 @@
 using FluentValidation;
-using Microsoft.EntityFrameworkCore;
 using RealEstate.Application.Common.Interfaces;
+using RealEstate.Application.DTOs.Output;
+using RealEstate.Application.Mappers;
 using RealEstate.Application.Validators;
+using RealEstate.Domain.Enums;
+using System.Reflection;
 
 namespace RealEstate.Application.Commands.Properties;
 
 public class UpdatePropertyCommandHandler
 {
     private readonly IUnitOfWork _unitOfWork;
+    private readonly PropertyMapper _mapper;
     private readonly UpdatePropertyDtoValidator _validator;
 
-    public UpdatePropertyCommandHandler(IUnitOfWork unitOfWork, UpdatePropertyDtoValidator validator)
+    public UpdatePropertyCommandHandler(IUnitOfWork unitOfWork, PropertyMapper mapper, UpdatePropertyDtoValidator validator)
     {
         _unitOfWork = unitOfWork;
+        _mapper = mapper;
         _validator = validator;
     }
 
-    public async Task<UpdatePropertyResult> Handle(UpdatePropertyCommand command, CancellationToken cancellationToken = default)
+    public async Task<PropertyDetailDto?> HandleAsync(UpdatePropertyCommand command, CancellationToken cancellationToken = default)
     {
-        // Validate input
-        var validationResult = await _validator.ValidateAsync(command.Property, cancellationToken);
-        if (!validationResult.IsValid)
-        {
-            throw new ValidationException(validationResult.Errors);
-        }
+        await _validator.ValidateAndThrowAsync(command.Data, cancellationToken);
 
-        // Get existing property
         var property = await _unitOfWork.Properties.GetByIdAsync(command.Id, cancellationToken);
         if (property == null)
-        {
-            throw new ArgumentException($"Property with ID {command.Id} not found.");
-        }
+            return null;
 
-        // Check concurrency
-        if (property.RowVersion != command.Property.RowVersion)
-        {
-            throw new DbUpdateConcurrencyException("The property has been modified by another user. Please refresh and try again.");
-        }
+        // Parse enum if provided
+        ListingStatus? listingStatus = null;
+        if (!string.IsNullOrWhiteSpace(command.Data.ListingStatus))
+            listingStatus = Enum.Parse<ListingStatus>(command.Data.ListingStatus);
 
-        // Update property using domain method
-        property.Update(
-            command.Property.Name,
-            command.Property.Description,
-            command.Property.Bedrooms,
-            command.Property.Bathrooms,
-            command.Property.ParkingSpaces,
-            command.Property.AreaSqft,
-            command.Property.LotSizeSqft,
-            command.Property.HoaFee
-        );
+        // Update properties using reflection since properties have private setters
+        var propertyTypeReflection = typeof(Domain.Entities.Property);
+        SetProperty(property, propertyTypeReflection, nameof(Domain.Entities.Property.Name), command.Data.Name);
+        SetProperty(property, propertyTypeReflection, nameof(Domain.Entities.Property.Description), command.Data.Description);
+        SetProperty(property, propertyTypeReflection, nameof(Domain.Entities.Property.YearBuilt), command.Data.YearBuilt);
+        SetProperty(property, propertyTypeReflection, nameof(Domain.Entities.Property.Bedrooms), command.Data.Bedrooms);
+        SetProperty(property, propertyTypeReflection, nameof(Domain.Entities.Property.Bathrooms), command.Data.Bathrooms);
+        SetProperty(property, propertyTypeReflection, nameof(Domain.Entities.Property.ParkingSpaces), command.Data.ParkingSpaces);
+        SetProperty(property, propertyTypeReflection, nameof(Domain.Entities.Property.AreaSqft), command.Data.AreaSqft);
+        SetProperty(property, propertyTypeReflection, nameof(Domain.Entities.Property.LotSizeSqft), command.Data.LotSizeSqft);
+        SetProperty(property, propertyTypeReflection, nameof(Domain.Entities.Property.HoaFee), command.Data.HoaFee);
+        SetProperty(property, propertyTypeReflection, nameof(Domain.Entities.Property.AddressLine1), command.Data.AddressLine1);
+        SetProperty(property, propertyTypeReflection, nameof(Domain.Entities.Property.AddressLine2), command.Data.AddressLine2);
+        SetProperty(property, propertyTypeReflection, nameof(Domain.Entities.Property.City), command.Data.City);
+        SetProperty(property, propertyTypeReflection, nameof(Domain.Entities.Property.State), command.Data.State);
+        SetProperty(property, propertyTypeReflection, nameof(Domain.Entities.Property.PostalCode), command.Data.PostalCode);
+        SetProperty(property, propertyTypeReflection, nameof(Domain.Entities.Property.Lat), command.Data.Lat);
+        SetProperty(property, propertyTypeReflection, nameof(Domain.Entities.Property.Lng), command.Data.Lng);
+        if (listingStatus.HasValue)
+            SetProperty(property, propertyTypeReflection, nameof(Domain.Entities.Property.ListingStatus), listingStatus.Value);
+        SetProperty(property, propertyTypeReflection, nameof(Domain.Entities.Property.ListingDate), command.Data.ListingDate);
+        SetProperty(property, propertyTypeReflection, nameof(Domain.Entities.Property.LastSoldPrice), command.Data.LastSoldPrice);
+        SetProperty(property, propertyTypeReflection, nameof(Domain.Entities.Property.IsFeatured), command.Data.IsFeatured);
+        SetProperty(property, propertyTypeReflection, nameof(Domain.Entities.Property.IsPublished), command.Data.IsPublished);
+        SetProperty(property, propertyTypeReflection, nameof(Domain.Entities.Property.UpdatedAt), DateTimeOffset.UtcNow);
 
-        // Update other properties using reflection (since properties have private setters)
-        if (command.Property.YearBuilt.HasValue)
-            SetPropertyValue(property, nameof(property.YearBuilt), command.Property.YearBuilt.Value);
-        
-        if (!string.IsNullOrEmpty(command.Property.AddressLine1))
-            SetPropertyValue(property, nameof(property.AddressLine1), command.Property.AddressLine1);
-        
-        if (!string.IsNullOrEmpty(command.Property.AddressLine2))
-            SetPropertyValue(property, nameof(property.AddressLine2), command.Property.AddressLine2);
-        
-        if (!string.IsNullOrEmpty(command.Property.City))
-            SetPropertyValue(property, nameof(property.City), command.Property.City);
-        
-        if (!string.IsNullOrEmpty(command.Property.State))
-            SetPropertyValue(property, nameof(property.State), command.Property.State);
-        
-        if (!string.IsNullOrEmpty(command.Property.PostalCode))
-            SetPropertyValue(property, nameof(property.PostalCode), command.Property.PostalCode);
-        
-        if (command.Property.Lat.HasValue)
-            SetPropertyValue(property, nameof(property.Lat), command.Property.Lat.Value);
-        
-        if (command.Property.Lng.HasValue)
-            SetPropertyValue(property, nameof(property.Lng), command.Property.Lng.Value);
-        
-        if (!string.IsNullOrEmpty(command.Property.ListingStatus))
-        {
-            var listingStatus = Enum.Parse<Domain.Enums.ListingStatus>(command.Property.ListingStatus);
-            SetPropertyValue(property, nameof(property.ListingStatus), listingStatus);
-        }
-        
-        if (command.Property.ListingDate.HasValue)
-            SetPropertyValue(property, nameof(property.ListingDate), command.Property.ListingDate.Value);
-        
-        if (command.Property.LastSoldPrice.HasValue)
-            SetPropertyValue(property, nameof(property.LastSoldPrice), command.Property.LastSoldPrice.Value);
-        
-        SetPropertyValue(property, nameof(property.IsFeatured), command.Property.IsFeatured);
-        SetPropertyValue(property, nameof(property.IsPublished), command.Property.IsPublished);
-
-        // Update in repository
         _unitOfWork.Properties.Update(property);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return new UpdatePropertyResult
-        {
-            Id = property.Id,
-            Name = property.Name,
-            Price = property.Price,
-            ListingStatus = property.ListingStatus.ToString(),
-            UpdatedAt = property.UpdatedAt,
-            RowVersion = property.RowVersion
-        };
+        // Return updated property details
+        return await _unitOfWork.Properties.GetPropertyDetailAsync(property.Id, cancellationToken);
     }
 
-    private static void SetPropertyValue(object obj, string propertyName, object value)
+    private static void SetProperty(object obj, Type type, string propertyName, object? value)
     {
-        var property = obj.GetType().GetProperty(propertyName);
+        var property = type.GetProperty(propertyName, BindingFlags.Public | BindingFlags.Instance);
         if (property != null && property.CanWrite)
         {
             property.SetValue(obj, value);
+        }
+        else
+        {
+            var backingField = type.GetField($"<{propertyName}>k__BackingField", BindingFlags.NonPublic | BindingFlags.Instance);
+            backingField?.SetValue(obj, value);
         }
     }
 }

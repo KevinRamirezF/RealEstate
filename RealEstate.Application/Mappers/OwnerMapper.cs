@@ -6,27 +6,46 @@ namespace RealEstate.Application.Mappers;
 
 public class OwnerMapper
 {
-    // Manual mappings since entities use factory methods
-    public OwnerDto ToDto(Owner entity)
+    public OwnerListDto ToListDto(Owner entity)
     {
-        return new OwnerDto
+        return new OwnerListDto
         {
             Id = entity.Id,
-            ExternalCode = entity.ExternalCode,
             FullName = entity.FullName,
-            Email = entity.Email,
-            Phone = entity.Phone,
-            PhotoUrl = entity.PhotoUrl,
-            BirthDate = entity.BirthDate,
-            AddressLine1 = entity.AddressLine1,
+            Email = entity.Email ?? string.Empty,
+            PhoneNumber = entity.Phone,
+            City = entity.City ?? string.Empty,
+            State = entity.State ?? string.Empty,
+            PropertyCount = 0, // TODO: Calculate property count
+            CreatedAt = entity.CreatedAt.DateTime
+        };
+    }
+
+    public OwnerDetailDto ToDetailDto(Owner entity)
+    {
+        var fullNameParts = entity.FullName.Split(' ', 2);
+        var firstName = fullNameParts.Length > 0 ? fullNameParts[0] : string.Empty;
+        var lastName = fullNameParts.Length > 1 ? fullNameParts[1] : string.Empty;
+
+        return new OwnerDetailDto
+        {
+            Id = entity.Id,
+            FirstName = firstName,
+            LastName = lastName,
+            FullName = entity.FullName,
+            Email = entity.Email ?? string.Empty,
+            PhoneNumber = entity.Phone,
+            DateOfBirth = entity.BirthDate,
+            AddressLine1 = entity.AddressLine1 ?? string.Empty,
             AddressLine2 = entity.AddressLine2,
-            City = entity.City,
-            State = entity.State,
-            PostalCode = entity.PostalCode,
+            City = entity.City ?? string.Empty,
+            State = entity.State ?? string.Empty,
+            PostalCode = entity.PostalCode ?? string.Empty,
             Country = entity.Country,
-            IsActive = entity.IsActive,
-            CreatedAt = entity.CreatedAt,
-            UpdatedAt = entity.UpdatedAt,
+            ExternalCode = entity.ExternalCode,
+            PropertyCount = 0, // TODO: Calculate property count
+            CreatedAt = entity.CreatedAt.DateTime,
+            UpdatedAt = entity.UpdatedAt.DateTime,
             RowVersion = entity.RowVersion
         };
     }

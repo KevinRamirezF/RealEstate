@@ -11,26 +11,30 @@ namespace RealEstate.Application;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddApplication(this IServiceCollection services)
+    public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
         // Register FluentValidation validators
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
         // Register mappers
-        services.AddScoped<PropertyMapper>();
-        services.AddScoped<OwnerMapper>();
+        services.AddSingleton<PropertyMapper>();
+        services.AddSingleton<OwnerMapper>();
 
         // Register command handlers
         services.AddScoped<CreatePropertyCommandHandler>();
         services.AddScoped<UpdatePropertyCommandHandler>();
+        services.AddScoped<DeletePropertyCommandHandler>();
         services.AddScoped<ChangePriceCommandHandler>();
         services.AddScoped<AddImageCommandHandler>();
         services.AddScoped<CreateOwnerCommandHandler>();
+        services.AddScoped<UpdateOwnerCommandHandler>();
+        services.AddScoped<DeleteOwnerCommandHandler>();
 
         // Register query handlers
-        services.AddScoped<GetPropertyQueryHandler>();
         services.AddScoped<GetPropertiesQueryHandler>();
-        services.AddScoped<GetOwnerQueryHandler>();
+        services.AddScoped<GetPropertyByIdQueryHandler>();
+        services.AddScoped<GetOwnersQueryHandler>();
+        services.AddScoped<GetOwnerByIdQueryHandler>();
 
         return services;
     }
