@@ -8,7 +8,12 @@ namespace RealEstate.Infrastructure.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<Property> builder)
         {
-            builder.ToTable("properties");
+            builder.ToTable("properties", tableBuilder =>
+            {
+                tableBuilder.HasCheckConstraint("CK_properties_price", "price >= 0");
+                tableBuilder.HasCheckConstraint("CK_properties_bathrooms", "bathrooms >= 0");
+                tableBuilder.HasCheckConstraint("CK_properties_bedrooms", "bedrooms >= 0");
+            });
 
             builder.HasKey(p => p.Id);
 
@@ -140,10 +145,6 @@ namespace RealEstate.Infrastructure.Persistence.Configurations
                 .HasDefaultValue(1)
                 .HasColumnName("row_version");
 
-            // Constraints
-            builder.HasCheckConstraint("CK_properties_price", "price >= 0");
-            builder.HasCheckConstraint("CK_properties_bathrooms", "bathrooms >= 0");
-            builder.HasCheckConstraint("CK_properties_bedrooms", "bedrooms >= 0");
 
             // Indexes
             builder.HasIndex(p => p.CodeInternal)
