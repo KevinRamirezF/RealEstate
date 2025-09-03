@@ -16,8 +16,7 @@ public class CreatePropertyDto
     public decimal Price { get; set; }
     public string Currency { get; set; } = "USD";
     public decimal? HoaFee { get; set; }
-    public required string AddressLine1 { get; set; }
-    public string? AddressLine2 { get; set; }
+    public required string AddressLine { get; set; }
     public required string City { get; set; }
     public required string State { get; set; }
     public required string PostalCode { get; set; }

@@ -8,8 +8,7 @@ public class CreateOwnerDto
     public string? ExternalCode { get; set; }
     public string? PhotoUrl { get; set; }
     public DateOnly? BirthDate { get; set; }
-    public string? AddressLine1 { get; set; }
-    public string? AddressLine2 { get; set; }
+    public string? AddressLine { get; set; }
     public string? City { get; set; }
     public string? State { get; set; }
     public string? PostalCode { get; set; }

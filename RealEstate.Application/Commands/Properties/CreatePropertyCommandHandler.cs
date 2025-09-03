@@ -46,7 +46,7 @@ public class CreatePropertyCommandHandler
             command.Data.Name,
             propertyType,
             command.Data.Price,
-            command.Data.AddressLine1,
+            command.Data.AddressLine,
             command.Data.City,
             command.Data.State,
             command.Data.PostalCode
@@ -63,7 +63,6 @@ public class CreatePropertyCommandHandler
         SetProperty(property, propertyType2, nameof(Property.LotSizeSqft), command.Data.LotSizeSqft);
         SetProperty(property, propertyType2, nameof(Property.Currency), command.Data.Currency);
         SetProperty(property, propertyType2, nameof(Property.HoaFee), command.Data.HoaFee);
-        SetProperty(property, propertyType2, nameof(Property.AddressLine2), command.Data.AddressLine2);
         SetProperty(property, propertyType2, nameof(Property.Country), command.Data.Country);
         SetProperty(property, propertyType2, nameof(Property.Lat), command.Data.Lat);
         SetProperty(property, propertyType2, nameof(Property.Lng), command.Data.Lng);

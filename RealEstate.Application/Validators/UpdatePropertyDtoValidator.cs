@@ -68,13 +68,9 @@ public class UpdatePropertyDtoValidator : AbstractValidator<UpdatePropertyDto>
             .When(x => x.HoaFee.HasValue)
             .WithMessage("HOA Fee cannot exceed $999,999.99.");
 
-        RuleFor(x => x.AddressLine1)
+        RuleFor(x => x.AddressLine)
             .MaximumLength(200)
-            .WithMessage("Address Line 1 cannot exceed 200 characters.");
-
-        RuleFor(x => x.AddressLine2)
-            .MaximumLength(200)
-            .WithMessage("Address Line 2 cannot exceed 200 characters.");
+            .WithMessage("Address Line cannot exceed 200 characters.");
 
         RuleFor(x => x.City)
             .MaximumLength(120)

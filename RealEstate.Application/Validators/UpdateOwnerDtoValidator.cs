@@ -34,13 +34,9 @@ public class UpdateOwnerDtoValidator : AbstractValidator<UpdateOwnerDto>
             .WithMessage("Date of Birth cannot be more than 150 years ago.")
             .When(x => x.DateOfBirth.HasValue);
 
-        RuleFor(x => x.AddressLine1)
-            .NotEmpty().WithMessage("Address Line 1 is required.")
-            .MaximumLength(255).WithMessage("Address Line 1 cannot exceed 255 characters.");
-
-        RuleFor(x => x.AddressLine2)
-            .MaximumLength(255).WithMessage("Address Line 2 cannot exceed 255 characters.")
-            .When(x => !string.IsNullOrEmpty(x.AddressLine2));
+        RuleFor(x => x.AddressLine)
+            .NotEmpty().WithMessage("Address Line is required.")
+            .MaximumLength(255).WithMessage("Address Line cannot exceed 255 characters.");
 
         RuleFor(x => x.City)
             .NotEmpty().WithMessage("City is required.")
