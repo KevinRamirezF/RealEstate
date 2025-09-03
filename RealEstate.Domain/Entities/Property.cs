@@ -22,8 +22,7 @@ public class Property
     public decimal Price { get; private set; }
     public string Currency { get; private set; } = "USD";
     public decimal? HoaFee { get; private set; }
-    public string AddressLine1 { get; private set; } = string.Empty;
-    public string? AddressLine2 { get; private set; }
+    public string AddressLine { get; private set; } = string.Empty;
     public string City { get; private set; } = string.Empty;
     public string State { get; private set; } = string.Empty;
     public string PostalCode { get; private set; } = string.Empty;
@@ -49,7 +48,7 @@ public class Property
     private Property() { }
 
     private Property(Guid id, Guid ownerId, string codeInternal, string name, PropertyType propertyType, 
-        decimal price, string addressLine1, string city, string state, string postalCode)
+        decimal price, string addressLine, string city, string state, string postalCode)
     {
         Id = id;
         OwnerId = ownerId;
@@ -57,7 +56,7 @@ public class Property
         Name = name;
         PropertyType = propertyType;
         Price = price;
-        AddressLine1 = addressLine1;
+        AddressLine = addressLine;
         City = city;
         State = state;
         PostalCode = postalCode;
@@ -67,7 +66,7 @@ public class Property
     }
 
     public static Property Create(Guid ownerId, string codeInternal, string name, PropertyType propertyType, 
-        decimal price, string addressLine1, string city, string state, string postalCode)
+        decimal price, string addressLine, string city, string state, string postalCode)
     {
         if (price < 0)
             throw new ArgumentException("Price cannot be negative.", nameof(price));
@@ -77,7 +76,7 @@ public class Property
             throw new ArgumentException("Name is required and cannot exceed 200 characters.", nameof(name));
 
         var property = new Property(Guid.NewGuid(), ownerId, codeInternal, name, propertyType, 
-            price, addressLine1, city, state, postalCode);
+            price, addressLine, city, state, postalCode);
 
         var trace = PropertyTrace.Create(property.Id, TraceEventType.CREATED, "Initial creation");
         property._traces.Add(trace);
