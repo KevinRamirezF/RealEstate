@@ -55,15 +55,10 @@ public class CreateOwnerDtoValidator : AbstractValidator<CreateOwnerDto>
             .When(x => x.BirthDate.HasValue)
             .WithMessage("Birth Date cannot be before year 1900.");
 
-        RuleFor(x => x.AddressLine1)
+        RuleFor(x => x.AddressLine)
             .MaximumLength(200)
-            .When(x => !string.IsNullOrEmpty(x.AddressLine1))
-            .WithMessage("Address Line 1 cannot exceed 200 characters.");
-
-        RuleFor(x => x.AddressLine2)
-            .MaximumLength(200)
-            .When(x => !string.IsNullOrEmpty(x.AddressLine2))
-            .WithMessage("Address Line 2 cannot exceed 200 characters.");
+            .When(x => !string.IsNullOrEmpty(x.AddressLine))
+            .WithMessage("Address Line cannot exceed 200 characters.");
 
         RuleFor(x => x.City)
             .MaximumLength(120)

@@ -7,8 +7,7 @@ public class UpdateOwnerDto
     public string Email { get; set; } = string.Empty;
     public string? PhoneNumber { get; set; }
     public DateOnly? DateOfBirth { get; set; }
-    public string AddressLine1 { get; set; } = string.Empty;
-    public string? AddressLine2 { get; set; }
+    public string AddressLine { get; set; } = string.Empty;
     public string City { get; set; } = string.Empty;
     public string State { get; set; } = string.Empty;
     public string PostalCode { get; set; } = string.Empty;

@@ -128,7 +128,7 @@ public class PropertyRepository : Repository<Property>, IPropertyRepository
             query = query.Where(x => 
                 EF.Property<string>(EF.Property<Property>(x, "Property"), "Name").ToLower().Contains(searchTerm) ||
                 EF.Property<string>(EF.Property<Property>(x, "Property"), "Description").ToLower().Contains(searchTerm) ||
-                EF.Property<string>(EF.Property<Property>(x, "Property"), "AddressLine1").ToLower().Contains(searchTerm) ||
+                EF.Property<string>(EF.Property<Property>(x, "Property"), "AddressLine").ToLower().Contains(searchTerm) ||
                 EF.Property<string>(EF.Property<Property>(x, "Property"), "City").ToLower().Contains(searchTerm) ||
                 EF.Property<string>(EF.Property<Property>(x, "Property"), "State").ToLower().Contains(searchTerm) ||
                 EF.Property<string>(EF.Property<Property>(x, "Property"), "PostalCode").Contains(searchTerm) ||

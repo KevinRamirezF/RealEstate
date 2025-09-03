@@ -45,8 +45,7 @@ public class UpdatePropertyCommandHandler
         SetProperty(property, propertyTypeReflection, nameof(Domain.Entities.Property.AreaSqft), command.Data.AreaSqft);
         SetProperty(property, propertyTypeReflection, nameof(Domain.Entities.Property.LotSizeSqft), command.Data.LotSizeSqft);
         SetProperty(property, propertyTypeReflection, nameof(Domain.Entities.Property.HoaFee), command.Data.HoaFee);
-        SetProperty(property, propertyTypeReflection, nameof(Domain.Entities.Property.AddressLine1), command.Data.AddressLine1);
-        SetProperty(property, propertyTypeReflection, nameof(Domain.Entities.Property.AddressLine2), command.Data.AddressLine2);
+        SetProperty(property, propertyTypeReflection, nameof(Domain.Entities.Property.AddressLine), command.Data.AddressLine);
         SetProperty(property, propertyTypeReflection, nameof(Domain.Entities.Property.City), command.Data.City);
         SetProperty(property, propertyTypeReflection, nameof(Domain.Entities.Property.State), command.Data.State);
         SetProperty(property, propertyTypeReflection, nameof(Domain.Entities.Property.PostalCode), command.Data.PostalCode);

@@ -36,13 +36,9 @@ namespace RealEstate.Infrastructure.Persistence.Configurations
             builder.Property(o => o.BirthDate)
                 .HasColumnName("birth_date");
 
-            builder.Property(o => o.AddressLine1)
+            builder.Property(o => o.AddressLine)
                 .HasMaxLength(200)
-                .HasColumnName("address_line1");
-
-            builder.Property(o => o.AddressLine2)
-                .HasMaxLength(200)
-                .HasColumnName("address_line2");
+                .HasColumnName("address_line");
 
             builder.Property(o => o.City)
                 .HasMaxLength(120)

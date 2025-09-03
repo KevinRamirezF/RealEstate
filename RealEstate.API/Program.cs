@@ -1,5 +1,7 @@
 
 using RealEstate.Application;
+using RealEstate.API.Extensions;
+using RealEstate.API.Filters;
 using RealEstate.Infrastructure;
 
 namespace RealEstate.API
@@ -14,13 +16,22 @@ namespace RealEstate.API
             builder.Services.AddApplicationServices();
             builder.Services.AddInfrastructureServices(builder.Configuration);
 
+            // Add Problem Details support
+            builder.Services.AddProblemDetailsSupport();
+
             // Add Output Caching
             builder.Services.AddOutputCache(options =>
             {
                 options.AddBasePolicy(policy => policy.Cache());
             });
 
-            builder.Services.AddControllers();
+            // Configure controllers with global filters
+            builder.Services.AddControllers(options =>
+            {
+                // Add global validation filter
+                options.Filters.Add<ValidationFilter>();
+                options.Filters.Add<FluentValidationExceptionFilter>();
+            });
             
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
@@ -29,6 +40,10 @@ namespace RealEstate.API
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
+            
+            // Add global exception handling (must be first in pipeline)
+            app.UseGlobalExceptionHandler();
+
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();

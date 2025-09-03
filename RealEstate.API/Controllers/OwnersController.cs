@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
+using RealEstate.API.Filters;
 using RealEstate.Application.Commands.Owners;
 using RealEstate.Application.DTOs.Input;
 using RealEstate.Application.DTOs.Output;
@@ -11,6 +12,7 @@ namespace RealEstate.API.Controllers;
 [ApiController]
 [Route("api/v1/[controller]")]
 [Produces("application/json")]
+[ValidationFilter]
 public class OwnersController : ControllerBase
 {
     private readonly CreateOwnerCommandHandler _createOwnerHandler;
@@ -51,7 +53,7 @@ public class OwnersController : ControllerBase
         var etag = GenerateETag(result);
         Response.Headers.ETag = etag;
         
-        // Check If-None-Match header
+        // Check If-None-Match header for conditional requests
         if (Request.Headers.IfNoneMatch.Contains(etag))
         {
             return StatusCode(StatusCodes.Status304NotModified);
@@ -78,22 +80,13 @@ public class OwnersController : ControllerBase
         var result = await _getOwnerByIdHandler.HandleAsync(query, cancellationToken);
         
         if (result == null)
-        {
-            return NotFound(new ProblemDetails
-            {
-                Type = "https://tools.ietf.org/html/rfc9110#section-15.5.5",
-                Title = "Owner not found",
-                Status = StatusCodes.Status404NotFound,
-                Detail = $"Owner with ID '{id}' was not found.",
-                Instance = HttpContext.Request.Path
-            });
-        }
+            throw new KeyNotFoundException($"Owner with ID '{id}' was not found.");
         
         // Generate ETag based on result content
         var etag = GenerateETag(result);
         Response.Headers.ETag = etag;
         
-        // Check If-None-Match header
+        // Check If-None-Match header for conditional requests
         if (Request.Headers.IfNoneMatch.Contains(etag))
         {
             return StatusCode(StatusCodes.Status304NotModified);
@@ -146,16 +139,7 @@ public class OwnersController : ControllerBase
         var result = await _updateOwnerHandler.HandleAsync(command, cancellationToken);
         
         if (result == null)
-        {
-            return NotFound(new ProblemDetails
-            {
-                Type = "https://tools.ietf.org/html/rfc9110#section-15.5.5",
-                Title = "Owner not found",
-                Status = StatusCodes.Status404NotFound,
-                Detail = $"Owner with ID '{id}' was not found.",
-                Instance = HttpContext.Request.Path
-            });
-        }
+            throw new KeyNotFoundException($"Owner with ID '{id}' was not found.");
         
         return Ok(result);
     }
@@ -177,16 +161,7 @@ public class OwnersController : ControllerBase
         var success = await _deleteOwnerHandler.HandleAsync(command, cancellationToken);
         
         if (!success)
-        {
-            return NotFound(new ProblemDetails
-            {
-                Type = "https://tools.ietf.org/html/rfc9110#section-15.5.5",
-                Title = "Owner not found",
-                Status = StatusCodes.Status404NotFound,
-                Detail = $"Owner with ID '{id}' was not found.",
-                Instance = HttpContext.Request.Path
-            });
-        }
+            throw new KeyNotFoundException($"Owner with ID '{id}' was not found.");
         
         return NoContent();
     }

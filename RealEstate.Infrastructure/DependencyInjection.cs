@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using RealEstate.Application.Common.Interfaces;
+using RealEstate.Infrastructure.Configuration;
 using RealEstate.Infrastructure.Identity;
 using RealEstate.Infrastructure.Persistence;
 using RealEstate.Infrastructure.Repositories;
@@ -15,12 +17,34 @@ namespace RealEstate.Infrastructure
     {
         public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
         {
-            var connectionString = configuration.GetConnectionString("DefaultConnection");
+            // Configure Database Settings with IOptions pattern
+            services.Configure<DatabaseSettings>(configuration.GetSection(DatabaseSettings.SectionName));
+            services.AddSingleton<IDbSettings>(provider => provider.GetRequiredService<IOptions<DatabaseSettings>>().Value);
 
-            services.AddDbContext<RealEstateDbContext>(options =>
-                options.UseSqlServer(connectionString,
-                    builder => builder.MigrationsAssembly(typeof(RealEstateDbContext).Assembly.FullName)
-                                      .UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery)));
+            // Configure DbContext with enhanced options
+            services.AddDbContext<RealEstateDbContext>((serviceProvider, options) =>
+            {
+                var dbSettings = serviceProvider.GetRequiredService<IDbSettings>();
+                
+                options.UseSqlServer(dbSettings.ConnectionString, sqlOptions =>
+                {
+                    sqlOptions.MigrationsAssembly(typeof(RealEstateDbContext).Assembly.FullName);
+                    sqlOptions.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
+                    sqlOptions.CommandTimeout(dbSettings.CommandTimeout);
+                    
+                    if (dbSettings.EnableRetryOnFailure)
+                    {
+                        sqlOptions.EnableRetryOnFailure(
+                            maxRetryCount: dbSettings.MaxRetryCount,
+                            maxRetryDelay: dbSettings.MaxRetryDelay,
+                            errorNumbersToAdd: null);
+                    }
+                });
+
+                // Enable sensitive data logging in development only
+                options.EnableSensitiveDataLogging(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development");
+                options.EnableDetailedErrors(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development");
+            });
 
             services.AddIdentity<ApplicationUser, IdentityRole<Guid>>()
                 .AddEntityFrameworkStores<RealEstateDbContext>()

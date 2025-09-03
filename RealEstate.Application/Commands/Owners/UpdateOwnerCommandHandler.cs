@@ -44,8 +44,7 @@ public class UpdateOwnerCommandHandler
         // Set additional properties via reflection since Owner doesn't expose setters for all properties
         var ownerType = typeof(Owner);
         SetProperty(owner, ownerType, nameof(Owner.BirthDate), command.Data.DateOfBirth);
-        SetProperty(owner, ownerType, nameof(Owner.AddressLine1), command.Data.AddressLine1);
-        SetProperty(owner, ownerType, nameof(Owner.AddressLine2), command.Data.AddressLine2);
+        SetProperty(owner, ownerType, nameof(Owner.AddressLine), command.Data.AddressLine);
         SetProperty(owner, ownerType, nameof(Owner.City), command.Data.City);
         SetProperty(owner, ownerType, nameof(Owner.State), command.Data.State);
         SetProperty(owner, ownerType, nameof(Owner.PostalCode), command.Data.PostalCode);

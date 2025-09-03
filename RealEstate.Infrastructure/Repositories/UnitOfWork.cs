@@ -1,4 +1,3 @@
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using RealEstate.Application.Common.Interfaces;
 using RealEstate.Infrastructure.Persistence;

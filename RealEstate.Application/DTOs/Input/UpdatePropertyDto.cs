@@ -11,8 +11,7 @@ public class UpdatePropertyDto
     public int? AreaSqft { get; set; }
     public int? LotSizeSqft { get; set; }
     public decimal? HoaFee { get; set; }
-    public string? AddressLine1 { get; set; }
-    public string? AddressLine2 { get; set; }
+    public string? AddressLine { get; set; }
     public string? City { get; set; }
     public string? State { get; set; }
     public string? PostalCode { get; set; }
