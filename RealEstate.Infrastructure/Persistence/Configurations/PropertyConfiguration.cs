@@ -73,14 +73,10 @@ namespace RealEstate.Infrastructure.Persistence.Configurations
                 .HasColumnType("decimal(12,2)")
                 .HasColumnName("hoa_fee");
 
-            builder.Property(p => p.AddressLine1)
+            builder.Property(p => p.AddressLine)
                 .HasMaxLength(200)
                 .IsRequired()
-                .HasColumnName("address_line1");
-
-            builder.Property(p => p.AddressLine2)
-                .HasMaxLength(200)
-                .HasColumnName("address_line2");
+                .HasColumnName("address_line");
 
             builder.Property(p => p.City)
                 .HasMaxLength(120)
