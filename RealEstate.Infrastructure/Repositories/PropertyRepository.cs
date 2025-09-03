@@ -179,6 +179,61 @@ public class PropertyRepository : Repository<Property>, IPropertyRepository
         if (!string.IsNullOrEmpty(filters.PostalCode))
             query = query.Where(x => EF.Property<string>(EF.Property<Property>(x, "Property"), "PostalCode") == filters.PostalCode);
 
+        // Bedrooms range
+        if (filters.BedroomsFrom.HasValue)
+            query = query.Where(x => EF.Property<short>(EF.Property<Property>(x, "Property"), "Bedrooms") >= filters.BedroomsFrom.Value);
+        if (filters.BedroomsTo.HasValue)
+            query = query.Where(x => EF.Property<short>(EF.Property<Property>(x, "Property"), "Bedrooms") <= filters.BedroomsTo.Value);
+
+        // Bathrooms range
+        if (filters.BathroomsFrom.HasValue)
+            query = query.Where(x => EF.Property<decimal>(EF.Property<Property>(x, "Property"), "Bathrooms") >= filters.BathroomsFrom.Value);
+        if (filters.BathroomsTo.HasValue)
+            query = query.Where(x => EF.Property<decimal>(EF.Property<Property>(x, "Property"), "Bathrooms") <= filters.BathroomsTo.Value);
+
+        // Area range (AreaSqft)
+        if (filters.AreaFrom.HasValue)
+            query = query.Where(x => EF.Property<int?>(EF.Property<Property>(x, "Property"), "AreaSqft") >= filters.AreaFrom.Value);
+        if (filters.AreaTo.HasValue)
+            query = query.Where(x => EF.Property<int?>(EF.Property<Property>(x, "Property"), "AreaSqft") <= filters.AreaTo.Value);
+
+        // Lot size range (LotSizeSqft)
+        if (filters.LotFrom.HasValue)
+            query = query.Where(x => EF.Property<int?>(EF.Property<Property>(x, "Property"), "LotSizeSqft") >= filters.LotFrom.Value);
+        if (filters.LotTo.HasValue)
+            query = query.Where(x => EF.Property<int?>(EF.Property<Property>(x, "Property"), "LotSizeSqft") <= filters.LotTo.Value);
+
+        // HOA fee range
+        if (filters.HoaFrom.HasValue)
+            query = query.Where(x => EF.Property<decimal?>(EF.Property<Property>(x, "Property"), "HoaFee") >= filters.HoaFrom.Value);
+        if (filters.HoaTo.HasValue)
+            query = query.Where(x => EF.Property<decimal?>(EF.Property<Property>(x, "Property"), "HoaFee") <= filters.HoaTo.Value);
+
+        // Geospatial bounding box filters (critical for map searches)
+        if (filters.LatMin.HasValue)
+            query = query.Where(x => EF.Property<decimal?>(EF.Property<Property>(x, "Property"), "Lat") >= filters.LatMin.Value);
+        if (filters.LatMax.HasValue)
+            query = query.Where(x => EF.Property<decimal?>(EF.Property<Property>(x, "Property"), "Lat") <= filters.LatMax.Value);
+        if (filters.LngMin.HasValue)
+            query = query.Where(x => EF.Property<decimal?>(EF.Property<Property>(x, "Property"), "Lng") >= filters.LngMin.Value);
+        if (filters.LngMax.HasValue)
+            query = query.Where(x => EF.Property<decimal?>(EF.Property<Property>(x, "Property"), "Lng") <= filters.LngMax.Value);
+
+        // Primary image filter (requires join with Images)
+        if (filters.HasPrimaryImage.HasValue)
+        {
+            if (filters.HasPrimaryImage.Value)
+            {
+                // Has primary image
+                query = query.Where(x => EF.Property<Property>(x, "Property").Images.Any(img => img.IsPrimary));
+            }
+            else
+            {
+                // No primary image
+                query = query.Where(x => !EF.Property<Property>(x, "Property").Images.Any(img => img.IsPrimary));
+            }
+        }
+
         return query;
     }
 
@@ -201,6 +256,24 @@ public class PropertyRepository : Repository<Property>, IPropertyRepository
             "area_sqft" => isDescending
                 ? query.OrderByDescending(x => EF.Property<int?>(EF.Property<Property>(x, "Property"), "AreaSqft"))
                 : query.OrderBy(x => EF.Property<int?>(EF.Property<Property>(x, "Property"), "AreaSqft")),
+            "bedrooms" => isDescending
+                ? query.OrderByDescending(x => EF.Property<short>(EF.Property<Property>(x, "Property"), "Bedrooms"))
+                : query.OrderBy(x => EF.Property<short>(EF.Property<Property>(x, "Property"), "Bedrooms")),
+            "bathrooms" => isDescending
+                ? query.OrderByDescending(x => EF.Property<decimal>(EF.Property<Property>(x, "Property"), "Bathrooms"))
+                : query.OrderBy(x => EF.Property<decimal>(EF.Property<Property>(x, "Property"), "Bathrooms")),
+            "lot_size" => isDescending
+                ? query.OrderByDescending(x => EF.Property<int?>(EF.Property<Property>(x, "Property"), "LotSizeSqft"))
+                : query.OrderBy(x => EF.Property<int?>(EF.Property<Property>(x, "Property"), "LotSizeSqft")),
+            "hoa_fee" => isDescending
+                ? query.OrderByDescending(x => EF.Property<decimal?>(EF.Property<Property>(x, "Property"), "HoaFee"))
+                : query.OrderBy(x => EF.Property<decimal?>(EF.Property<Property>(x, "Property"), "HoaFee")),
+            "created_at" => isDescending
+                ? query.OrderByDescending(x => EF.Property<DateTime>(EF.Property<Property>(x, "Property"), "CreatedAt"))
+                : query.OrderBy(x => EF.Property<DateTime>(EF.Property<Property>(x, "Property"), "CreatedAt")),
+            "updated_at" => isDescending
+                ? query.OrderByDescending(x => EF.Property<DateTime>(EF.Property<Property>(x, "Property"), "UpdatedAt"))
+                : query.OrderBy(x => EF.Property<DateTime>(EF.Property<Property>(x, "Property"), "UpdatedAt")),
             _ => isDescending // default: name
                 ? query.OrderByDescending(x => EF.Property<string>(EF.Property<Property>(x, "Property"), "Name"))
                 : query.OrderBy(x => EF.Property<string>(EF.Property<Property>(x, "Property"), "Name"))

@@ -68,6 +68,12 @@ namespace RealEstate.Infrastructure.Persistence.Configurations
             builder.HasIndex(pi => new { pi.PropertyId, pi.IsPrimary })
                 .HasDatabaseName("idx_property_images_primary");
 
+            builder.HasIndex(pi => new { pi.PropertyId, pi.SortOrder, pi.Enabled })
+                .HasDatabaseName("idx_property_images_sorting");
+
+            builder.HasIndex(pi => pi.Enabled)
+                .HasDatabaseName("idx_property_images_enabled");
+
             // Relationships
             builder.HasOne<Property>()
                 .WithMany(p => p.Images)

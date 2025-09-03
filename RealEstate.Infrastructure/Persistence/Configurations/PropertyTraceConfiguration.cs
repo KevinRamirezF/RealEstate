@@ -55,6 +55,12 @@ namespace RealEstate.Infrastructure.Persistence.Configurations
             builder.HasIndex(pt => pt.EventType)
                 .HasDatabaseName("idx_property_traces_type");
 
+            builder.HasIndex(pt => new { pt.PropertyId, pt.EventType, pt.EventDate })
+                .HasDatabaseName("idx_property_traces_complete");
+
+            builder.HasIndex(pt => new { pt.EventDate, pt.EventType })
+                .HasDatabaseName("idx_property_traces_timeline");
+
             // Relationships
             builder.HasOne<Property>()
                 .WithMany(p => p.Traces)

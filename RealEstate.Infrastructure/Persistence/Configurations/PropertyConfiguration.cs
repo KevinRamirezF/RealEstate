@@ -181,6 +181,86 @@ namespace RealEstate.Infrastructure.Persistence.Configurations
             builder.HasIndex(p => p.AreaSqft)
                 .HasDatabaseName("idx_properties_area");
 
+            builder.HasIndex(p => p.ListingDate)
+                .HasDatabaseName("idx_properties_listing_date");
+
+            builder.HasIndex(p => p.Name)
+                .HasDatabaseName("idx_properties_name");
+
+            // Composite indexes for common query patterns
+            builder.HasIndex(p => new { p.Price, p.ListingDate })
+                .HasDatabaseName("idx_properties_price_listing");
+
+            builder.HasIndex(p => new { p.IsPublished, p.IsFeatured, p.ListingDate })
+                .HasDatabaseName("idx_properties_published_featured");
+
+            builder.HasIndex(p => new { p.PropertyType, p.Price, p.Bedrooms })
+                .HasDatabaseName("idx_properties_type_price_bedrooms");
+
+            builder.HasIndex(p => new { p.State, p.City, p.Price })
+                .HasDatabaseName("idx_properties_location_price");
+
+            builder.HasIndex(p => p.Bathrooms)
+                .HasDatabaseName("idx_properties_bathrooms");
+
+            builder.HasIndex(p => p.LotSizeSqft)
+                .HasDatabaseName("idx_properties_lot_size");
+
+            builder.HasIndex(p => p.HoaFee)
+                .HasDatabaseName("idx_properties_hoa_fee");
+
+            // Geospatial indexes for Lat/Lng searches
+            builder.HasIndex(p => new { p.Lat, p.Lng })
+                .HasDatabaseName("idx_properties_coordinates");
+
+            // Critical composite indexes for range queries
+            builder.HasIndex(p => new { p.Bedrooms, p.Bathrooms, p.Price })
+                .HasDatabaseName("idx_properties_beds_baths_price");
+
+            builder.HasIndex(p => new { p.AreaSqft, p.LotSizeSqft, p.Price })
+                .HasDatabaseName("idx_properties_area_lot_price");
+
+            // Ultimate performance composite index
+            builder.HasIndex(p => new { p.IsPublished, p.PropertyType, p.ListingStatus, p.State, p.City, p.Price })
+                .HasDatabaseName("idx_properties_search_ultimate");
+
+            // ADDITIONAL CRITICAL INDEXES FOR COMPLETE FILTER COVERAGE
+            
+            // Range query optimization indexes
+            builder.HasIndex(p => new { p.Bedrooms, p.Price })
+                .HasDatabaseName("idx_properties_bedrooms_price_range");
+                
+            builder.HasIndex(p => new { p.Bathrooms, p.Price })
+                .HasDatabaseName("idx_properties_bathrooms_price_range");
+                
+            builder.HasIndex(p => new { p.AreaSqft, p.Price })
+                .HasDatabaseName("idx_properties_area_price_range");
+                
+            builder.HasIndex(p => new { p.LotSizeSqft, p.Price })
+                .HasDatabaseName("idx_properties_lot_price_range");
+                
+            builder.HasIndex(p => new { p.HoaFee, p.Price })
+                .HasDatabaseName("idx_properties_hoa_price_range");
+
+            // Geospatial bounding box searches (critical for map views)
+            builder.HasIndex(p => new { p.Lat, p.Lng, p.IsPublished, p.ListingStatus })
+                .HasDatabaseName("idx_properties_geospatial_published");
+
+            // Primary image availability filter
+            builder.HasIndex(p => new { p.IsPublished, p.ListingStatus })
+                .HasDatabaseName("idx_properties_published_listing_status");
+
+            // Multi-range composite indexes for complex filtering
+            builder.HasIndex(p => new { p.PropertyType, p.Bedrooms, p.Bathrooms, p.Price, p.AreaSqft })
+                .HasDatabaseName("idx_properties_full_range_search");
+                
+            builder.HasIndex(p => new { p.State, p.City, p.PropertyType, p.Price, p.Bedrooms })
+                .HasDatabaseName("idx_properties_location_type_specs");
+
+            // Performance indexes for sorting options
+            builder.HasIndex(p => new { p.IsPublished, p.Price, p.ListingDate, p.CreatedAt })
+                .HasDatabaseName("idx_properties_published_sorted");
+
             // Relationships
             builder.HasOne<Owner>()
                 .WithMany()
