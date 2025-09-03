@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using RealEstate.Domain.Entities;
+using RealEstate.Domain.Enums;
 
 namespace RealEstate.Infrastructure.Persistence.Configurations
 {
@@ -35,6 +36,7 @@ namespace RealEstate.Infrastructure.Persistence.Configurations
                 .HasColumnName("description");
 
             builder.Property(p => p.PropertyType)
+                .HasConversion<string>()
                 .HasColumnName("property_type");
 
             builder.Property(p => p.YearBuilt)
@@ -107,7 +109,8 @@ namespace RealEstate.Infrastructure.Persistence.Configurations
                 .HasColumnName("lng");
 
             builder.Property(p => p.ListingStatus)
-                .HasDefaultValue("ACTIVE")
+                .HasConversion<string>()
+                .HasDefaultValue(ListingStatus.ACTIVE)
                 .HasColumnName("listing_status");
 
             builder.Property(p => p.ListingDate)
@@ -159,6 +162,24 @@ namespace RealEstate.Infrastructure.Persistence.Configurations
 
             builder.HasIndex(p => new { p.PropertyType, p.ListingStatus })
                 .HasDatabaseName("idx_properties_type_status");
+
+            builder.HasIndex(p => p.CreatedAt)
+                .HasDatabaseName("idx_properties_created_at");
+
+            builder.HasIndex(p => p.IsFeatured)
+                .HasDatabaseName("idx_properties_featured");
+
+            builder.HasIndex(p => new { p.IsPublished, p.ListingStatus })
+                .HasDatabaseName("idx_properties_published_status");
+
+            builder.HasIndex(p => p.YearBuilt)
+                .HasDatabaseName("idx_properties_year_built");
+
+            builder.HasIndex(p => p.Bedrooms)
+                .HasDatabaseName("idx_properties_bedrooms");
+
+            builder.HasIndex(p => p.AreaSqft)
+                .HasDatabaseName("idx_properties_area");
 
             // Relationships
             builder.HasOne<Owner>()
