@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
+using RealEstate.API.Filters;
 using RealEstate.Application.Commands.Properties;
 using RealEstate.Application.DTOs.Common;
 using RealEstate.Application.DTOs.Filters;
@@ -13,6 +14,7 @@ namespace RealEstate.API.Controllers;
 [ApiController]
 [Route("api/v1/[controller]")]
 [Produces("application/json")]
+[ValidationFilter]
 public class PropertiesController : ControllerBase
 {
     private readonly CreatePropertyCommandHandler _createPropertyHandler;
@@ -44,7 +46,7 @@ public class PropertiesController : ControllerBase
     [HttpGet]
     [OutputCache(Duration = 300, VaryByQueryKeys = ["page", "pageSize", "sort", "dir", "q", "ownerId", "minPrice", "maxPrice", "yearFrom", "yearTo", "propertyType", "listingStatus", "isFeatured", "isPublished", "state", "city", "postalCode"])]
     [ProducesResponseType<PagedResult<PropertyListDto>>(StatusCodes.Status200OK)]
-    [ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType<ValidationProblemDetails>(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<PagedResult<PropertyListDto>>> GetProperties(
         [FromQuery] PropertyFilters filters,
         CancellationToken cancellationToken = default)
@@ -56,7 +58,7 @@ public class PropertiesController : ControllerBase
         var etag = GenerateETag(result);
         Response.Headers.ETag = etag;
         
-        // Check If-None-Match header
+        // Check If-None-Match header for conditional requests
         if (Request.Headers.IfNoneMatch.Contains(etag))
         {
             return StatusCode(StatusCodes.Status304NotModified);
@@ -83,22 +85,13 @@ public class PropertiesController : ControllerBase
         var result = await _getPropertyByIdHandler.HandleAsync(query, cancellationToken);
         
         if (result == null)
-        {
-            return NotFound(new ProblemDetails
-            {
-                Type = "https://tools.ietf.org/html/rfc9110#section-15.5.5",
-                Title = "Property not found",
-                Status = StatusCodes.Status404NotFound,
-                Detail = $"Property with ID '{id}' was not found.",
-                Instance = HttpContext.Request.Path
-            });
-        }
+            throw new KeyNotFoundException($"Property with ID '{id}' was not found.");
         
         // Generate ETag based on result content
         var etag = GenerateETag(result);
         Response.Headers.ETag = etag;
         
-        // Check If-None-Match header
+        // Check If-None-Match header for conditional requests
         if (Request.Headers.IfNoneMatch.Contains(etag))
         {
             return StatusCode(StatusCodes.Status304NotModified);
@@ -151,16 +144,7 @@ public class PropertiesController : ControllerBase
         var result = await _updatePropertyHandler.HandleAsync(command, cancellationToken);
         
         if (result == null)
-        {
-            return NotFound(new ProblemDetails
-            {
-                Type = "https://tools.ietf.org/html/rfc9110#section-15.5.5",
-                Title = "Property not found",
-                Status = StatusCodes.Status404NotFound,
-                Detail = $"Property with ID '{id}' was not found.",
-                Instance = HttpContext.Request.Path
-            });
-        }
+            throw new KeyNotFoundException($"Property with ID '{id}' was not found.");
         
         return Ok(result);
     }
@@ -182,16 +166,7 @@ public class PropertiesController : ControllerBase
         var success = await _deletePropertyHandler.HandleAsync(command, cancellationToken);
         
         if (!success)
-        {
-            return NotFound(new ProblemDetails
-            {
-                Type = "https://tools.ietf.org/html/rfc9110#section-15.5.5",
-                Title = "Property not found",
-                Status = StatusCodes.Status404NotFound,
-                Detail = $"Property with ID '{id}' was not found.",
-                Instance = HttpContext.Request.Path
-            });
-        }
+            throw new KeyNotFoundException($"Property with ID '{id}' was not found.");
         
         return NoContent();
     }
