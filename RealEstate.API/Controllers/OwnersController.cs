@@ -19,6 +19,7 @@ public class OwnersController : ControllerBase
     private readonly GetOwnersQueryHandler _getOwnersHandler;
     private readonly GetOwnerByIdQueryHandler _getOwnerByIdHandler;
     private readonly UpdateOwnerCommandHandler _updateOwnerHandler;
+    private readonly PatchOwnerCommandHandler _patchOwnerHandler;
     private readonly DeleteOwnerCommandHandler _deleteOwnerHandler;
 
     public OwnersController(
@@ -26,12 +27,14 @@ public class OwnersController : ControllerBase
         GetOwnersQueryHandler getOwnersHandler,
         GetOwnerByIdQueryHandler getOwnerByIdHandler,
         UpdateOwnerCommandHandler updateOwnerHandler,
+        PatchOwnerCommandHandler patchOwnerHandler,
         DeleteOwnerCommandHandler deleteOwnerHandler)
     {
         _createOwnerHandler = createOwnerHandler;
         _getOwnersHandler = getOwnersHandler;
         _getOwnerByIdHandler = getOwnerByIdHandler;
         _updateOwnerHandler = updateOwnerHandler;
+        _patchOwnerHandler = patchOwnerHandler;
         _deleteOwnerHandler = deleteOwnerHandler;
     }
 
@@ -137,6 +140,32 @@ public class OwnersController : ControllerBase
     {
         var command = new UpdateOwnerCommand { Id = id, Data = updateOwnerDto };
         var result = await _updateOwnerHandler.HandleAsync(command, cancellationToken);
+        
+        if (result == null)
+            throw new KeyNotFoundException($"Owner with ID '{id}' was not found.");
+        
+        return Ok(result);
+    }
+
+    /// <summary>
+    /// Partially updates an existing owner
+    /// </summary>
+    /// <param name="id">Owner ID</param>
+    /// <param name="patchOwnerDto">Owner partial update data</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>Updated owner</returns>
+    [HttpPatch("{id:guid}")]
+    [ProducesResponseType<OwnerDetailDto>(StatusCodes.Status200OK)]
+    [ProducesResponseType<ValidationProblemDetails>(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound)]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status409Conflict)]
+    public async Task<ActionResult<OwnerDetailDto>> PatchOwner(
+        Guid id,
+        [FromBody] PatchOwnerDto patchOwnerDto,
+        CancellationToken cancellationToken = default)
+    {
+        var command = new PatchOwnerCommand { Id = id, Data = patchOwnerDto };
+        var result = await _patchOwnerHandler.HandleAsync(command, cancellationToken);
         
         if (result == null)
             throw new KeyNotFoundException($"Owner with ID '{id}' was not found.");

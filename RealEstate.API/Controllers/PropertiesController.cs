@@ -21,6 +21,7 @@ public class PropertiesController : ControllerBase
     private readonly GetPropertiesQueryHandler _getPropertiesHandler;
     private readonly GetPropertyByIdQueryHandler _getPropertyByIdHandler;
     private readonly UpdatePropertyCommandHandler _updatePropertyHandler;
+    private readonly PatchPropertyCommandHandler _patchPropertyHandler;
     private readonly DeletePropertyCommandHandler _deletePropertyHandler;
 
     public PropertiesController(
@@ -28,12 +29,14 @@ public class PropertiesController : ControllerBase
         GetPropertiesQueryHandler getPropertiesHandler,
         GetPropertyByIdQueryHandler getPropertyByIdHandler,
         UpdatePropertyCommandHandler updatePropertyHandler,
+        PatchPropertyCommandHandler patchPropertyHandler,
         DeletePropertyCommandHandler deletePropertyHandler)
     {
         _createPropertyHandler = createPropertyHandler;
         _getPropertiesHandler = getPropertiesHandler;
         _getPropertyByIdHandler = getPropertyByIdHandler;
         _updatePropertyHandler = updatePropertyHandler;
+        _patchPropertyHandler = patchPropertyHandler;
         _deletePropertyHandler = deletePropertyHandler;
     }
 
@@ -142,6 +145,32 @@ public class PropertiesController : ControllerBase
     {
         var command = new UpdatePropertyCommand { Id = id, Data = updatePropertyDto };
         var result = await _updatePropertyHandler.HandleAsync(command, cancellationToken);
+        
+        if (result == null)
+            throw new KeyNotFoundException($"Property with ID '{id}' was not found.");
+        
+        return Ok(result);
+    }
+
+    /// <summary>
+    /// Partially updates an existing property
+    /// </summary>
+    /// <param name="id">Property ID</param>
+    /// <param name="patchPropertyDto">Property partial update data</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>Updated property</returns>
+    [HttpPatch("{id:guid}")]
+    [ProducesResponseType<PropertyDetailDto>(StatusCodes.Status200OK)]
+    [ProducesResponseType<ValidationProblemDetails>(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound)]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status409Conflict)]
+    public async Task<ActionResult<PropertyDetailDto>> PatchProperty(
+        Guid id,
+        [FromBody] PatchPropertyDto patchPropertyDto,
+        CancellationToken cancellationToken = default)
+    {
+        var command = new PatchPropertyCommand { Id = id, Data = patchPropertyDto };
+        var result = await _patchPropertyHandler.HandleAsync(command, cancellationToken);
         
         if (result == null)
             throw new KeyNotFoundException($"Property with ID '{id}' was not found.");
