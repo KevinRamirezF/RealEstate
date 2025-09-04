@@ -5,5 +5,6 @@ public enum StorageProvider
     S3,
     GCS,
     AZURE,
-    LOCAL
+    LOCAL,
+    EXTERNAL
 }
