@@ -4,6 +4,7 @@ using RealEstate.API.Extensions;
 using RealEstate.API.Filters;
 using RealEstate.Infrastructure;
 using RealEstate.Infrastructure.Data;
+using Serilog;
 
 namespace RealEstate.API
 {
@@ -12,6 +13,10 @@ namespace RealEstate.API
         public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            // Configure Serilog
+            builder.Host.UseSerilog((context, configuration) =>
+                configuration.ReadFrom.Configuration(context.Configuration));
 
             // Add services to the container.
             builder.Services.AddApplicationServices();
@@ -41,6 +46,9 @@ namespace RealEstate.API
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
+            
+            // Add Serilog request logging
+            app.UseSerilogRequestLogging();
             
             // Add global exception handling (must be first in pipeline)
             app.UseGlobalExceptionHandler();
