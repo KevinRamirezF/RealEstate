@@ -29,108 +29,75 @@ public class PropertyFiltersValidator : AbstractValidator<PropertyFilters>
             .When(x => x.MaxPrice.HasValue && x.MinPrice.HasValue)
             .WithMessage("Maximum Price must be greater than or equal to Minimum Price.");
 
-        RuleFor(x => x.YearFrom)
+        RuleFor(x => x.YearBuilt)
             .GreaterThan((short)1800)
-            .When(x => x.YearFrom.HasValue)
-            .WithMessage("Year From must be greater than 1800.")
+            .When(x => x.YearBuilt.HasValue)
+            .WithMessage("Year Built must be greater than 1800.")
             .LessThanOrEqualTo((short)(DateTime.Now.Year + 5))
-            .When(x => x.YearFrom.HasValue)
-            .WithMessage("Year From cannot be more than 5 years in the future.");
+            .When(x => x.YearBuilt.HasValue)
+            .WithMessage("Year Built cannot be more than 5 years in the future.");
 
-        RuleFor(x => x.YearTo)
-            .GreaterThan((short)1800)
-            .When(x => x.YearTo.HasValue)
-            .WithMessage("Year To must be greater than 1800.")
-            .LessThanOrEqualTo((short)(DateTime.Now.Year + 5))
-            .When(x => x.YearTo.HasValue)
-            .WithMessage("Year To cannot be more than 5 years in the future.")
-            .GreaterThanOrEqualTo(x => x.YearFrom)
-            .When(x => x.YearTo.HasValue && x.YearFrom.HasValue)
-            .WithMessage("Year To must be greater than or equal to Year From.");
-
-        RuleFor(x => x.BedroomsFrom)
+        RuleFor(x => x.MinBedrooms)
             .GreaterThanOrEqualTo((short)0)
-            .When(x => x.BedroomsFrom.HasValue)
-            .WithMessage("Bedrooms From must be 0 or greater.")
+            .When(x => x.MinBedrooms.HasValue)
+            .WithMessage("Min Bedrooms must be 0 or greater.")
             .LessThanOrEqualTo((short)50)
-            .When(x => x.BedroomsFrom.HasValue)
-            .WithMessage("Bedrooms From cannot exceed 50.");
+            .When(x => x.MinBedrooms.HasValue)
+            .WithMessage("Min Bedrooms cannot exceed 50.");
 
-        RuleFor(x => x.BedroomsTo)
+        RuleFor(x => x.MaxBedrooms)
             .GreaterThanOrEqualTo((short)0)
-            .When(x => x.BedroomsTo.HasValue)
-            .WithMessage("Bedrooms To must be 0 or greater.")
+            .When(x => x.MaxBedrooms.HasValue)
+            .WithMessage("Max Bedrooms must be 0 or greater.")
             .LessThanOrEqualTo((short)50)
-            .When(x => x.BedroomsTo.HasValue)
-            .WithMessage("Bedrooms To cannot exceed 50.")
-            .GreaterThanOrEqualTo(x => x.BedroomsFrom)
-            .When(x => x.BedroomsTo.HasValue && x.BedroomsFrom.HasValue)
-            .WithMessage("Bedrooms To must be greater than or equal to Bedrooms From.");
+            .When(x => x.MaxBedrooms.HasValue)
+            .WithMessage("Max Bedrooms cannot exceed 50.")
+            .GreaterThanOrEqualTo(x => x.MinBedrooms)
+            .When(x => x.MaxBedrooms.HasValue && x.MinBedrooms.HasValue)
+            .WithMessage("Max Bedrooms must be greater than or equal to Min Bedrooms.");
 
-        RuleFor(x => x.BathroomsFrom)
-            .GreaterThanOrEqualTo(0.0m)
-            .When(x => x.BathroomsFrom.HasValue)
-            .WithMessage("Bathrooms From must be 0 or greater.")
-            .LessThanOrEqualTo(50.0m)
-            .When(x => x.BathroomsFrom.HasValue)
-            .WithMessage("Bathrooms From cannot exceed 50.");
-
-        RuleFor(x => x.BathroomsTo)
-            .GreaterThanOrEqualTo(0.0m)
-            .When(x => x.BathroomsTo.HasValue)
-            .WithMessage("Bathrooms To must be 0 or greater.")
-            .LessThanOrEqualTo(50.0m)
-            .When(x => x.BathroomsTo.HasValue)
-            .WithMessage("Bathrooms To cannot exceed 50.")
-            .GreaterThanOrEqualTo(x => x.BathroomsFrom)
-            .When(x => x.BathroomsTo.HasValue && x.BathroomsFrom.HasValue)
-            .WithMessage("Bathrooms To must be greater than or equal to Bathrooms From.");
-
-        RuleFor(x => x.AreaFrom)
-            .GreaterThan(0)
-            .When(x => x.AreaFrom.HasValue)
-            .WithMessage("Area From must be greater than 0.");
-
-        RuleFor(x => x.AreaTo)
-            .GreaterThan(0)
-            .When(x => x.AreaTo.HasValue)
-            .WithMessage("Area To must be greater than 0.")
-            .GreaterThanOrEqualTo(x => x.AreaFrom)
-            .When(x => x.AreaTo.HasValue && x.AreaFrom.HasValue)
-            .WithMessage("Area To must be greater than or equal to Area From.");
-
-        RuleFor(x => x.LotFrom)
-            .GreaterThan(0)
-            .When(x => x.LotFrom.HasValue)
-            .WithMessage("Lot From must be greater than 0.");
-
-        RuleFor(x => x.LotTo)
-            .GreaterThan(0)
-            .When(x => x.LotTo.HasValue)
-            .WithMessage("Lot To must be greater than 0.")
-            .GreaterThanOrEqualTo(x => x.LotFrom)
-            .When(x => x.LotTo.HasValue && x.LotFrom.HasValue)
-            .WithMessage("Lot To must be greater than or equal to Lot From.");
-
-        RuleFor(x => x.HoaFrom)
+        RuleFor(x => x.MinBathrooms)
             .GreaterThanOrEqualTo(0)
-            .When(x => x.HoaFrom.HasValue)
-            .WithMessage("HOA From must be 0 or greater.");
+            .When(x => x.MinBathrooms.HasValue)
+            .WithMessage("Min Bathrooms must be 0 or greater.")
+            .LessThanOrEqualTo(50)
+            .When(x => x.MinBathrooms.HasValue)
+            .WithMessage("Min Bathrooms cannot exceed 50.");
 
-        RuleFor(x => x.HoaTo)
+        RuleFor(x => x.MaxBathrooms)
             .GreaterThanOrEqualTo(0)
-            .When(x => x.HoaTo.HasValue)
-            .WithMessage("HOA To must be 0 or greater.")
-            .GreaterThanOrEqualTo(x => x.HoaFrom)
-            .When(x => x.HoaTo.HasValue && x.HoaFrom.HasValue)
-            .WithMessage("HOA To must be greater than or equal to HOA From.");
+            .When(x => x.MaxBathrooms.HasValue)
+            .WithMessage("Max Bathrooms must be 0 or greater.")
+            .LessThanOrEqualTo(50)
+            .When(x => x.MaxBathrooms.HasValue)
+            .WithMessage("Max Bathrooms cannot exceed 50.")
+            .GreaterThanOrEqualTo(x => x.MinBathrooms)
+            .When(x => x.MaxBathrooms.HasValue && x.MinBathrooms.HasValue)
+            .WithMessage("Max Bathrooms must be greater than or equal to Min Bathrooms.");
+
+        RuleFor(x => x.MinAreaSqft)
+            .GreaterThan(0)
+            .When(x => x.MinAreaSqft.HasValue)
+            .WithMessage("Min Area Sqft must be greater than 0.");
+
+        RuleFor(x => x.MaxAreaSqft)
+            .GreaterThan(0)
+            .When(x => x.MaxAreaSqft.HasValue)
+            .WithMessage("Max Area Sqft must be greater than 0.")
+            .GreaterThanOrEqualTo(x => x.MinAreaSqft)
+            .When(x => x.MaxAreaSqft.HasValue && x.MinAreaSqft.HasValue)
+            .WithMessage("Max Area Sqft must be greater than or equal to Min Area Sqft.");
+
+
 
         RuleForEach(x => x.PropertyType)
             .Must(BeValidPropertyType)
+            .When(x => x.PropertyType != null && x.PropertyType.Length > 0)
             .WithMessage("Invalid Property Type. Valid values: HOUSE, CONDO, TOWNHOUSE, MULTI_FAMILY, LAND, APARTMENT, OTHER");
 
         RuleForEach(x => x.ListingStatus)
             .Must(BeValidListingStatus)
+            .When(x => x.ListingStatus != null && x.ListingStatus.Length > 0)
             .WithMessage("Invalid Listing Status. Valid values: DRAFT, ACTIVE, PENDING, SOLD, OFF_MARKET");
 
         RuleFor(x => x.State)

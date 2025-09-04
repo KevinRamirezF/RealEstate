@@ -4,35 +4,22 @@ using RealEstate.Domain.Enums;
 
 namespace RealEstate.Application.Validators;
 
-public class CreatePropertyDtoValidator : AbstractValidator<CreatePropertyDto>
+public class PatchPropertyDtoValidator : AbstractValidator<PatchPropertyDto>
 {
-    public CreatePropertyDtoValidator()
+    public PatchPropertyDtoValidator()
     {
-        RuleFor(x => x.OwnerId)
-            .NotEmpty()
-            .WithMessage("Owner ID is required.");
-
-        RuleFor(x => x.CodeInternal)
-            .NotEmpty()
-            .WithMessage("Code Internal is required.")
-            .MaximumLength(40)
-            .WithMessage("Code Internal cannot exceed 40 characters.");
-
         RuleFor(x => x.Name)
             .NotEmpty()
-            .WithMessage("Name is required.")
+            .When(x => x.Name != null)
+            .WithMessage("Name cannot be empty when provided.")
             .MaximumLength(200)
+            .When(x => x.Name != null)
             .WithMessage("Name cannot exceed 200 characters.");
 
         RuleFor(x => x.Description)
             .MaximumLength(2000)
+            .When(x => x.Description != null)
             .WithMessage("Description cannot exceed 2000 characters.");
-
-        RuleFor(x => x.PropertyType)
-            .NotEmpty()
-            .WithMessage("Property Type is required.")
-            .Must(BeValidPropertyType)
-            .WithMessage("Invalid Property Type. Valid values: HOUSE, CONDO, TOWNHOUSE, MULTI_FAMILY, LAND, APARTMENT, OTHER");
 
         RuleFor(x => x.YearBuilt)
             .GreaterThan((short)1800)
@@ -44,20 +31,26 @@ public class CreatePropertyDtoValidator : AbstractValidator<CreatePropertyDto>
 
         RuleFor(x => x.Bedrooms)
             .GreaterThanOrEqualTo((short)0)
+            .When(x => x.Bedrooms.HasValue)
             .WithMessage("Bedrooms must be 0 or greater.")
             .LessThanOrEqualTo((short)50)
+            .When(x => x.Bedrooms.HasValue)
             .WithMessage("Bedrooms cannot exceed 50.");
 
         RuleFor(x => x.Bathrooms)
             .GreaterThanOrEqualTo(0)
+            .When(x => x.Bathrooms.HasValue)
             .WithMessage("Bathrooms must be 0 or greater.")
             .LessThanOrEqualTo(50)
+            .When(x => x.Bathrooms.HasValue)
             .WithMessage("Bathrooms cannot exceed 50.");
 
         RuleFor(x => x.ParkingSpaces)
             .GreaterThanOrEqualTo((short)0)
+            .When(x => x.ParkingSpaces.HasValue)
             .WithMessage("Parking Spaces must be 0 or greater.")
             .LessThanOrEqualTo((short)20)
+            .When(x => x.ParkingSpaces.HasValue)
             .WithMessage("Parking Spaces cannot exceed 20.");
 
         RuleFor(x => x.AreaSqft)
@@ -68,57 +61,31 @@ public class CreatePropertyDtoValidator : AbstractValidator<CreatePropertyDto>
             .When(x => x.AreaSqft.HasValue)
             .WithMessage("Area cannot exceed 1,000,000 sqft.");
 
-
-        RuleFor(x => x.Price)
-            .GreaterThanOrEqualTo(0)
-            .WithMessage("Price must be 0 or greater.")
-            .LessThanOrEqualTo(999999999999.99m)
-            .WithMessage("Price cannot exceed $999,999,999,999.99.");
-
-        RuleFor(x => x.Currency)
-            .NotEmpty()
-            .WithMessage("Currency is required.")
-            .Length(3)
-            .WithMessage("Currency must be exactly 3 characters (ISO code).")
-            .Matches("^[A-Z]{3}$")
-            .WithMessage("Currency must be uppercase ISO code (e.g., USD, EUR).");
-
-
         RuleFor(x => x.AddressLine)
-            .NotEmpty()
-            .WithMessage("Address Line is required.")
             .MaximumLength(200)
+            .When(x => x.AddressLine != null)
             .WithMessage("Address Line cannot exceed 200 characters.");
 
         RuleFor(x => x.City)
-            .NotEmpty()
-            .WithMessage("City is required.")
             .MaximumLength(120)
+            .When(x => x.City != null)
             .WithMessage("City cannot exceed 120 characters.");
 
         RuleFor(x => x.State)
-            .NotEmpty()
-            .WithMessage("State is required.")
             .Length(2)
+            .When(x => !string.IsNullOrEmpty(x.State))
             .WithMessage("State must be exactly 2 characters.")
             .Matches("^[A-Z]{2}$")
+            .When(x => !string.IsNullOrEmpty(x.State))
             .WithMessage("State must be uppercase 2-letter code (e.g., CA, NY).");
 
         RuleFor(x => x.PostalCode)
-            .NotEmpty()
-            .WithMessage("Postal Code is required.")
             .MaximumLength(10)
+            .When(x => !string.IsNullOrEmpty(x.PostalCode))
             .WithMessage("Postal Code cannot exceed 10 characters.")
             .Matches(@"^\d{5}(-\d{4})?$")
+            .When(x => !string.IsNullOrEmpty(x.PostalCode))
             .WithMessage("Postal Code must be in format 12345 or 12345-6789.");
-
-        RuleFor(x => x.Country)
-            .NotEmpty()
-            .WithMessage("Country is required.")
-            .Length(2)
-            .WithMessage("Country must be exactly 2 characters.")
-            .Matches("^[A-Z]{2}$")
-            .WithMessage("Country must be uppercase 2-letter ISO code (e.g., US, CA).");
 
         RuleFor(x => x.Lat)
             .InclusiveBetween(-90.0m, 90.0m)
@@ -131,9 +98,8 @@ public class CreatePropertyDtoValidator : AbstractValidator<CreatePropertyDto>
             .WithMessage("Longitude must be between -180 and 180 degrees.");
 
         RuleFor(x => x.ListingStatus)
-            .NotEmpty()
-            .WithMessage("Listing Status is required.")
             .Must(BeValidListingStatus)
+            .When(x => !string.IsNullOrEmpty(x.ListingStatus))
             .WithMessage("Invalid Listing Status. Valid values: DRAFT, ACTIVE, PENDING, SOLD, OFF_MARKET");
 
         RuleFor(x => x.ListingDate)
@@ -144,14 +110,13 @@ public class CreatePropertyDtoValidator : AbstractValidator<CreatePropertyDto>
             .When(x => x.ListingDate.HasValue)
             .WithMessage("Listing Date cannot be more than 1 year in the future.");
 
+        RuleFor(x => x.RowVersion)
+            .GreaterThan(0)
+            .When(x => x.RowVersion.HasValue)
+            .WithMessage("Row Version must be greater than 0 when provided.");
     }
 
-    private static bool BeValidPropertyType(string propertyType)
-    {
-        return Enum.TryParse<PropertyType>(propertyType, out _);
-    }
-
-    private static bool BeValidListingStatus(string listingStatus)
+    private static bool BeValidListingStatus(string? listingStatus)
     {
         return Enum.TryParse<ListingStatus>(listingStatus, out _);
     }

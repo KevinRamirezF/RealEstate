@@ -33,9 +33,9 @@ public class UpdatePropertyDtoValidator : AbstractValidator<UpdatePropertyDto>
             .WithMessage("Bedrooms cannot exceed 50.");
 
         RuleFor(x => x.Bathrooms)
-            .GreaterThanOrEqualTo(0.0m)
+            .GreaterThanOrEqualTo(0)
             .WithMessage("Bathrooms must be 0 or greater.")
-            .LessThanOrEqualTo(50.0m)
+            .LessThanOrEqualTo(50)
             .WithMessage("Bathrooms cannot exceed 50.");
 
         RuleFor(x => x.ParkingSpaces)
@@ -52,21 +52,7 @@ public class UpdatePropertyDtoValidator : AbstractValidator<UpdatePropertyDto>
             .When(x => x.AreaSqft.HasValue)
             .WithMessage("Area cannot exceed 1,000,000 sqft.");
 
-        RuleFor(x => x.LotSizeSqft)
-            .GreaterThan(0)
-            .When(x => x.LotSizeSqft.HasValue)
-            .WithMessage("Lot Size must be greater than 0.")
-            .LessThanOrEqualTo(100000000)
-            .When(x => x.LotSizeSqft.HasValue)
-            .WithMessage("Lot Size cannot exceed 100,000,000 sqft.");
 
-        RuleFor(x => x.HoaFee)
-            .GreaterThanOrEqualTo(0)
-            .When(x => x.HoaFee.HasValue)
-            .WithMessage("HOA Fee must be 0 or greater.")
-            .LessThanOrEqualTo(999999.99m)
-            .When(x => x.HoaFee.HasValue)
-            .WithMessage("HOA Fee cannot exceed $999,999.99.");
 
         RuleFor(x => x.AddressLine)
             .MaximumLength(200)
@@ -115,24 +101,9 @@ public class UpdatePropertyDtoValidator : AbstractValidator<UpdatePropertyDto>
             .When(x => x.ListingDate.HasValue)
             .WithMessage("Listing Date cannot be more than 1 year in the future.");
 
-        RuleFor(x => x.LastSoldPrice)
-            .GreaterThanOrEqualTo(0)
-            .When(x => x.LastSoldPrice.HasValue)
-            .WithMessage("Last Sold Price must be 0 or greater.");
-
         RuleFor(x => x.RowVersion)
             .GreaterThan(0)
             .WithMessage("Row Version is required for concurrency control.");
-
-        // Conditional validation: If ListingStatus is SOLD, LastSoldPrice should be provided
-        When(x => x.ListingStatus == "SOLD", () =>
-        {
-            RuleFor(x => x.LastSoldPrice)
-                .NotNull()
-                .WithMessage("Last Sold Price is required when Listing Status is SOLD.")
-                .GreaterThan(0)
-                .WithMessage("Last Sold Price must be greater than 0 when property is sold.");
-        });
     }
 
     private static bool BeValidListingStatus(string? listingStatus)
