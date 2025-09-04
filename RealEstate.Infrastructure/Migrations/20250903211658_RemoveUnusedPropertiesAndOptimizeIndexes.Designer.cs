@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RealEstate.Infrastructure.Persistence;
 
@@ -11,9 +12,11 @@ using RealEstate.Infrastructure.Persistence;
 namespace RealEstate.Infrastructure.Migrations
 {
     [DbContext(typeof(RealEstateDbContext))]
-    partial class RealEstateDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250903211658_RemoveUnusedPropertiesAndOptimizeIndexes")]
+    partial class RemoveUnusedPropertiesAndOptimizeIndexes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -292,10 +295,10 @@ namespace RealEstate.Infrastructure.Migrations
                         .HasColumnType("int")
                         .HasColumnName("area_sqft");
 
-                    b.Property<int>("Bathrooms")
+                    b.Property<decimal>("Bathrooms")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(0)
+                        .HasColumnType("decimal(4,1)")
+                        .HasDefaultValue(0.0m)
                         .HasColumnName("bathrooms");
 
                     b.Property<short>("Bedrooms")
@@ -419,8 +422,8 @@ namespace RealEstate.Infrastructure.Migrations
 
                     b.Property<string>("State")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(2)
+                        .HasColumnType("nvarchar(2)")
                         .HasColumnName("state");
 
                     b.Property<DateTimeOffset>("UpdatedAt")

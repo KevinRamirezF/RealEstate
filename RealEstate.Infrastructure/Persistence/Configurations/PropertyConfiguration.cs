@@ -47,8 +47,7 @@ namespace RealEstate.Infrastructure.Persistence.Configurations
                 .HasColumnName("bedrooms");
 
             builder.Property(p => p.Bathrooms)
-                .HasColumnType("decimal(4,1)")
-                .HasDefaultValue(0.0m)
+                .HasDefaultValue(0)
                 .HasColumnName("bathrooms");
 
             builder.Property(p => p.ParkingSpaces)
@@ -58,8 +57,6 @@ namespace RealEstate.Infrastructure.Persistence.Configurations
             builder.Property(p => p.AreaSqft)
                 .HasColumnName("area_sqft");
 
-            builder.Property(p => p.LotSizeSqft)
-                .HasColumnName("lot_size_sqft");
 
             builder.Property(p => p.Price)
                 .HasColumnType("decimal(14,2)")
@@ -71,9 +68,6 @@ namespace RealEstate.Infrastructure.Persistence.Configurations
                 .HasDefaultValue("USD")
                 .HasColumnName("currency");
 
-            builder.Property(p => p.HoaFee)
-                .HasColumnType("decimal(12,2)")
-                .HasColumnName("hoa_fee");
 
             builder.Property(p => p.AddressLine)
                 .HasMaxLength(200)
@@ -86,7 +80,7 @@ namespace RealEstate.Infrastructure.Persistence.Configurations
                 .HasColumnName("city");
 
             builder.Property(p => p.State)
-                .HasMaxLength(2)
+                .HasMaxLength(50)
                 .IsRequired()
                 .HasColumnName("state");
 
@@ -111,15 +105,13 @@ namespace RealEstate.Infrastructure.Persistence.Configurations
             builder.Property(p => p.ListingStatus)
                 .HasConversion<string>()
                 .HasDefaultValue(ListingStatus.ACTIVE)
+                .HasSentinel(ListingStatus.DRAFT)
                 .HasColumnName("listing_status");
 
             builder.Property(p => p.ListingDate)
                 .HasDefaultValueSql("CAST(GETDATE() AS DATE)")
                 .HasColumnName("listing_date");
 
-            builder.Property(p => p.LastSoldPrice)
-                .HasColumnType("decimal(14,2)")
-                .HasColumnName("last_sold_price");
 
             builder.Property(p => p.IsFeatured)
                 .HasDefaultValue(false)
@@ -203,11 +195,7 @@ namespace RealEstate.Infrastructure.Persistence.Configurations
             builder.HasIndex(p => p.Bathrooms)
                 .HasDatabaseName("idx_properties_bathrooms");
 
-            builder.HasIndex(p => p.LotSizeSqft)
-                .HasDatabaseName("idx_properties_lot_size");
 
-            builder.HasIndex(p => p.HoaFee)
-                .HasDatabaseName("idx_properties_hoa_fee");
 
             // Geospatial indexes for Lat/Lng searches
             builder.HasIndex(p => new { p.Lat, p.Lng })
@@ -217,8 +205,6 @@ namespace RealEstate.Infrastructure.Persistence.Configurations
             builder.HasIndex(p => new { p.Bedrooms, p.Bathrooms, p.Price })
                 .HasDatabaseName("idx_properties_beds_baths_price");
 
-            builder.HasIndex(p => new { p.AreaSqft, p.LotSizeSqft, p.Price })
-                .HasDatabaseName("idx_properties_area_lot_price");
 
             // Ultimate performance composite index
             builder.HasIndex(p => new { p.IsPublished, p.PropertyType, p.ListingStatus, p.State, p.City, p.Price })
@@ -236,11 +222,7 @@ namespace RealEstate.Infrastructure.Persistence.Configurations
             builder.HasIndex(p => new { p.AreaSqft, p.Price })
                 .HasDatabaseName("idx_properties_area_price_range");
                 
-            builder.HasIndex(p => new { p.LotSizeSqft, p.Price })
-                .HasDatabaseName("idx_properties_lot_price_range");
                 
-            builder.HasIndex(p => new { p.HoaFee, p.Price })
-                .HasDatabaseName("idx_properties_hoa_price_range");
 
             // Geospatial bounding box searches (critical for map views)
             builder.HasIndex(p => new { p.Lat, p.Lng, p.IsPublished, p.ListingStatus })
@@ -250,9 +232,19 @@ namespace RealEstate.Infrastructure.Persistence.Configurations
             builder.HasIndex(p => new { p.IsPublished, p.ListingStatus })
                 .HasDatabaseName("idx_properties_published_listing_status");
 
-            // Multi-range composite indexes for complex filtering
+            // Multi-range composite indexes for complex filtering (optimized for min/max queries)
             builder.HasIndex(p => new { p.PropertyType, p.Bedrooms, p.Bathrooms, p.Price, p.AreaSqft })
                 .HasDatabaseName("idx_properties_full_range_search");
+                
+            // Additional range optimization indexes for better min/max performance
+            builder.HasIndex(p => new { p.IsPublished, p.ListingStatus, p.Bedrooms, p.Price })
+                .HasDatabaseName("idx_properties_bedrooms_range_opt");
+                
+            builder.HasIndex(p => new { p.IsPublished, p.ListingStatus, p.Bathrooms, p.Price })
+                .HasDatabaseName("idx_properties_bathrooms_range_opt");
+                
+            builder.HasIndex(p => new { p.IsPublished, p.ListingStatus, p.AreaSqft, p.Price })
+                .HasDatabaseName("idx_properties_area_range_opt");
                 
             builder.HasIndex(p => new { p.State, p.City, p.PropertyType, p.Price, p.Bedrooms })
                 .HasDatabaseName("idx_properties_location_type_specs");
