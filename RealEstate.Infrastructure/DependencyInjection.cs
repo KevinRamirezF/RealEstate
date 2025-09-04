@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using RealEstate.Application.Common.Interfaces;
 using RealEstate.Infrastructure.Configuration;
+using RealEstate.Infrastructure.Data;
 using RealEstate.Infrastructure.Identity;
 using RealEstate.Infrastructure.Persistence;
 using RealEstate.Infrastructure.Repositories;
@@ -57,6 +58,9 @@ namespace RealEstate.Infrastructure
 
             // Register Unit of Work
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            // Register Data Seeder
+            services.AddScoped<DataSeeder>();
 
             return services;
         }

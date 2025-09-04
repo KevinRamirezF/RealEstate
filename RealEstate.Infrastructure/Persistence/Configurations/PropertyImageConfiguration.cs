@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using RealEstate.Domain.Entities;
+using RealEstate.Domain.Enums;
 
 namespace RealEstate.Infrastructure.Persistence.Configurations
 {
@@ -21,7 +22,8 @@ namespace RealEstate.Infrastructure.Persistence.Configurations
                 .HasColumnName("url");
 
             builder.Property(pi => pi.StorageProvider)
-                .HasDefaultValue("S3")
+                .HasConversion<string>()
+                .HasDefaultValue(StorageProvider.S3)
                 .HasColumnName("storage_provider");
 
             builder.Property(pi => pi.AltText)
@@ -65,6 +67,12 @@ namespace RealEstate.Infrastructure.Persistence.Configurations
 
             builder.HasIndex(pi => new { pi.PropertyId, pi.IsPrimary })
                 .HasDatabaseName("idx_property_images_primary");
+
+            builder.HasIndex(pi => new { pi.PropertyId, pi.SortOrder, pi.Enabled })
+                .HasDatabaseName("idx_property_images_sorting");
+
+            builder.HasIndex(pi => pi.Enabled)
+                .HasDatabaseName("idx_property_images_enabled");
 
             // Relationships
             builder.HasOne<Property>()

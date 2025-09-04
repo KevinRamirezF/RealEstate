@@ -18,9 +18,18 @@ namespace RealEstate.Infrastructure.Persistence
                 .Build();
 
             var builder = new DbContextOptionsBuilder<RealEstateDbContext>();
-            var connectionString = configuration.GetConnectionString("DefaultConnection");
+            var connectionString = configuration.GetSection("DatabaseSettings:ConnectionString").Value;
+            
+            if (string.IsNullOrEmpty(connectionString))
+            {
+                throw new InvalidOperationException("Connection string not found in DatabaseSettings:ConnectionString");
+            }
 
-            builder.UseSqlServer(connectionString, b => b.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery));
+            builder.UseSqlServer(connectionString, sqlOptions =>
+            {
+                sqlOptions.MigrationsAssembly(typeof(RealEstateDbContext).Assembly.FullName);
+                sqlOptions.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
+            });
 
             return new RealEstateDbContext(builder.Options);
         }

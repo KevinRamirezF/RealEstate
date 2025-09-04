@@ -22,12 +22,12 @@ public class DeletePropertyCommandHandler
         var deletedAtProperty = propertyType.GetProperty(nameof(Domain.Entities.Property.DeletedAt), BindingFlags.Public | BindingFlags.Instance);
         if (deletedAtProperty != null && deletedAtProperty.CanWrite)
         {
-            deletedAtProperty.SetValue(property, DateTime.UtcNow);
+            deletedAtProperty.SetValue(property, DateTimeOffset.UtcNow);
         }
         else
         {
             var backingField = propertyType.GetField($"<{nameof(Domain.Entities.Property.DeletedAt)}>k__BackingField", BindingFlags.NonPublic | BindingFlags.Instance);
-            backingField?.SetValue(property, DateTime.UtcNow);
+            backingField?.SetValue(property, DateTimeOffset.UtcNow);
         }
 
         _unitOfWork.Properties.Update(property);

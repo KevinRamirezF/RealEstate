@@ -1,13 +1,13 @@
 namespace RealEstate.Application.DTOs.Input;
 
-public class UpdatePropertyDto
+public class PatchPropertyDto
 {
-    public required string Name { get; set; }
+    public string? Name { get; set; }
     public string? Description { get; set; }
     public short? YearBuilt { get; set; }
-    public short Bedrooms { get; set; }
-    public int Bathrooms { get; set; }
-    public short ParkingSpaces { get; set; }
+    public short? Bedrooms { get; set; }
+    public int? Bathrooms { get; set; }
+    public short? ParkingSpaces { get; set; }
     public int? AreaSqft { get; set; }
     public string? AddressLine { get; set; }
     public string? City { get; set; }
@@ -17,7 +17,7 @@ public class UpdatePropertyDto
     public decimal? Lng { get; set; }
     public string? ListingStatus { get; set; }
     public DateOnly? ListingDate { get; set; }
-    public bool IsFeatured { get; set; }
-    public bool IsPublished { get; set; }
-    public int RowVersion { get; set; }
+    public bool? IsFeatured { get; set; }
+    public bool? IsPublished { get; set; }
+    public int? RowVersion { get; set; }
 }

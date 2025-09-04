@@ -43,8 +43,6 @@ public class UpdatePropertyCommandHandler
         SetProperty(property, propertyTypeReflection, nameof(Domain.Entities.Property.Bathrooms), command.Data.Bathrooms);
         SetProperty(property, propertyTypeReflection, nameof(Domain.Entities.Property.ParkingSpaces), command.Data.ParkingSpaces);
         SetProperty(property, propertyTypeReflection, nameof(Domain.Entities.Property.AreaSqft), command.Data.AreaSqft);
-        SetProperty(property, propertyTypeReflection, nameof(Domain.Entities.Property.LotSizeSqft), command.Data.LotSizeSqft);
-        SetProperty(property, propertyTypeReflection, nameof(Domain.Entities.Property.HoaFee), command.Data.HoaFee);
         SetProperty(property, propertyTypeReflection, nameof(Domain.Entities.Property.AddressLine), command.Data.AddressLine);
         SetProperty(property, propertyTypeReflection, nameof(Domain.Entities.Property.City), command.Data.City);
         SetProperty(property, propertyTypeReflection, nameof(Domain.Entities.Property.State), command.Data.State);
@@ -54,7 +52,6 @@ public class UpdatePropertyCommandHandler
         if (listingStatus.HasValue)
             SetProperty(property, propertyTypeReflection, nameof(Domain.Entities.Property.ListingStatus), listingStatus.Value);
         SetProperty(property, propertyTypeReflection, nameof(Domain.Entities.Property.ListingDate), command.Data.ListingDate);
-        SetProperty(property, propertyTypeReflection, nameof(Domain.Entities.Property.LastSoldPrice), command.Data.LastSoldPrice);
         SetProperty(property, propertyTypeReflection, nameof(Domain.Entities.Property.IsFeatured), command.Data.IsFeatured);
         SetProperty(property, propertyTypeReflection, nameof(Domain.Entities.Property.IsPublished), command.Data.IsPublished);
         SetProperty(property, propertyTypeReflection, nameof(Domain.Entities.Property.UpdatedAt), DateTimeOffset.UtcNow);

@@ -15,13 +15,11 @@ public class Property
     public PropertyType PropertyType { get; private set; }
     public short? YearBuilt { get; private set; }
     public short Bedrooms { get; private set; } = 0;
-    public decimal Bathrooms { get; private set; } = 0.0m;
+    public int Bathrooms { get; private set; } = 0;
     public short ParkingSpaces { get; private set; } = 0;
     public int? AreaSqft { get; private set; }
-    public int? LotSizeSqft { get; private set; }
     public decimal Price { get; private set; }
     public string Currency { get; private set; } = "USD";
-    public decimal? HoaFee { get; private set; }
     public string AddressLine { get; private set; } = string.Empty;
     public string City { get; private set; } = string.Empty;
     public string State { get; private set; } = string.Empty;
@@ -31,7 +29,6 @@ public class Property
     public decimal? Lng { get; private set; }
     public ListingStatus ListingStatus { get; private set; } = ListingStatus.ACTIVE;
     public DateOnly ListingDate { get; private set; }
-    public decimal? LastSoldPrice { get; private set; }
     public bool IsFeatured { get; private set; } = false;
     public bool IsPublished { get; private set; } = true;
     public DateTimeOffset CreatedAt { get; private set; }
@@ -125,8 +122,7 @@ public class Property
     }
 
     public void Update(string? name = null, string? description = null, short? bedrooms = null, 
-        decimal? bathrooms = null, short? parkingSpaces = null, int? areaSqft = null, 
-        int? lotSizeSqft = null, decimal? hoaFee = null)
+        int? bathrooms = null, short? parkingSpaces = null, int? areaSqft = null)
     {
         if (!string.IsNullOrWhiteSpace(name))
             Name = name;
@@ -143,8 +139,6 @@ public class Property
             ParkingSpaces = parkingSpaces.Value;
         
         AreaSqft = areaSqft;
-        LotSizeSqft = lotSizeSqft;
-        HoaFee = hoaFee;
         
         UpdatedAt = DateTimeOffset.UtcNow;
         RowVersion++;

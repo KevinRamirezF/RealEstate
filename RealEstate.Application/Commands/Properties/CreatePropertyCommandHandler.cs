@@ -60,15 +60,12 @@ public class CreatePropertyCommandHandler
         SetProperty(property, propertyType2, nameof(Property.Bathrooms), command.Data.Bathrooms);
         SetProperty(property, propertyType2, nameof(Property.ParkingSpaces), command.Data.ParkingSpaces);
         SetProperty(property, propertyType2, nameof(Property.AreaSqft), command.Data.AreaSqft);
-        SetProperty(property, propertyType2, nameof(Property.LotSizeSqft), command.Data.LotSizeSqft);
         SetProperty(property, propertyType2, nameof(Property.Currency), command.Data.Currency);
-        SetProperty(property, propertyType2, nameof(Property.HoaFee), command.Data.HoaFee);
         SetProperty(property, propertyType2, nameof(Property.Country), command.Data.Country);
         SetProperty(property, propertyType2, nameof(Property.Lat), command.Data.Lat);
         SetProperty(property, propertyType2, nameof(Property.Lng), command.Data.Lng);
         SetProperty(property, propertyType2, nameof(Property.ListingStatus), listingStatus);
         SetProperty(property, propertyType2, nameof(Property.ListingDate), command.Data.ListingDate ?? DateOnly.FromDateTime(DateTime.Today));
-        SetProperty(property, propertyType2, nameof(Property.LastSoldPrice), command.Data.LastSoldPrice);
         SetProperty(property, propertyType2, nameof(Property.IsFeatured), command.Data.IsFeatured);
         SetProperty(property, propertyType2, nameof(Property.IsPublished), command.Data.IsPublished);
 

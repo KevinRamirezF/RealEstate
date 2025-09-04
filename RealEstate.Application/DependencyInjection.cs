@@ -23,11 +23,13 @@ public static class DependencyInjection
         // Register command handlers
         services.AddScoped<CreatePropertyCommandHandler>();
         services.AddScoped<UpdatePropertyCommandHandler>();
+        services.AddScoped<PatchPropertyCommandHandler>();
         services.AddScoped<DeletePropertyCommandHandler>();
         services.AddScoped<ChangePriceCommandHandler>();
         services.AddScoped<AddImageCommandHandler>();
         services.AddScoped<CreateOwnerCommandHandler>();
         services.AddScoped<UpdateOwnerCommandHandler>();
+        services.AddScoped<PatchOwnerCommandHandler>();
         services.AddScoped<DeleteOwnerCommandHandler>();
 
         // Register query handlers

@@ -36,7 +36,7 @@ namespace RealEstate.Infrastructure.Persistence
             property.GetType().GetProperty("Description")?.SetValue(property, "2BR/2BA with parking and city view");
             property.GetType().GetProperty("YearBuilt")?.SetValue(property, (short)2016);
             property.GetType().GetProperty("Bedrooms")?.SetValue(property, (short)2);
-            property.GetType().GetProperty("Bathrooms")?.SetValue(property, 2.0m);
+            property.GetType().GetProperty("Bathrooms")?.SetValue(property, 2);
             property.GetType().GetProperty("ParkingSpaces")?.SetValue(property, (short)1);
             property.GetType().GetProperty("AreaSqft")?.SetValue(property, 1020);
             property.GetType().GetProperty("Lat")?.SetValue(property, 37.7749m);

@@ -3,12 +3,13 @@ using RealEstate.Application;
 using RealEstate.API.Extensions;
 using RealEstate.API.Filters;
 using RealEstate.Infrastructure;
+using RealEstate.Infrastructure.Data;
 
 namespace RealEstate.API
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -57,6 +58,14 @@ namespace RealEstate.API
             app.UseAuthorization();
 
             app.MapControllers();
+
+            // Seed data in development
+            if (app.Environment.IsDevelopment())
+            {
+                using var scope = app.Services.CreateScope();
+                var seeder = scope.ServiceProvider.GetRequiredService<DataSeeder>();
+                await seeder.SeedAsync();
+            }
 
             app.Run();
         }

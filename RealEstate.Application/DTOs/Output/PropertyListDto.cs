@@ -11,7 +11,7 @@ public class PropertyListDto
     public decimal Price { get; set; }
     public short? YearBuilt { get; set; }
     public short Bedrooms { get; set; }
-    public decimal Bathrooms { get; set; }
+    public int Bathrooms { get; set; }
     public int? AreaSqft { get; set; }
     public required string ListingStatus { get; set; }
     public string? PrimaryImageUrl { get; set; }

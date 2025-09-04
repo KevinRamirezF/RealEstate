@@ -87,6 +87,18 @@ namespace RealEstate.Infrastructure.Persistence.Configurations
             builder.HasIndex(o => o.ExternalCode)
                 .IsUnique()
                 .HasDatabaseName("idx_owners_external_code");
+
+            builder.HasIndex(o => o.IsActive)
+                .HasDatabaseName("idx_owners_active");
+
+            builder.HasIndex(o => new { o.State, o.City })
+                .HasDatabaseName("idx_owners_location");
+
+            builder.HasIndex(o => new { o.IsActive, o.CreatedAt })
+                .HasDatabaseName("idx_owners_active_created");
+
+            builder.HasIndex(o => o.CreatedAt)
+                .HasDatabaseName("idx_owners_created_at");
         }
     }
 }
