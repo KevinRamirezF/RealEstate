@@ -74,7 +74,8 @@ namespace RealEstate.Infrastructure.Persistence.Configurations
 
             builder.Property(o => o.RowVersion)
                 .HasDefaultValue(1)
-                .HasColumnName("row_version");
+                .HasColumnName("row_version")
+                .IsConcurrencyToken();
 
             // Indexes
             builder.HasIndex(o => o.FullName)

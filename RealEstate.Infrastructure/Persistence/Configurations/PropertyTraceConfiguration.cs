@@ -28,17 +28,17 @@ namespace RealEstate.Infrastructure.Persistence.Configurations
                 .HasMaxLength(180)
                 .HasColumnName("actor_name");
 
-            builder.Property(pt => pt.OldValue)
+            builder.Property(pt => pt.OldTotalPrice)
                 .HasColumnType("decimal(14,2)")
-                .HasColumnName("old_value");
+                .HasColumnName("old_total_price");
 
-            builder.Property(pt => pt.NewValue)
+            builder.Property(pt => pt.OldPriceBase)
                 .HasColumnType("decimal(14,2)")
-                .HasColumnName("new_value");
+                .HasColumnName("old_price_base");
 
-            builder.Property(pt => pt.TaxAmount)
+            builder.Property(pt => pt.OldTaxAmount)
                 .HasColumnType("decimal(14,2)")
-                .HasColumnName("tax_amount");
+                .HasColumnName("old_tax_amount");
 
             builder.Property(pt => pt.Notes)
                 .HasColumnType("text")

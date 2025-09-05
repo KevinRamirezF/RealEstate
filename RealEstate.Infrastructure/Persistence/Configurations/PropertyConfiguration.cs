@@ -11,7 +11,9 @@ namespace RealEstate.Infrastructure.Persistence.Configurations
         {
             builder.ToTable("properties", tableBuilder =>
             {
-                tableBuilder.HasCheckConstraint("CK_properties_price", "price >= 0");
+                tableBuilder.HasCheckConstraint("CK_properties_base_price", "base_price >= 0");
+                tableBuilder.HasCheckConstraint("CK_properties_tax_amount", "tax_amount >= 0");
+                tableBuilder.HasCheckConstraint("CK_properties_price", "price >= 0 AND price = base_price + tax_amount");
                 tableBuilder.HasCheckConstraint("CK_properties_bathrooms", "bathrooms >= 0");
                 tableBuilder.HasCheckConstraint("CK_properties_bedrooms", "bedrooms >= 0");
             });
@@ -57,6 +59,15 @@ namespace RealEstate.Infrastructure.Persistence.Configurations
             builder.Property(p => p.AreaSqft)
                 .HasColumnName("area_sqft");
 
+            builder.Property(p => p.BasePrice)
+                .HasColumnType("decimal(14,2)")
+                .IsRequired()
+                .HasColumnName("base_price");
+
+            builder.Property(p => p.TaxAmount)
+                .HasColumnType("decimal(14,2)")
+                .IsRequired()
+                .HasColumnName("tax_amount");
 
             builder.Property(p => p.Price)
                 .HasColumnType("decimal(14,2)")
@@ -134,7 +145,8 @@ namespace RealEstate.Infrastructure.Persistence.Configurations
 
             builder.Property(p => p.RowVersion)
                 .HasDefaultValue(1)
-                .HasColumnName("row_version");
+                .HasColumnName("row_version")
+                .IsConcurrencyToken();
 
             // Check constraints moved to ToTable configuration
 

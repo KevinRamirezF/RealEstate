@@ -26,7 +26,8 @@ namespace RealEstate.Infrastructure.Persistence
                 "CA-SF-2025-0001",
                 "Modern Condo in SoMa",
                 PropertyType.CONDO,
-                1199000.0m,
+                1090000.0m, // Base price
+                109000.0m,  // Tax amount (10%)
                 "123 Market St",
                 "San Francisco",
                 "CA",
