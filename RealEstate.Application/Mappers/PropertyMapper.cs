@@ -87,9 +87,9 @@ public class PropertyMapper
         return new PropertyPriceChangeDto
         {
             EventDate = trace.EventDate,
-            OldValue = trace.OldValue,
-            NewValue = trace.NewValue,
-            TaxAmount = trace.TaxAmount,
+            OldValue = trace.OldTotalPrice,
+            NewValue = null, // New values are in the current Property entity
+            TaxAmount = trace.OldTaxAmount,
             ActorName = trace.ActorName
         };
     }

@@ -32,18 +32,12 @@ public class ChangePriceCommandHandler
             throw new ArgumentException($"Property with ID {command.Id} not found.");
         }
 
-        // Check concurrency
-        if (property.RowVersion != command.PriceChange.RowVersion)
-        {
-            throw new DbUpdateConcurrencyException("The property has been modified by another user. Please refresh and try again.");
-        }
-
         var oldPrice = property.Price;
 
         // Change price using domain method (creates PRICE_CHANGE trace)
-        property.ChangePrice(command.PriceChange.NewPrice, command.PriceChange.TaxAmount, command.PriceChange.ActorName);
+        property.ChangePrice(command.PriceChange.BasePrice, command.PriceChange.TaxAmount, command.PriceChange.ActorName);
 
-        // Update in repository
+        // Update in repository - Entity Framework will handle concurrency automatically with IsConcurrencyToken()
         _unitOfWork.Properties.Update(property);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
@@ -52,7 +46,7 @@ public class ChangePriceCommandHandler
             Id = property.Id,
             OldPrice = oldPrice,
             NewPrice = property.Price,
-            TaxAmount = command.PriceChange.TaxAmount,
+            TaxAmount = property.TaxAmount,
             ActorName = command.PriceChange.ActorName,
             ChangedAt = property.UpdatedAt,
             RowVersion = property.RowVersion
