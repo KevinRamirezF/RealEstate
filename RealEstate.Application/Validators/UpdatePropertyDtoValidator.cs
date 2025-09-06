@@ -102,8 +102,10 @@ public class UpdatePropertyDtoValidator : AbstractValidator<UpdatePropertyDto>
             .WithMessage("Listing Date cannot be more than 1 year in the future.");
 
         RuleFor(x => x.RowVersion)
-            .GreaterThan(0)
-            .WithMessage("Row Version is required for concurrency control.");
+            .NotNull()
+            .WithMessage("Row Version is required for concurrency control.")
+            .Must(rv => rv != null && rv.Length == 8)
+            .WithMessage("Row Version must be an 8-byte array.");
     }
 
     private static bool BeValidListingStatus(string? listingStatus)

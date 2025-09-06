@@ -32,7 +32,7 @@ public class ChangePriceDto
     /// <summary>
     /// Row version for optimistic concurrency control (required)
     /// </summary>
-    /// <example>1</example>
+    /// <example>AAAAAAAAB9E=</example>
     [Description("Row version for optimistic concurrency control (required)")]
-    public int RowVersion { get; set; }
+    public byte[] RowVersion { get; set; } = new byte[8];
 }

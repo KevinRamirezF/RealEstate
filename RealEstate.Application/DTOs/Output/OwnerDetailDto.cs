@@ -122,7 +122,7 @@ public class OwnerDetailDto
     /// <summary>
     /// Row version for optimistic concurrency control
     /// </summary>
-    /// <example>1</example>
+    /// <example>AAAAAAAAB9E=</example>
     [Description("Row version for optimistic concurrency control")]
-    public int RowVersion { get; set; }
+    public byte[] RowVersion { get; set; } = new byte[8];
 }

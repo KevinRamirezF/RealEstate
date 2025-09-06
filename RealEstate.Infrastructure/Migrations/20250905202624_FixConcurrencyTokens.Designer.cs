@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RealEstate.Infrastructure.Persistence;
 
@@ -11,9 +12,11 @@ using RealEstate.Infrastructure.Persistence;
 namespace RealEstate.Infrastructure.Migrations
 {
     [DbContext(typeof(RealEstateDbContext))]
-    partial class RealEstateDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250905202624_FixConcurrencyTokens")]
+    partial class FixConcurrencyTokens
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -228,11 +231,11 @@ namespace RealEstate.Infrastructure.Migrations
                         .HasColumnType("nvarchar(10)")
                         .HasColumnName("postal_code");
 
-                    b.Property<byte[]>("RowVersion")
+                    b.Property<int>("RowVersion")
                         .IsConcurrencyToken()
-                        .IsRequired()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("rowversion")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(1)
                         .HasColumnName("row_version");
 
                     b.Property<string>("State")
@@ -414,11 +417,11 @@ namespace RealEstate.Infrastructure.Migrations
                         .HasColumnType("nvarchar(450)")
                         .HasColumnName("property_type");
 
-                    b.Property<byte[]>("RowVersion")
+                    b.Property<int>("RowVersion")
                         .IsConcurrencyToken()
-                        .IsRequired()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("rowversion")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(1)
                         .HasColumnName("row_version");
 
                     b.Property<string>("State")

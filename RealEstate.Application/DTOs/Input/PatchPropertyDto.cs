@@ -151,7 +151,7 @@ public class PatchPropertyDto
     /// <summary>
     /// Row version for optimistic concurrency (required for updates)
     /// </summary>
-    /// <example>1</example>
+    /// <example>AAAAAAAAB9E=</example>
     [Description("Row version for optimistic concurrency (required for updates)")]
-    public int? RowVersion { get; set; }
+    public byte[]? RowVersion { get; set; }
 }

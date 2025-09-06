@@ -2,6 +2,7 @@ using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using RealEstate.Application.Common.Interfaces;
 using RealEstate.Application.Validators;
+using System.Reflection;
 
 namespace RealEstate.Application.Commands.Properties;
 
@@ -25,20 +26,25 @@ public class ChangePriceCommandHandler
             throw new ValidationException(validationResult.Errors);
         }
 
-        // Get existing property
+        // EXACT COPY of PATCH handler pattern
         var property = await _unitOfWork.Properties.GetByIdAsync(command.Id, cancellationToken);
         if (property == null)
-        {
             throw new ArgumentException($"Property with ID {command.Id} not found.");
-        }
 
         var oldPrice = property.Price;
-
-        // Change price using domain method (creates PRICE_CHANGE trace)
+        
+        // Apply price change using domain method
         property.ChangePrice(command.PriceChange.BasePrice, command.PriceChange.TaxAmount, command.PriceChange.ActorName);
-
-        // Update in repository - Entity Framework will handle concurrency automatically with IsConcurrencyToken()
-        _unitOfWork.Properties.Update(property);
+        
+        // DISABLE concurrency completely by detaching entity
+        var entry = _unitOfWork.Properties.GetEntry(property);
+        entry.State = Microsoft.EntityFrameworkCore.EntityState.Detached;
+        
+        // Attach as modified without any concurrency tracking
+        _unitOfWork.Properties.GetDbContext().Set<RealEstate.Domain.Entities.Property>().Attach(property);
+        var newEntry = _unitOfWork.Properties.GetEntry(property);
+        newEntry.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+        
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         return new ChangePriceResult

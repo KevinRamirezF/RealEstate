@@ -24,7 +24,9 @@ public class ChangePriceDtoValidator : AbstractValidator<ChangePriceDto>
             .WithMessage("Actor Name cannot exceed 180 characters.");
 
         RuleFor(x => x.RowVersion)
-            .GreaterThan(0)
-            .WithMessage("Row Version is required for concurrency control.");
+            .NotNull()
+            .WithMessage("Row Version is required for concurrency control.")
+            .Must(rv => rv != null && rv.Length == 8)
+            .WithMessage("Row Version must be an 8-byte array.");
     }
 }

@@ -64,7 +64,7 @@ public class GlobalExceptionMiddleware
         await context.Response.WriteAsync(JsonSerializer.Serialize(problemDetails, jsonOptions));
     }
 
-    private ProblemDetails CreateValidationProblemDetails(HttpContext context, FluentValidation.ValidationException exception)
+    private static ProblemDetails CreateValidationProblemDetails(HttpContext context, FluentValidation.ValidationException exception)
     {
         var validationProblemDetails = new ValidationProblemDetails();
         

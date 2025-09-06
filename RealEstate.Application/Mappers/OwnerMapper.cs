@@ -42,7 +42,7 @@ public class OwnerMapper
             PostalCode = entity.PostalCode ?? string.Empty,
             Country = entity.Country,
             ExternalCode = entity.ExternalCode,
-            PropertyCount = 0, // TODO: Calculate property count
+            PropertyCount = 0,
             CreatedAt = entity.CreatedAt.DateTime,
             UpdatedAt = entity.UpdatedAt.DateTime,
             RowVersion = entity.RowVersion

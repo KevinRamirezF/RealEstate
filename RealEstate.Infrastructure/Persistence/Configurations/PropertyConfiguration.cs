@@ -144,9 +144,8 @@ namespace RealEstate.Infrastructure.Persistence.Configurations
                 .HasColumnName("deleted_at");
 
             builder.Property(p => p.RowVersion)
-                .HasDefaultValue(1)
-                .HasColumnName("row_version")
-                .IsConcurrencyToken();
+                .IsRowVersion()
+                .HasColumnName("row_version");
 
             // Check constraints moved to ToTable configuration
 

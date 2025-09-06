@@ -73,9 +73,8 @@ namespace RealEstate.Infrastructure.Persistence.Configurations
                 .HasColumnName("deleted_at");
 
             builder.Property(o => o.RowVersion)
-                .HasDefaultValue(1)
-                .HasColumnName("row_version")
-                .IsConcurrencyToken();
+                .IsRowVersion()
+                .HasColumnName("row_version");
 
             // Indexes
             builder.HasIndex(o => o.FullName)

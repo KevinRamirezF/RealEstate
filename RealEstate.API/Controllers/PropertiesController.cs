@@ -279,13 +279,13 @@ public class PropertiesController : ControllerBase
     /// <param name="basePrice">Base price value (required)</param>
     /// <param name="taxAmount">Tax amount for the property (required)</param>
     /// <param name="actorName">Name of person making the change (optional)</param>
-    /// <param name="rowVersion">Row version for concurrency control (required)</param>
+    /// <param name="rowVersion">Row version for concurrency control as base64 string (required)</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Price change result with old/new prices and audit information</returns>
     /// <remarks>
     /// Sample request:
     /// 
-    ///     PUT /api/v1/properties/3fa85f64-5717-4562-b3fc-2c963f66afa6/change-price?basePrice=2500000.00&amp;taxAmount=250000.00&amp;actorName=Kevin%20Ramirez&amp;rowVersion=1
+    ///     PUT /api/v1/properties/3fa85f64-5717-4562-b3fc-2c963f66afa6/change-price?basePrice=2500000.00&amp;taxAmount=250000.00&amp;actorName=Kevin%20Ramirez&amp;rowVersion=AAAAAAAAAAE%3D
     ///     
     /// This endpoint creates a price change trace for audit purposes and updates the property price atomically.
     /// </remarks>
@@ -299,7 +299,7 @@ public class PropertiesController : ControllerBase
         [FromQuery] decimal basePrice,
         [FromQuery] decimal taxAmount,
         [FromQuery] string? actorName = null,
-        [FromQuery] int rowVersion = 1,
+        [FromQuery] string rowVersion = "AAAAAAAAAAE=",
         CancellationToken cancellationToken = default)
     {
         var priceChangeDto = new ChangePriceDto
@@ -307,7 +307,7 @@ public class PropertiesController : ControllerBase
             BasePrice = basePrice,
             TaxAmount = taxAmount,
             ActorName = actorName,
-            RowVersion = rowVersion
+            RowVersion = Convert.FromBase64String(rowVersion)
         };
 
         var command = new ChangePriceCommand 

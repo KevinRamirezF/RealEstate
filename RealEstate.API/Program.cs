@@ -45,32 +45,32 @@ namespace RealEstate.API
             builder.Services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new() { 
-                    Title = "Million Realty API", 
+                    Title = "Million Real Estate API", 
                     Version = "v1.0.0",
                     Description = @"**Million Realty LLC - Real Estate Management API**
 
-                    A comprehensive Real Estate management API built for luxury real estate operations in South Florida.
+A comprehensive Real Estate management API built for luxury real estate operations in South Florida.
 
-                    **Company Information:**
-                    - **Legal Name:** Million Realty LLC
-                    - **Brand:** MILLION  
-                    - **Address:** 237 S Dixie Hwy, 4th Floor, Suite 465, Coral Gables, FL 33133
-                    - **Licensed In:** Florida
-                    - **Recognition:** #1 Top Team - New construction sales in the U.S. ($2.1B+ in sales)
-                    - **Specialization:** Luxury real estate in South Florida
-                    - **Website:** https://www.millionluxury.com
+**Company Information:**
+- **Legal Name:** Million Realty LLC
+- **Brand:** MILLION  
+- **Address:** 237 S Dixie Hwy, 4th Floor, Suite 465, Coral Gables, FL 33133
+- **Licensed In:** Florida
+- **Recognition:** #1 Top Team - New construction sales in the U.S. ($2.1B+ in sales)
+- **Specialization:** Luxury real estate in South Florida
+- **Website:** https://www.millionluxury.com
 
-                    **API Features:**
-                    - Full CRUD operations for properties and owners
-                    - Advanced filtering and search capabilities  
-                    - Partial updates via PATCH operations
-                    - Real-time data validation
-                    - Optimistic concurrency control
-                    - Comprehensive audit trails
+**API Features:**
+- Full CRUD operations for properties and owners
+- Advanced filtering and search capabilities  
+- Partial updates via PATCH operations
+- Real-time data validation
+- Optimistic concurrency control
+- Comprehensive audit trails
 
-                    **Developed By:** Ing. Kevin Guillermo Ramirez  
-                    **Role:** Senior Backend Developer .NET  
-                    **Purpose:** Technical test for Million Realty Senior .NET developer interview",
+**Developed By:** Ing. Kevin Guillermo Ramirez  
+**Role:** Senior Backend Developer .NET  
+**Purpose:** Technical test for Million Realty Senior .NET developer interview",
                     Contact = new() {
                         Name = "Ing. Kevin Guillermo Ramirez",
                         Email = "kevinramirezf@outlook.com"
@@ -135,7 +135,7 @@ namespace RealEstate.API
                 await seeder.SeedAsync();
             }
 
-            app.Run();
+            await app.RunAsync();
         }
     }
 }
