@@ -69,11 +69,17 @@ public class CreatePropertyDtoValidator : AbstractValidator<CreatePropertyDto>
             .WithMessage("Area cannot exceed 1,000,000 sqft.");
 
 
-        RuleFor(x => x.Price)
+        RuleFor(x => x.BasePrice)
             .GreaterThanOrEqualTo(0)
-            .WithMessage("Price must be 0 or greater.")
+            .WithMessage("Base Price must be 0 or greater.")
             .LessThanOrEqualTo(999999999999.99m)
-            .WithMessage("Price cannot exceed $999,999,999,999.99.");
+            .WithMessage("Base Price cannot exceed $999,999,999,999.99.");
+
+        RuleFor(x => x.TaxAmount)
+            .GreaterThanOrEqualTo(0)
+            .WithMessage("Tax Amount must be 0 or greater.")
+            .LessThanOrEqualTo(99999999.99m)
+            .WithMessage("Tax Amount cannot exceed $99,999,999.99.");
 
         RuleFor(x => x.Currency)
             .NotEmpty()

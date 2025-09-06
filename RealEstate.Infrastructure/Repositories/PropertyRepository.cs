@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using RealEstate.Application.Common.Interfaces;
 using RealEstate.Application.DTOs.Common;
 using RealEstate.Application.DTOs.Filters;
@@ -113,6 +114,16 @@ public class PropertyRepository : Repository<Property>, IPropertyRepository
             .Where(t => t.PropertyId == propertyId && t.EventType == TraceEventType.PRICE_CHANGE)
             .OrderByDescending(t => t.EventDate)
             .FirstOrDefaultAsync(cancellationToken);
+    }
+
+    public EntityEntry<Property> GetEntry(Property property)
+    {
+        return _context.Entry(property);
+    }
+
+    public DbContext GetDbContext()
+    {
+        return _context;
     }
 
     private IQueryable<T> ApplyFilters<T>(IQueryable<T> query, PropertyFilters filters)

@@ -134,10 +134,14 @@ public class DataSeeder
     }
 
     private static Property CreatePropertyWithImages(Guid ownerId, string codeInternal, string name, 
-        PropertyType propertyType, decimal price, string addressLine, string city, string state, 
+        PropertyType propertyType, decimal totalPrice, string addressLine, string city, string state, 
         string postalCode, string[] imageUrls)
     {
-        var property = Property.Create(ownerId, codeInternal, name, propertyType, price, 
+        // Split total price into base price (90%) and tax amount (10%)
+        var basePrice = Math.Round(totalPrice * 0.9m, 2);
+        var taxAmount = totalPrice - basePrice;
+        
+        var property = Property.Create(ownerId, codeInternal, name, propertyType, basePrice, taxAmount,
             addressLine, city, state, postalCode);
 
         // Agregar detalles adicionales según el tipo de propiedad

@@ -29,32 +29,38 @@ public class UpdatePropertyCommandHandler
         if (property == null)
             return null;
 
-        // Parse enum if provided
-        ListingStatus? listingStatus = null;
+        // Use domain method for updates (creates appropriate traces)
+        property.Update(
+            name: command.Data.Name,
+            description: command.Data.Description,
+            bedrooms: command.Data.Bedrooms,
+            bathrooms: command.Data.Bathrooms,
+            parkingSpaces: command.Data.ParkingSpaces,
+            areaSqft: command.Data.AreaSqft,
+            basePrice: command.Data.BasePrice,
+            taxAmount: command.Data.TaxAmount,
+            yearBuilt: command.Data.YearBuilt,
+            addressLine: command.Data.AddressLine,
+            city: command.Data.City,
+            state: command.Data.State,
+            postalCode: command.Data.PostalCode,
+            lat: command.Data.Lat,
+            lng: command.Data.Lng,
+            isFeatured: command.Data.IsFeatured,
+            isPublished: command.Data.IsPublished
+        );
+        
+        // Handle ListingStatus and ListingDate separately via reflection (not in domain method yet)
         if (!string.IsNullOrWhiteSpace(command.Data.ListingStatus))
-            listingStatus = Enum.Parse<ListingStatus>(command.Data.ListingStatus);
-
-        // Update properties using reflection since properties have private setters
-        var propertyTypeReflection = typeof(Domain.Entities.Property);
-        SetProperty(property, propertyTypeReflection, nameof(Domain.Entities.Property.Name), command.Data.Name);
-        SetProperty(property, propertyTypeReflection, nameof(Domain.Entities.Property.Description), command.Data.Description);
-        SetProperty(property, propertyTypeReflection, nameof(Domain.Entities.Property.YearBuilt), command.Data.YearBuilt);
-        SetProperty(property, propertyTypeReflection, nameof(Domain.Entities.Property.Bedrooms), command.Data.Bedrooms);
-        SetProperty(property, propertyTypeReflection, nameof(Domain.Entities.Property.Bathrooms), command.Data.Bathrooms);
-        SetProperty(property, propertyTypeReflection, nameof(Domain.Entities.Property.ParkingSpaces), command.Data.ParkingSpaces);
-        SetProperty(property, propertyTypeReflection, nameof(Domain.Entities.Property.AreaSqft), command.Data.AreaSqft);
-        SetProperty(property, propertyTypeReflection, nameof(Domain.Entities.Property.AddressLine), command.Data.AddressLine);
-        SetProperty(property, propertyTypeReflection, nameof(Domain.Entities.Property.City), command.Data.City);
-        SetProperty(property, propertyTypeReflection, nameof(Domain.Entities.Property.State), command.Data.State);
-        SetProperty(property, propertyTypeReflection, nameof(Domain.Entities.Property.PostalCode), command.Data.PostalCode);
-        SetProperty(property, propertyTypeReflection, nameof(Domain.Entities.Property.Lat), command.Data.Lat);
-        SetProperty(property, propertyTypeReflection, nameof(Domain.Entities.Property.Lng), command.Data.Lng);
-        if (listingStatus.HasValue)
-            SetProperty(property, propertyTypeReflection, nameof(Domain.Entities.Property.ListingStatus), listingStatus.Value);
-        SetProperty(property, propertyTypeReflection, nameof(Domain.Entities.Property.ListingDate), command.Data.ListingDate);
-        SetProperty(property, propertyTypeReflection, nameof(Domain.Entities.Property.IsFeatured), command.Data.IsFeatured);
-        SetProperty(property, propertyTypeReflection, nameof(Domain.Entities.Property.IsPublished), command.Data.IsPublished);
-        SetProperty(property, propertyTypeReflection, nameof(Domain.Entities.Property.UpdatedAt), DateTimeOffset.UtcNow);
+        {
+            var listingStatus = Enum.Parse<ListingStatus>(command.Data.ListingStatus);
+            SetProperty(property, typeof(Domain.Entities.Property), nameof(Domain.Entities.Property.ListingStatus), listingStatus);
+        }
+        
+        if (command.Data.ListingDate.HasValue)
+        {
+            SetProperty(property, typeof(Domain.Entities.Property), nameof(Domain.Entities.Property.ListingDate), command.Data.ListingDate.Value);
+        }
 
         _unitOfWork.Properties.Update(property);
         await _unitOfWork.SaveChangesAsync(cancellationToken);

@@ -7,18 +7,16 @@ public class ChangePriceDtoValidator : AbstractValidator<ChangePriceDto>
 {
     public ChangePriceDtoValidator()
     {
-        RuleFor(x => x.NewPrice)
+        RuleFor(x => x.BasePrice)
             .GreaterThanOrEqualTo(0)
-            .WithMessage("New Price must be 0 or greater.")
+            .WithMessage("Base Price must be 0 or greater.")
             .LessThanOrEqualTo(999999999999.99m)
-            .WithMessage("New Price cannot exceed $999,999,999,999.99.");
+            .WithMessage("Base Price cannot exceed $999,999,999,999.99.");
 
         RuleFor(x => x.TaxAmount)
             .GreaterThanOrEqualTo(0)
-            .When(x => x.TaxAmount.HasValue)
             .WithMessage("Tax Amount must be 0 or greater.")
             .LessThanOrEqualTo(99999999.99m)
-            .When(x => x.TaxAmount.HasValue)
             .WithMessage("Tax Amount cannot exceed $99,999,999.99.");
 
         RuleFor(x => x.ActorName)
@@ -26,7 +24,9 @@ public class ChangePriceDtoValidator : AbstractValidator<ChangePriceDto>
             .WithMessage("Actor Name cannot exceed 180 characters.");
 
         RuleFor(x => x.RowVersion)
-            .GreaterThan(0)
-            .WithMessage("Row Version is required for concurrency control.");
+            .NotNull()
+            .WithMessage("Row Version is required for concurrency control.")
+            .Must(rv => rv != null && rv.Length == 8)
+            .WithMessage("Row Version must be an 8-byte array.");
     }
 }

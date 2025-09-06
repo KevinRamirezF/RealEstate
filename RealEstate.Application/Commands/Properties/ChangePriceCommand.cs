@@ -16,5 +16,5 @@ public class ChangePriceResult
     public decimal? TaxAmount { get; set; }
     public string? ActorName { get; set; }
     public DateTimeOffset ChangedAt { get; set; }
-    public int RowVersion { get; set; }
+    public byte[] RowVersion { get; set; } = new byte[8];
 }

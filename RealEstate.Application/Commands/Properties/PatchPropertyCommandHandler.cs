@@ -73,6 +73,26 @@ public class PatchPropertyCommandHandler
         if (command.Data.IsPublished.HasValue)
             SetProperty(property, propertyTypeReflection, nameof(Domain.Entities.Property.IsPublished), command.Data.IsPublished);
             
+        // Handle price updates using domain method to maintain data integrity
+        if (command.Data.BasePrice.HasValue && command.Data.TaxAmount.HasValue)
+        {
+            // Use domain method which creates proper traces and maintains invariants
+            property.ChangePrice(command.Data.BasePrice.Value, command.Data.TaxAmount.Value, "PATCH Update");
+        }
+        else if (command.Data.BasePrice.HasValue || command.Data.TaxAmount.HasValue)
+        {
+            // Partial price update - use reflection but maintain Price = BasePrice + TaxAmount invariant
+            if (command.Data.BasePrice.HasValue)
+                SetProperty(property, propertyTypeReflection, nameof(Domain.Entities.Property.BasePrice), command.Data.BasePrice.Value);
+            if (command.Data.TaxAmount.HasValue)
+                SetProperty(property, propertyTypeReflection, nameof(Domain.Entities.Property.TaxAmount), command.Data.TaxAmount.Value);
+                
+            // Recalculate total price to maintain invariant
+            var currentBasePrice = (decimal)propertyTypeReflection.GetProperty("BasePrice")?.GetValue(property)!;
+            var currentTaxAmount = (decimal)propertyTypeReflection.GetProperty("TaxAmount")?.GetValue(property)!;
+            SetProperty(property, propertyTypeReflection, nameof(Domain.Entities.Property.Price), currentBasePrice + currentTaxAmount);
+        }
+        
         SetProperty(property, propertyTypeReflection, nameof(Domain.Entities.Property.UpdatedAt), DateTimeOffset.UtcNow);
 
         _unitOfWork.Properties.Update(property);

@@ -73,7 +73,7 @@ namespace RealEstate.Infrastructure.Persistence.Configurations
                 .HasColumnName("deleted_at");
 
             builder.Property(o => o.RowVersion)
-                .HasDefaultValue(1)
+                .IsRowVersion()
                 .HasColumnName("row_version");
 
             // Indexes

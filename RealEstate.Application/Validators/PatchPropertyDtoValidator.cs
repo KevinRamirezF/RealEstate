@@ -111,9 +111,8 @@ public class PatchPropertyDtoValidator : AbstractValidator<PatchPropertyDto>
             .WithMessage("Listing Date cannot be more than 1 year in the future.");
 
         RuleFor(x => x.RowVersion)
-            .GreaterThan(0)
-            .When(x => x.RowVersion.HasValue)
-            .WithMessage("Row Version must be greater than 0 when provided.");
+            .Must(rv => rv == null || rv.Length == 8)
+            .WithMessage("Row Version must be an 8-byte array when provided.");
     }
 
     private static bool BeValidListingStatus(string? listingStatus)
