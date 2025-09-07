@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using RealEstate.Domain.Enums;
 
 namespace RealEstate.Domain.Entities;
@@ -36,7 +33,7 @@ public class Property
     public DateTimeOffset CreatedAt { get; private set; }
     public DateTimeOffset UpdatedAt { get; private set; }
     public DateTimeOffset? DeletedAt { get; private set; }
-    public int RowVersion { get; private set; } = 1;
+    public byte[] RowVersion { get; private set; } = new byte[8];
 
     private readonly List<PropertyImage> _images = new();
     public IReadOnlyCollection<PropertyImage> Images => _images.AsReadOnly();
@@ -103,7 +100,7 @@ public class Property
         Price = newBasePrice + newTaxAmount;
         
         UpdatedAt = DateTimeOffset.UtcNow;
-        RowVersion++;
+        // RowVersion is automatically handled by SQL Server
 
         var trace = PropertyTrace.Create(Id, TraceEventType.PRICE_CHANGE, 
             $"Price changed from {oldPrice:C} to {Price:C} (Base: {oldBasePrice:C}→{newBasePrice:C}, Tax: {oldTaxAmount:C}→{newTaxAmount:C})", 
@@ -133,7 +130,7 @@ public class Property
         _images.Add(image);
         
         UpdatedAt = DateTimeOffset.UtcNow;
-        RowVersion++;
+        // RowVersion is automatically handled by SQL Server
     }
 
     public void Update(string? name = null, string? description = null, short? bedrooms = null, 
@@ -256,7 +253,7 @@ public class Property
         if (changes.Any())
         {
             UpdatedAt = DateTimeOffset.UtcNow;
-            RowVersion++;
+            // RowVersion is automatically handled by SQL Server
 
             var trace = PropertyTrace.Create(Id, TraceEventType.UPDATED, 
                 $"Property updated: {string.Join(", ", changes)}");
@@ -268,7 +265,7 @@ public class Property
     {
         DeletedAt = DateTimeOffset.UtcNow;
         UpdatedAt = DateTimeOffset.UtcNow;
-        RowVersion++;
+        // RowVersion is automatically handled by SQL Server
 
         var trace = PropertyTrace.Create(Id, TraceEventType.DELETED, "Property soft deleted");
         _traces.Add(trace);

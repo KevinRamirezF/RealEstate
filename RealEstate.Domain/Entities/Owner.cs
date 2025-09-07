@@ -20,7 +20,7 @@ public class Owner
     public DateTimeOffset CreatedAt { get; private set; }
     public DateTimeOffset UpdatedAt { get; private set; }
     public DateTimeOffset? DeletedAt { get; private set; }
-    public int RowVersion { get; private set; } = 1;
+    public byte[] RowVersion { get; private set; } = new byte[8];
 
     private Owner() { }
 
@@ -55,13 +55,13 @@ public class Owner
         Email = email;
         Phone = phone;
         UpdatedAt = DateTimeOffset.UtcNow;
-        RowVersion++;
+        // RowVersion is automatically handled by SQL Server
     }
 
     public void SoftDelete()
     {
         DeletedAt = DateTimeOffset.UtcNow;
         UpdatedAt = DateTimeOffset.UtcNow;
-        RowVersion++;
+        // RowVersion is automatically handled by SQL Server
     }
 }
