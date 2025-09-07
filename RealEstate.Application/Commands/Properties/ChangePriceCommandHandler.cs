@@ -1,8 +1,6 @@
 using FluentValidation;
-using Microsoft.EntityFrameworkCore;
 using RealEstate.Application.Common.Interfaces;
 using RealEstate.Application.Validators;
-using System.Reflection;
 
 namespace RealEstate.Application.Commands.Properties;
 
@@ -26,7 +24,6 @@ public class ChangePriceCommandHandler
             throw new ValidationException(validationResult.Errors);
         }
 
-        // EXACT COPY of PATCH handler pattern
         var property = await _unitOfWork.Properties.GetByIdAsync(command.Id, cancellationToken);
         if (property == null)
             throw new ArgumentException($"Property with ID {command.Id} not found.");
@@ -36,7 +33,6 @@ public class ChangePriceCommandHandler
         // Apply price change using domain method
         property.ChangePrice(command.PriceChange.BasePrice, command.PriceChange.TaxAmount, command.PriceChange.ActorName);
         
-        // DISABLE concurrency completely by detaching entity
         var entry = _unitOfWork.Properties.GetEntry(property);
         entry.State = Microsoft.EntityFrameworkCore.EntityState.Detached;
         

@@ -1,7 +1,10 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using RealEstate.Domain.Entities;
 using RealEstate.Domain.Enums;
+using RealEstate.Domain.Identity;
+using RealEstate.Infrastructure.Identity;
 using RealEstate.Infrastructure.Persistence;
 
 namespace RealEstate.Infrastructure.Data;
@@ -10,11 +13,15 @@ public class DataSeeder
 {
     private readonly RealEstateDbContext _context;
     private readonly ILogger<DataSeeder> _logger;
+    private readonly RoleManager<IdentityRole<Guid>> _roleManager;
+    private readonly UserManager<ApplicationUser> _userManager;
 
-    public DataSeeder(RealEstateDbContext context, ILogger<DataSeeder> logger)
+    public DataSeeder(RealEstateDbContext context, ILogger<DataSeeder> logger, RoleManager<IdentityRole<Guid>> roleManager, UserManager<ApplicationUser> userManager)
     {
         _context = context;
         _logger = logger;
+        _roleManager = roleManager;
+        _userManager = userManager;
     }
 
     public async Task SeedAsync()
@@ -22,6 +29,12 @@ public class DataSeeder
         try
         {
             await _context.Database.EnsureCreatedAsync();
+
+            // Seed roles first
+            await SeedRolesAsync();
+
+            // Seed initial admin user
+            await SeedInitialAdminAsync();
 
             if (!await _context.Owners.AnyAsync())
             {
@@ -186,5 +199,73 @@ public class DataSeeder
         }
 
         return property;
+    }
+
+    private async Task SeedRolesAsync()
+    {
+        foreach (var roleName in Roles.AllRoles)
+        {
+            if (!await _roleManager.RoleExistsAsync(roleName))
+            {
+                var role = new IdentityRole<Guid>
+                {
+                    Id = Guid.NewGuid(),
+                    Name = roleName,
+                    NormalizedName = roleName.ToUpper()
+                };
+                
+                var result = await _roleManager.CreateAsync(role);
+                if (result.Succeeded)
+                {
+                    _logger.LogInformation("Created role: {RoleName}", roleName);
+                }
+                else
+                {
+                    _logger.LogError("Failed to create role {RoleName}: {Errors}", roleName, string.Join(", ", result.Errors.Select(e => e.Description)));
+                }
+            }
+        }
+    }
+
+    private async Task SeedInitialAdminAsync()
+    {
+        const string adminEmail = "admin@realestate.com";
+        const string adminPassword = "Admin123!";
+        
+        // Check if admin user already exists
+        var adminUser = await _userManager.FindByEmailAsync(adminEmail);
+        if (adminUser == null)
+        {
+            // Create admin user
+            var user = new ApplicationUser
+            {
+                UserName = adminEmail,
+                Email = adminEmail,
+                FirstName = "System",
+                LastName = "Administrator",
+                EmailConfirmed = true,
+                CreatedAt = DateTimeOffset.UtcNow,
+                UpdatedAt = DateTimeOffset.UtcNow
+            };
+
+            var result = await _userManager.CreateAsync(user, adminPassword);
+            if (result.Succeeded)
+            {
+                // Add user to Admin role
+                await _userManager.AddToRoleAsync(user, Roles.Admin);
+                
+                _logger.LogInformation("Created initial admin user with email: {Email}", adminEmail);
+                _logger.LogWarning("SECURITY NOTICE: Default admin password is '{Password}'. Please change it immediately!", adminPassword);
+            }
+            else
+            {
+                var errors = string.Join(", ", result.Errors.Select(e => e.Description));
+                _logger.LogError("Failed to create initial admin user: {Errors}", errors);
+            }
+        }
+        else
+        {
+            _logger.LogInformation("Admin user already exists: {Email}", adminEmail);
+        }
     }
 }

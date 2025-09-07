@@ -62,7 +62,6 @@ public class UpdatePropertyCommandHandler
             SetProperty(property, typeof(Domain.Entities.Property), nameof(Domain.Entities.Property.ListingDate), command.Data.ListingDate.Value);
         }
 
-        _unitOfWork.Properties.Update(property);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         // Return updated property details
