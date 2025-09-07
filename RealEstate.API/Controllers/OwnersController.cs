@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
 using RealEstate.API.Filters;
@@ -5,6 +6,7 @@ using RealEstate.Application.Commands.Owners;
 using RealEstate.Application.DTOs.Input;
 using RealEstate.Application.DTOs.Output;
 using RealEstate.Application.Queries.Owners;
+using RealEstate.Domain.Identity;
 using System.Text.Json;
 
 namespace RealEstate.API.Controllers;
@@ -13,6 +15,7 @@ namespace RealEstate.API.Controllers;
 [Route("api/v1/[controller]")]
 [Produces("application/json")]
 [ValidationFilter]
+[Authorize(Roles = Roles.Admin + "," + Roles.Guest)]
 public class OwnersController : ControllerBase
 {
     private readonly CreateOwnerCommandHandler _createOwnerHandler;
@@ -105,6 +108,7 @@ public class OwnersController : ControllerBase
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Created owner</returns>
     [HttpPost]
+    [Authorize(Roles = Roles.Admin)]
     [ProducesResponseType<OwnerDetailDto>(StatusCodes.Status201Created)]
     [ProducesResponseType<ValidationProblemDetails>(StatusCodes.Status400BadRequest)]
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status409Conflict)]
@@ -129,6 +133,7 @@ public class OwnersController : ControllerBase
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Updated owner</returns>
     [HttpPut("{id:guid}")]
+    [Authorize(Roles = Roles.Admin)]
     [ProducesResponseType<OwnerDetailDto>(StatusCodes.Status200OK)]
     [ProducesResponseType<ValidationProblemDetails>(StatusCodes.Status400BadRequest)]
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound)]
@@ -155,6 +160,7 @@ public class OwnersController : ControllerBase
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Updated owner</returns>
     [HttpPatch("{id:guid}")]
+    [Authorize(Roles = Roles.Admin)]
     [ProducesResponseType<OwnerDetailDto>(StatusCodes.Status200OK)]
     [ProducesResponseType<ValidationProblemDetails>(StatusCodes.Status400BadRequest)]
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound)]
@@ -180,6 +186,7 @@ public class OwnersController : ControllerBase
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>No content</returns>
     [HttpDelete("{id:guid}")]
+    [Authorize(Roles = Roles.Admin)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> DeleteOwner(

@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
 using RealEstate.API.Filters;
@@ -7,6 +8,7 @@ using RealEstate.Application.DTOs.Filters;
 using RealEstate.Application.DTOs.Input;
 using RealEstate.Application.DTOs.Output;
 using RealEstate.Application.Queries.Properties;
+using RealEstate.Domain.Identity;
 using System.Text.Json;
 
 namespace RealEstate.API.Controllers;
@@ -15,6 +17,7 @@ namespace RealEstate.API.Controllers;
 [Route("api/v1/[controller]")]
 [Produces("application/json")]
 [ValidationFilter]
+[Authorize(Roles = Roles.Admin + "," + Roles.Guest)]
 public class PropertiesController : ControllerBase
 {
     private readonly CreatePropertyCommandHandler _createPropertyHandler;
@@ -178,6 +181,7 @@ public class PropertiesController : ControllerBase
     /// **Country Codes**: US, CA, MX (2-character ISO codes)
     /// </remarks>
     [HttpPost]
+    [Authorize(Roles = Roles.Admin)]
     [ProducesResponseType<PropertyDetailDto>(StatusCodes.Status201Created)]
     [ProducesResponseType<ValidationProblemDetails>(StatusCodes.Status400BadRequest)]
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status409Conflict)]
@@ -202,6 +206,7 @@ public class PropertiesController : ControllerBase
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Updated property</returns>
     [HttpPut("{id:guid}")]
+    [Authorize(Roles = Roles.Admin)]
     [ProducesResponseType<PropertyDetailDto>(StatusCodes.Status200OK)]
     [ProducesResponseType<ValidationProblemDetails>(StatusCodes.Status400BadRequest)]
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound)]
@@ -254,6 +259,7 @@ public class PropertiesController : ControllerBase
     /// addressLine, city, state, postalCode, lat, lng, listingStatus, listingDate, isFeatured, isPublished, rowVersion
     /// </remarks>
     [HttpPatch("{id:guid}")]
+    [Authorize(Roles = Roles.Admin)]
     [ProducesResponseType<PropertyDetailDto>(StatusCodes.Status200OK)]
     [ProducesResponseType<ValidationProblemDetails>(StatusCodes.Status400BadRequest)]
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound)]
@@ -290,6 +296,7 @@ public class PropertiesController : ControllerBase
     /// This endpoint creates a price change trace for audit purposes and updates the property price atomically.
     /// </remarks>
     [HttpPut("{id:guid}/change-price")]
+    [Authorize(Roles = Roles.Admin)]
     [ProducesResponseType<ChangePriceResult>(StatusCodes.Status200OK)]
     [ProducesResponseType<ValidationProblemDetails>(StatusCodes.Status400BadRequest)]
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound)]
@@ -342,6 +349,7 @@ public class PropertiesController : ControllerBase
     /// Only one primary image is allowed per property. Setting isPrimary=true will make this the new primary image.
     /// </remarks>
     [HttpPost("{id:guid}/images")]
+    [Authorize(Roles = Roles.Admin)]
     [ProducesResponseType<AddImageResult>(StatusCodes.Status201Created)]
     [ProducesResponseType<ValidationProblemDetails>(StatusCodes.Status400BadRequest)]
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound)]
@@ -367,6 +375,7 @@ public class PropertiesController : ControllerBase
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>No content</returns>
     [HttpDelete("{id:guid}")]
+    [Authorize(Roles = Roles.Admin)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> DeleteProperty(
