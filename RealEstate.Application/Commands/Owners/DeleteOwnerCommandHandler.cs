@@ -31,8 +31,8 @@ public class DeleteOwnerCommandHandler
         }
 
         _unitOfWork.Owners.Update(owner);
-        await _unitOfWork.SaveChangesAsync(cancellationToken);
+        var saveResult = await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return true;
+        return saveResult > 0;
     }
 }

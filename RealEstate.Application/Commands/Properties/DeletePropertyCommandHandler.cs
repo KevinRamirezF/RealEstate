@@ -31,8 +31,8 @@ public class DeletePropertyCommandHandler
         }
 
         _unitOfWork.Properties.Update(property);
-        await _unitOfWork.SaveChangesAsync(cancellationToken);
+        var saveResult = await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return true;
+        return saveResult > 0;
     }
 }
