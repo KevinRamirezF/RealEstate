@@ -1,0 +1,25 @@
+{
+  "name": "realestate-solution",
+  "version": "1.0.0",
+  "description": "RealEstate .NET API with Clean Architecture",
+  "private": true,
+  "workspaces": [
+    "docs"
+  ],
+  "scripts": {
+    "docs:start": "cd docs && npm start",
+    "docs:build": "cd docs && npm run build",
+    "docs:serve": "cd docs && npm run serve",
+    "build": "dotnet build RealEstate.sln",
+    "test": "dotnet test RealEstate.sln",
+    "restore": "dotnet restore RealEstate.sln"
+  },
+  "keywords": [
+    "dotnet",
+    "clean-architecture",
+    "real-estate",
+    "api"
+  ],
+  "author": "RealEstate Team",
+  "license": "MIT"
+}

@@ -1,0 +1,114 @@
+version: '3.8'
+
+services:
+  # SQL Server Database - PRODUCTION
+  realestate-db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: realestate-database-prod
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=${DB_SA_PASSWORD:-RealEstate123!}
+      - MSSQL_PID=Standard
+    ports:
+      - "1433:1433"
+    volumes:
+      - realestate_prod_data:/var/opt/mssql
+    networks:
+      - realestate-network
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P ${DB_SA_PASSWORD:-RealEstate123!} -Q 'SELECT 1' -C || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    # 🔒 PRODUCTION: Always restart
+    restart: always
+    # 🎯 PRODUCTION: Resource limits
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+          cpus: "1.0"
+        reservations:
+          memory: 1G
+
+  # RealEstate API - PRODUCTION MODE  
+  realestate-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: realestate-api-prod
+    environment:
+      # 🔴 PRODUCTION CONFIGURATION
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:8080
+      - DatabaseSettings__ConnectionString=Server=realestate-db;Database=RealEstateDB;User Id=sa;Password=${DB_SA_PASSWORD:-RealEstate123!};TrustServerCertificate=true;MultipleActiveResultSets=true
+      - DatabaseSettings__Provider=SqlServer
+      - DatabaseSettings__CommandTimeout=60
+      - DatabaseSettings__EnableSensitiveDataLogging=false
+      - DatabaseSettings__EnableDetailedErrors=false
+      - Logging__LogLevel__Default=Warning
+      - Logging__LogLevel__Microsoft.AspNetCore=Warning
+      - Logging__LogLevel__Microsoft.EntityFrameworkCore=Warning
+      # 🚀 PRODUCTION OPTIMIZATIONS
+      - DOTNET_GCServer=1
+      - DOTNET_gcConcurrent=1
+      - ASPNETCORE_FORWARDEDHEADERS_ENABLED=true
+    ports:
+      - "5000:8080"
+    depends_on:
+      realestate-db:
+        condition: service_healthy
+    networks:
+      - realestate-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    # 🔒 PRODUCTION: Always restart
+    restart: always
+    # 🎯 PRODUCTION: Resource limits
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: "0.5"
+
+  # Documentation - PRODUCTION MODE
+  realestate-docs:
+    build:
+      context: ./docs
+      dockerfile: Dockerfile
+    container_name: realestate-docs-prod
+    ports:
+      - "3000:8080"
+    depends_on:
+      realestate-api:
+        condition: service_healthy
+    networks:
+      - realestate-network
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    restart: always
+    # 🎯 PRODUCTION: Resource limits
+    deploy:
+      resources:
+        limits:
+          memory: 128M
+
+volumes:
+  realestate_prod_data:
+    driver: local
+
+networks:
+  realestate-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
