@@ -1,0 +1,24 @@
+{
+  "id": "getting-started/installation",
+  "title": "Installation Guide",
+  "description": "This guide will help you set up the RealEstate API development environment on your local machine.",
+  "source": "@site/docs/getting-started/installation.md",
+  "sourceDirName": "getting-started",
+  "slug": "/getting-started/installation",
+  "permalink": "/docs/getting-started/installation",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/your-org/realestate/tree/main/docs/docs/getting-started/installation.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Introduction",
+    "permalink": "/docs/intro"
+  },
+  "next": {
+    "title": "Configuration Guide",
+    "permalink": "/docs/getting-started/configuration"
+  }
+}

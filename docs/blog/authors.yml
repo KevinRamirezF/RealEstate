@@ -1,0 +1,11 @@
+realestate-team:
+  name: RealEstate Team
+  title: Development Team
+  url: https://github.com/your-org/realestate
+  image_url: https://github.com/identicons/realestate.png
+
+kevin:
+  name: Kevin
+  title: Lead Developer
+  url: https://github.com/kevin
+  image_url: https://github.com/identicons/kevin.png

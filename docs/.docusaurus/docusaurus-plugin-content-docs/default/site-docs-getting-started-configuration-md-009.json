@@ -1,0 +1,20 @@
+{
+  "id": "getting-started/configuration",
+  "title": "Configuration Guide",
+  "description": "Learn how to configure the RealEstate API for different environments and customize settings.",
+  "source": "@site/docs/getting-started/configuration.md",
+  "sourceDirName": "getting-started",
+  "slug": "/getting-started/configuration",
+  "permalink": "/docs/getting-started/configuration",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/your-org/realestate/tree/main/docs/docs/getting-started/configuration.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Installation Guide",
+    "permalink": "/docs/getting-started/installation"
+  }
+}

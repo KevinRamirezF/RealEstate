@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://your-docusaurus-site.example.com/blog</id>
+    <title>RealEstate API Documentation Blog</title>
+    <updated>2024-09-08T00:00:00.000Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel="alternate" href="https://your-docusaurus-site.example.com/blog"/>
+    <subtitle>RealEstate API Documentation Blog</subtitle>
+    <icon>https://your-docusaurus-site.example.com/img/favicon.ico</icon>
+    <entry>
+        <title type="html"><![CDATA[Welcome to RealEstate API Documentation]]></title>
+        <id>https://your-docusaurus-site.example.com/blog/welcome-to-realestate-api-docs</id>
+        <link href="https://your-docusaurus-site.example.com/blog/welcome-to-realestate-api-docs"/>
+        <updated>2024-09-08T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[We're excited to launch the comprehensive documentation for our RealEstate API! This documentation site provides everything you need to understand, implement, and contribute to our real estate management system.]]></summary>
+        <content type="html"><![CDATA[<p>We're excited to launch the comprehensive documentation for our RealEstate API! This documentation site provides everything you need to understand, implement, and contribute to our real estate management system.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="whats-new">What's New<a href="https://your-docusaurus-site.example.com/blog/welcome-to-realestate-api-docs#whats-new" class="hash-link" aria-label="Direct link to What's New" title="Direct link to What's New">​</a></h2>
+<p>Our new documentation site includes:</p>
+<ul>
+<li><strong>🏗️ Architecture Documentation</strong> - Deep dive into our Clean Architecture implementation</li>
+<li><strong>📚 API Reference</strong> - Interactive API documentation powered by Scalar</li>
+<li><strong>📊 Database Schema</strong> - Complete database documentation with ER diagrams</li>
+<li><strong>📋 ADRs</strong> - Architecture Decision Records for transparency</li>
+<li><strong>🚀 Getting Started Guides</strong> - Step-by-step setup and configuration</li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="built-with-modern-tools">Built with Modern Tools<a href="https://your-docusaurus-site.example.com/blog/welcome-to-realestate-api-docs#built-with-modern-tools" class="hash-link" aria-label="Direct link to Built with Modern Tools" title="Direct link to Built with Modern Tools">​</a></h2>
+<p>This documentation is built with:</p>
+<ul>
+<li><strong><a href="https://docusaurus.io/" target="_blank" rel="noopener noreferrer">Docusaurus</a></strong> - Modern static site generator</li>
+<li><strong><a href="https://mermaid.js.org/" target="_blank" rel="noopener noreferrer">Mermaid</a></strong> - Beautiful diagrams and flowcharts</li>
+<li><strong><a href="https://scalar.com/" target="_blank" rel="noopener noreferrer">Scalar</a></strong> - Interactive API reference</li>
+<li><strong>TypeScript</strong> - Type-safe documentation code</li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="architecture-highlights">Architecture Highlights<a href="https://your-docusaurus-site.example.com/blog/welcome-to-realestate-api-docs#architecture-highlights" class="hash-link" aria-label="Direct link to Architecture Highlights" title="Direct link to Architecture Highlights">​</a></h2>
+<p>Our RealEstate API showcases several modern architectural patterns:</p>
+<!-- -->
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="key-features">Key Features<a href="https://your-docusaurus-site.example.com/blog/welcome-to-realestate-api-docs#key-features" class="hash-link" aria-label="Direct link to Key Features" title="Direct link to Key Features">​</a></h3>
+<ul>
+<li><strong>Clean Architecture</strong> with clear separation of concerns</li>
+<li><strong>Domain-Driven Design</strong> with rich domain models</li>
+<li><strong>CQRS Light</strong> pattern without event sourcing complexity</li>
+<li><strong>JWT Authentication</strong> with custom implementation</li>
+<li><strong>Comprehensive Testing</strong> with NUnit and FluentAssertions</li>
+<li><strong>Entity Framework Core</strong> with Code-First approach</li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="whats-coming-next">What's Coming Next<a href="https://your-docusaurus-site.example.com/blog/welcome-to-realestate-api-docs#whats-coming-next" class="hash-link" aria-label="Direct link to What's Coming Next" title="Direct link to What's Coming Next">​</a></h2>
+<p>We're continuously improving the documentation with:</p>
+<ul>
+<li>📈 <strong>SchemaSpy Integration</strong> - Interactive database schema browser</li>
+<li>🔄 <strong>CI/CD Documentation</strong> - Deployment and DevOps guides</li>
+<li>📖 <strong>More ADRs</strong> - Document ongoing architectural decisions</li>
+<li>🎯 <strong>Performance Guides</strong> - Optimization and monitoring documentation</li>
+<li>🧪 <strong>Testing Strategies</strong> - Comprehensive testing documentation</li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="contributing-to-documentation">Contributing to Documentation<a href="https://your-docusaurus-site.example.com/blog/welcome-to-realestate-api-docs#contributing-to-documentation" class="hash-link" aria-label="Direct link to Contributing to Documentation" title="Direct link to Contributing to Documentation">​</a></h2>
+<p>Found an error or want to improve something? Our documentation is open source and we welcome contributions:</p>
+<ol>
+<li>Fork the repository</li>
+<li>Make your changes in the <code>/docs</code> directory</li>
+<li>Submit a pull request</li>
+</ol>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="get-started-today">Get Started Today<a href="https://your-docusaurus-site.example.com/blog/welcome-to-realestate-api-docs#get-started-today" class="hash-link" aria-label="Direct link to Get Started Today" title="Direct link to Get Started Today">​</a></h2>
+<p>Ready to explore? Here are some great starting points:</p>
+<ul>
+<li><a href="https://your-docusaurus-site.example.com/docs/getting-started/installation">Installation Guide</a> - Set up your development environment</li>
+<li><a href="https://your-docusaurus-site.example.com/architecture">Architecture Overview</a> - Understand the system design</li>
+<li><a href="https://your-docusaurus-site.example.com/api-reference">API Reference</a> - Explore the endpoints</li>
+<li><a href="https://your-docusaurus-site.example.com/database">Database Schema</a> - Review the data model</li>
+</ul>
+<p>We're excited to see what you build with the RealEstate API! 🚀</p>
+<hr>
+<p><em>The RealEstate Team</em></p>]]></content>
+        <author>
+            <name>RealEstate Team</name>
+            <uri>https://github.com/your-org/realestate</uri>
+        </author>
+        <category label="documentation" term="documentation"/>
+        <category label="architecture" term="architecture"/>
+        <category label="api" term="api"/>
+    </entry>
+</feed>

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkdocs=self.webpackChunkdocs||[]).push([[7472],{5513:e=>{e.exports=JSON.parse('{"title":"Recent posts","items":[{"title":"Welcome to RealEstate API Documentation","permalink":"/blog/welcome-to-realestate-api-docs","unlisted":false,"date":"2024-09-08T00:00:00.000Z"}]}')}}]);
