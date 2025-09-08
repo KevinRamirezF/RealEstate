@@ -1,132 +1,246 @@
 # Installation Guide
 
-This guide will help you set up the RealEstate API development environment on your local machine.
+This guide will help you set up the complete RealEstate application stack using Docker. This is the **recommended approach** for both development and evaluation.
+
+## 🚀 Quick Start (Recommended)
+
+The easiest way to run the entire application stack is using Docker Compose. This provides:
+
+- ✅ **Zero manual configuration** - Everything configured automatically
+- ✅ **Complete environment** - Database, API, and Documentation
+- ✅ **Consistent setup** - Works the same across all machines
+- ✅ **One command startup** - Get everything running instantly
 
 ## Prerequisites
 
-Before you begin, ensure you have the following installed:
-
 ### Required Software
 
-- **.NET 8 SDK** - [Download from Microsoft](https://dotnet.microsoft.com/download/dotnet/8.0)
-- **SQL Server** - Local instance or SQL Server Express
-- **Visual Studio 2022** or **Visual Studio Code** with C# extension
-- **Git** for version control
+You only need **Docker** installed on your system:
 
-### Verify Installation
+- **Docker Desktop** - [Download for your OS](https://www.docker.com/products/docker-desktop/)
+  - Windows: Docker Desktop for Windows
+  - macOS: Docker Desktop for Mac  
+  - Linux: Docker Engine + Docker Compose
+
+### Verify Docker Installation
 
 ```bash
-# Check .NET version
-dotnet --version
-# Should show 8.0.x or higher
+# Check Docker version
+docker --version
+# Should show Docker version 20.0+ 
 
-# Check SQL Server connection
-sqlcmd -S localhost -E -Q "SELECT @@VERSION"
+# Check Docker Compose
+docker-compose --version
+# Should show docker-compose version 2.0+
+
+# Verify Docker is running
+docker info
 ```
 
-## Clone the Repository
+## 🏗️ Application Setup
+
+### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/your-org/realestate-api.git
+git clone https://github.com/KevinRamirezF/RealEstate
 cd realestate-api
 ```
 
-## Database Setup
+### 2. Start the Application Stack
 
-### 1. Configure Connection String
+Choose your preferred startup method:
 
-Update the connection string in `appsettings.Development.json`:
+#### Option A: Automated Script (Recommended)
 
-```json
-{
-  "DatabaseSettings": {
-    "ConnectionString": "Server=localhost;Database=RealEstateDB;Trusted_Connection=true;TrustServerCertificate=true"
-  }
-}
+**Windows:**
+```bash
+.\start.bat
 ```
 
-### 2. Run Database Migrations
+**Linux/macOS:**
+```bash
+./start.sh
+```
+
+#### Option B: Manual Docker Compose
 
 ```bash
-# Navigate to the solution root
-cd RealEstate
-
-# Apply database migrations
-dotnet ef database update --project RealEstate.Infrastructure --startup-project RealEstate.API
+docker-compose up -d --build
 ```
 
-## Build and Run
+### 3. Wait for Services to Initialize
 
-### Build the Solution
+The startup scripts will:
+- Build all Docker images
+- Start SQL Server database
+- Create database automatically (via Entity Framework)
+- Start the .NET API with health checks
+- Build and serve the documentation
+- Verify all services are healthy
 
+**Initial startup takes 2-5 minutes** depending on your internet connection and system performance.
+
+## 🌐 Access the Application
+
+Once startup is complete, access these URLs:
+
+| Service | URL | Description |
+|---------|-----|-------------|
+| **📖 Documentation** | http://localhost:3000 | Complete project documentation |
+| **🔗 API Server** | http://localhost:5000 | REST API with Swagger/Scalar UI |
+| **📋 API Testing** | http://localhost:5000/scalar | Interactive API documentation |
+| **🗄️ Database** | localhost:1433 | SQL Server (sa/RealEstate123!) |
+
+## ✅ Verify Installation
+
+### 1. Health Checks
 ```bash
-# Restore packages and build
-dotnet restore
-dotnet build
+# API health check
+curl http://localhost:5000/health
+
+# Documentation health check  
+curl http://localhost:3000/health
 ```
 
-### Run the API
-
+### 2. Basic API Tests
 ```bash
-# Start the API server
-dotnet run --project RealEstate.API
+# Get all properties
+curl http://localhost:5000/api/properties
+
+# Get all owners
+curl http://localhost:5000/api/owners
 ```
 
-The API will be available at:
-- **HTTPS**: `https://localhost:7001`
-- **HTTP**: `http://localhost:5000`
+### 3. Interactive Testing
+- Open http://localhost:5000/scalar in your browser
+- Try the API endpoints directly in the UI
+- Explore the complete OpenAPI documentation
 
-### Verify Installation
+## 🔧 Development Commands
 
-1. Open your browser and navigate to `https://localhost:7001/swagger`
-2. You should see the Swagger UI with API documentation
-3. Try the health check endpoint: `GET /health`
+### Service Management
+```bash
+# View all service logs
+docker-compose logs -f
 
-## Development Tools
+# View specific service logs
+docker-compose logs -f realestate-api
 
-### Recommended Visual Studio Extensions
+# Stop all services
+docker-compose down
 
-- **Entity Framework Core Power Tools** - For database visualization
-- **REST Client** - For API testing
-- **GitLens** - Enhanced Git capabilities
+# Restart with rebuild
+docker-compose up -d --build
 
-### Recommended VS Code Extensions
+# Reset everything (removes data)
+docker-compose down -v
+docker-compose up -d --build
+```
 
-- **C# Dev Kit** - Complete C# development experience
-- **REST Client** - API testing directly in VS Code
-- **Thunder Client** - Alternative API testing tool
+### Database Management
+```bash
+# Connect to database directly
+docker-compose exec realestate-db sqlcmd -S localhost -U sa -P RealEstate123!
 
-## Next Steps
+# View database logs
+docker-compose logs -f realestate-db
+```
 
-- [Configuration Guide](./configuration) - Configure application settings
-- [First Run](./first-run) - Run the application for the first time
-- [Development Guide](../development/project-structure) - Understand the project structure
+## 🏗️ Architecture Overview
 
-## Troubleshooting
+The Docker setup includes 3 services:
+
+```
+┌─────────────────┐    ┌─────────────────┐
+│   Documentation │    │    .NET API     │
+│   (Docusaurus)  │    │  (with Scalar)  │
+│   Port: 3000    │    │   Port: 5000    │
+└─────────────────┘    └─────────────────┘
+         │                       │
+         └───────────────────────┼─────────────────┐
+                                 │                 │
+                        ┌─────────────────┐       │
+                        │   SQL Server    │       │
+                        │   Port: 1433    │       │
+                        └─────────────────┘       │
+                                                   │
+                    Network: realestate-network ──┘
+```
+
+## 📚 What's Included
+
+The Docker environment provides:
+
+### **Database (SQL Server)**
+- Automatic database creation via Entity Framework
+- Pre-seeded with sample data (properties and owners)
+- Persistent storage (data survives container restarts)
+
+### **API Server (.NET 8)**  
+- Complete REST API with all endpoints
+- Integrated Swagger/OpenAPI documentation
+- Scalar UI for interactive testing
+- Health check endpoints
+- Automatic database migrations
+
+### **Documentation (Docusaurus)**
+- Complete project documentation
+- Architecture Decision Records (ADRs)
+- API reference with direct links to testing interface
+- Built-in search and navigation
+
+## 🚨 Troubleshooting
 
 ### Common Issues
 
-**Issue**: `dotnet ef` command not found
+**Docker not starting:**
 ```bash
-# Install EF Core tools globally
-dotnet tool install --global dotnet-ef
+# Windows: Restart Docker Desktop
+# Linux: Restart Docker service
+sudo systemctl restart docker
 ```
 
-**Issue**: Database connection fails
-- Verify SQL Server is running
-- Check connection string format
-- Ensure Windows Authentication is enabled (if using Trusted_Connection)
-
-**Issue**: Build errors related to packages
+**Port conflicts:**
 ```bash
-# Clean and restore packages
-dotnet clean
-dotnet restore
-dotnet build
+# Check what's using the ports
+netstat -an | findstr ":3000\|:5000\|:1433"
+
+# Modify docker-compose.yml ports if needed
 ```
 
-**Issue**: Port already in use
-- Check if another application is using ports 5000/7001
-- Update ports in `launchSettings.json` if needed
+**Database connection issues:**
+```bash
+# View database startup logs
+docker-compose logs realestate-db
 
-Need more help? Check our [troubleshooting guide](../development/troubleshooting) or open an issue on GitHub.
+# Reset database
+docker-compose down -v
+docker-compose up -d
+```
+
+**Build failures:**
+```bash
+# Clean Docker cache and rebuild
+docker system prune -f
+docker-compose build --no-cache
+docker-compose up -d
+```
+
+### Getting Help
+
+- Check service logs: `docker-compose logs [service-name]`
+- Verify service health: `docker-compose ps`
+- Reset everything: `docker-compose down -v && docker-compose up -d --build`
+
+## ⚡ Performance Notes
+
+- **First run**: Takes 2-5 minutes (downloads images, builds projects)
+- **Subsequent runs**: Takes 30-60 seconds (uses cached images)
+- **Database**: SQL Server in Developer mode (no licensing restrictions)
+- **API**: Production configuration with optimizations enabled
+
+## Next Steps
+
+- [Configuration Guide](./configuration) - Advanced configuration options
+- [API Reference](../api-reference) - Interactive API documentation
+- [Architecture Overview](../architecture/overview) - Technical architecture details

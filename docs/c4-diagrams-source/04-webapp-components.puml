@@ -1,0 +1,82 @@
+@startuml "Web App Components - RealEstate Application"
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+LAYOUT_WITH_LEGEND()
+
+title Component Diagram for RealEstate Web Application
+
+Person(propertyOwner, "Property Owner", "Manages properties")
+Person(propertySeekers, "Property Seekers", "Searches properties")
+Person(admin, "System Administrator", "Administers system")
+
+Container(apiApp, "RealEstate API", ".NET 8 Web API", "Provides real estate functionality via JSON/HTTPS API")
+
+Container_Boundary(webapp, "Web Application - React SPA") {
+    Component(loginPage, "Login/Register Page", "React Component", "User authentication interface")
+    Component(dashboard, "Dashboard", "React Component", "Main dashboard with overview and navigation")
+    Component(propertyList, "Property Listing", "React Component", "Display and search properties")
+    Component(propertyDetail, "Property Details", "React Component", "Detailed property view with images")
+    Component(propertyForm, "Property Management", "React Component", "Create/edit property forms")
+    Component(ownerProfile, "Owner Profile", "React Component", "Manage owner information and settings")
+    Component(imageUpload, "Image Upload", "React Component", "Property image upload and management")
+    Component(searchFilters, "Search & Filters", "React Component", "Advanced property search interface")
+    
+    Component(authService, "Authentication Service", "React Service", "Manages JWT tokens and user state")
+    Component(apiClient, "API Client", "Axios/Fetch", "HTTP client for API communication")
+    Component(stateManager, "State Management", "React Context/Redux", "Application state management")
+    Component(routeGuards, "Route Guards", "React Router", "Protected routes and navigation")
+    Component(validationService, "Client Validation", "JavaScript/Yup", "Form validation and error handling")
+    
+    Component(propertyStore, "Property Store", "State Store", "Property data management")
+    Component(userStore, "User Store", "State Store", "User session and profile data")
+    Component(uiStore, "UI Store", "State Store", "UI state and preferences")
+    Component(cacheService, "Cache Service", "Browser Storage", "Local caching for performance")
+    
+    Component(notificationService, "Notification Service", "React Service", "Toast notifications and alerts")
+    Component(fileService, "File Upload Service", "React Service", "Handle file uploads and validation")
+    Component(mapService, "Map Integration", "Google Maps/Leaflet", "Property location mapping")
+    Component(paymentIntegration, "Payment Integration", "Stripe/PayPal", "Payment processing UI")
+}
+
+Rel(propertyOwner, loginPage, "Authenticates", "HTTPS")
+Rel(propertyOwner, dashboard, "Views overview", "HTTPS")
+Rel(propertyOwner, propertyForm, "Manages properties", "HTTPS")
+Rel(propertyOwner, ownerProfile, "Updates profile", "HTTPS")
+Rel(propertyOwner, imageUpload, "Uploads images", "HTTPS")
+
+Rel(propertySeekers, loginPage, "Authenticates", "HTTPS")
+Rel(propertySeekers, propertyList, "Browses properties", "HTTPS")
+Rel(propertySeekers, propertyDetail, "Views details", "HTTPS")
+Rel(propertySeekers, searchFilters, "Searches properties", "HTTPS")
+
+Rel(admin, dashboard, "Admin dashboard", "HTTPS")
+
+Rel(loginPage, authService, "Uses")
+Rel(dashboard, stateManager, "Uses")
+Rel(propertyList, propertyStore, "Uses")
+Rel(propertyDetail, propertyStore, "Uses")
+Rel(propertyForm, propertyStore, "Uses")
+Rel(ownerProfile, userStore, "Uses")
+Rel(searchFilters, propertyStore, "Uses")
+
+Rel(authService, apiClient, "Login API calls")
+Rel(authService, userStore, "Updates user state")
+Rel(authService, routeGuards, "Provides auth state")
+
+Rel(propertyStore, apiClient, "Property API calls")
+Rel(userStore, apiClient, "User API calls")
+Rel(propertyStore, cacheService, "Cache data")
+
+Rel(propertyForm, validationService, "Validates input")
+Rel(imageUpload, fileService, "Handles uploads")
+Rel(propertyDetail, mapService, "Shows location")
+Rel(propertyDetail, paymentIntegration, "Payment UI")
+
+Rel(apiClient, notificationService, "Error handling")
+Rel(stateManager, notificationService, "Success messages")
+
+Rel(apiClient, apiApp, "Makes API calls", "JSON/HTTPS")
+Rel(fileService, apiApp, "Uploads files", "Multipart/HTTPS")
+Rel(authService, apiApp, "Authentication", "JSON/HTTPS")
+
+@enduml
