@@ -6,6 +6,7 @@ using RealEstate.Infrastructure;
 using RealEstate.Infrastructure.Data;
 using Serilog;
 using Scalar.AspNetCore;
+using Microsoft.OpenApi.Models;
 
 namespace RealEstate.API
 {
@@ -45,7 +46,7 @@ namespace RealEstate.API
             builder.Services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new() { 
-                    Title = "Million Real Estate API", 
+                    Title = "Million Realty API", 
                     Version = "v1.0.0",
                     Description = @"**Million Realty LLC - Real Estate Management API**
 
@@ -92,6 +93,31 @@ A comprehensive Real Estate management API built for luxury real estate operatio
                 
                 // Add more detailed info
                 c.EnableAnnotations();
+
+                c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+                {
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "bearer",
+                    BearerFormat = "JWT",
+                    In = ParameterLocation.Header,
+                    Description = "Introduce JWT token here without the prefix 'Bearer '"
+                });
+
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        new string[] {}
+                    }
+                });
             });
 
             var app = builder.Build();
