@@ -4,6 +4,7 @@ public enum TraceEventType
 {
     CREATED,
     UPDATED,
+    DELETED,
     PRICE_CHANGE,
     LISTED,
     SOLD,

@@ -1,0 +1,24 @@
+{
+  "id": "adrs/fluentvalidation-input-validation",
+  "title": "ADR-005: FluentValidation for Comprehensive Input Validation",
+  "description": "Status",
+  "source": "@site/docs/adrs/fluentvalidation-input-validation.md",
+  "sourceDirName": "adrs",
+  "slug": "/adrs/fluentvalidation-input-validation",
+  "permalink": "/docs/adrs/fluentvalidation-input-validation",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/your-org/realestate/tree/main/docs/docs/adrs/fluentvalidation-input-validation.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "ADR-004: Domain-Driven Design Patterns Implementation",
+    "permalink": "/docs/adrs/domain-driven-design-patterns"
+  },
+  "next": {
+    "title": "ADR-006: Soft Delete Implementation with Global Query Filters",
+    "permalink": "/docs/adrs/soft-delete-implementation"
+  }
+}

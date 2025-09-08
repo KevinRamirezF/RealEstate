@@ -1,0 +1,30 @@
+@startuml "System Context - RealEstate Application"
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+
+LAYOUT_WITH_LEGEND()
+
+title System Context Diagram for RealEstate Application
+
+Person(propertyOwner, "Property Owner", "Real estate owner who lists and manages properties")
+Person(propertySeekers, "Property Seekers", "Users searching for properties to buy or rent")
+Person(admin, "System Administrator", "Manages the platform and user accounts")
+
+System(realEstateSystem, "RealEstate System", "Allows property owners to list properties and seekers to search/view properties")
+
+System_Ext(paymentSystem, "Payment System", "Handles payments and transactions for property purchases/rentals")
+System_Ext(mapsService, "Maps Service", "Provides geolocation and mapping services (Google Maps, etc.)")
+System_Ext(emailSystem, "Email System", "Sends notifications and communications to users")
+System_Ext(imageStorageService, "Image Storage Service", "Stores and serves property images (S3, Azure Blob, etc.)")
+System_Ext(identityProvider, "Identity Provider", "External authentication service (optional)")
+
+Rel(propertyOwner, realEstateSystem, "Lists and manages properties", "HTTPS")
+Rel(propertySeekers, realEstateSystem, "Searches and views properties", "HTTPS")
+Rel(admin, realEstateSystem, "Administers system", "HTTPS")
+
+Rel(realEstateSystem, paymentSystem, "Processes payments", "HTTPS/API")
+Rel(realEstateSystem, mapsService, "Gets location data", "HTTPS/API")
+Rel(realEstateSystem, emailSystem, "Sends notifications", "SMTP/API")
+Rel(realEstateSystem, imageStorageService, "Stores/retrieves images", "HTTPS/API")
+Rel_Back(identityProvider, realEstateSystem, "Authenticates users", "OAuth/SAML")
+
+@enduml

@@ -1,0 +1,24 @@
+{
+  "id": "adrs/cqrs-light-implementation",
+  "title": "ADR-002: CQRS Light Implementation Without MediatR",
+  "description": "Status",
+  "source": "@site/docs/adrs/cqrs-light-implementation.md",
+  "sourceDirName": "adrs",
+  "slug": "/adrs/cqrs-light-implementation",
+  "permalink": "/docs/adrs/cqrs-light-implementation",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/your-org/realestate/tree/main/docs/docs/adrs/cqrs-light-implementation.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "ADR-001: Adoption of Clean Architecture Pattern",
+    "permalink": "/docs/adrs/clean-architecture-adoption"
+  },
+  "next": {
+    "title": "ADR-003: Entity Framework Core with Repository Pattern and Unit of Work",
+    "permalink": "/docs/adrs/ef-core-repository-pattern"
+  }
+}

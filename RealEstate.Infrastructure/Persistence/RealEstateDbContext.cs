@@ -47,6 +47,7 @@ namespace RealEstate.Infrastructure.Persistence
             builder.Entity<Owner>().HasQueryFilter(e => e.DeletedAt == null);
             builder.Entity<Property>().HasQueryFilter(e => e.DeletedAt == null);
             builder.Entity<PropertyImage>().HasQueryFilter(e => e.DeletedAt == null);
+            builder.Entity<ApplicationUser>().HasQueryFilter(e => e.DeletedAt == null);
 
             // Configure concurrency tokens
             builder.Entity<Owner>()

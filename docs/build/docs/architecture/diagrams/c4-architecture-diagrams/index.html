@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en" dir="ltr" class="docs-wrapper plugin-docs plugin-id-default docs-version-current docs-doc-page docs-doc-id-architecture/diagrams/c4-architecture-diagrams" data-has-hydrated="false">
+<head>
+<meta charset="UTF-8">
+<meta name="generator" content="Docusaurus v3.8.1">
+<title data-rh="true">C4 Architecture Diagrams | RealEstate API Documentation</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://your-docusaurus-site.example.com/img/docusaurus-social-card.jpg"><meta data-rh="true" name="twitter:image" content="https://your-docusaurus-site.example.com/img/docusaurus-social-card.jpg"><meta data-rh="true" property="og:url" content="https://your-docusaurus-site.example.com/docs/architecture/diagrams/c4-architecture-diagrams"><meta data-rh="true" property="og:locale" content="en"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="C4 Architecture Diagrams | RealEstate API Documentation"><meta data-rh="true" name="description" content="The C4 model provides a hierarchical approach to software architecture documentation, showing the system from different levels of detail. These diagrams use the C4 model notation to illustrate both the current RealEstate application implementation and planned future enhancements for scalability."><meta data-rh="true" property="og:description" content="The C4 model provides a hierarchical approach to software architecture documentation, showing the system from different levels of detail. These diagrams use the C4 model notation to illustrate both the current RealEstate application implementation and planned future enhancements for scalability."><link data-rh="true" rel="icon" href="/img/favicon.ico"><link data-rh="true" rel="canonical" href="https://your-docusaurus-site.example.com/docs/architecture/diagrams/c4-architecture-diagrams"><link data-rh="true" rel="alternate" href="https://your-docusaurus-site.example.com/docs/architecture/diagrams/c4-architecture-diagrams" hreflang="en"><link data-rh="true" rel="alternate" href="https://your-docusaurus-site.example.com/docs/architecture/diagrams/c4-architecture-diagrams" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"C4 Architecture Diagrams","item":"https://your-docusaurus-site.example.com/docs/architecture/diagrams/c4-architecture-diagrams"}]}</script><link rel="stylesheet" href="/assets/css/styles.9bc7665b.css">
+<script src="/assets/js/runtime~main.32b41863.js" defer="defer"></script>
+<script src="/assets/js/main.bb4d3800.js" defer="defer"></script>
+</head>
+<body class="navigation-with-keyboard">
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;"><defs>
+<symbol id="theme-svg-external-link" viewBox="0 0 24 24"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"/></symbol>
+</defs></svg>
+<script>!function(){var t="light";var e=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return window.localStorage.getItem("theme")}catch(t){}}();document.documentElement.setAttribute("data-theme",e||t),document.documentElement.setAttribute("data-theme-choice",e||t)}(),function(){try{const c=new URLSearchParams(window.location.search).entries();for(var[t,e]of c)if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}()</script><div id="__docusaurus"><link rel="preload" as="image" href="/img/logo.svg"><div role="region" aria-label="Skip to main content"><a class="skipToContent_fXgn" href="#__docusaurus_skipToContent_fallback">Skip to main content</a></div><nav aria-label="Main" class="theme-layout-navbar navbar navbar--fixed-top"><div class="navbar__inner"><div class="theme-layout-navbar-left navbar__items"><button aria-label="Toggle navigation bar" aria-expanded="false" class="navbar__toggle clean-btn" type="button"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg></button><a class="navbar__brand" href="/"><div class="navbar__logo"><img src="/img/logo.svg" alt="RealEstate Logo" class="themedComponent_mlkZ themedComponent--light_NVdE"><img src="/img/logo.svg" alt="RealEstate Logo" class="themedComponent_mlkZ themedComponent--dark_xIcU"></div><b class="navbar__title text--truncate">RealEstate Docs</b></a><a aria-current="page" class="navbar__item navbar__link navbar__link--active" href="/docs/intro">Documentation</a><a class="navbar__item navbar__link" href="/docs/architecture/overview">Architecture</a><a class="navbar__item navbar__link" href="/docs/architecture/diagrams/class-diagram-domain-entities">Diagrams</a><a class="navbar__item navbar__link" href="/docs/adrs">ADRs</a></div><div class="theme-layout-navbar-right navbar__items navbar__items--right"><a href="https://github.com/your-org/realestate" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link">GitHub<svg width="13.5" height="13.5" aria-hidden="true" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a><div class="toggle_vylO colorModeToggle_DEke"><button class="clean-btn toggleButton_gllP toggleButtonDisabled_aARS" type="button" disabled="" title="system mode" aria-label="Switch between dark and light mode (currently system mode)"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP lightToggleIcon_pyhR"><path fill="currentColor" d="M12,9c1.65,0,3,1.35,3,3s-1.35,3-3,3s-3-1.35-3-3S10.35,9,12,9 M12,7c-2.76,0-5,2.24-5,5s2.24,5,5,5s5-2.24,5-5 S14.76,7,12,7L12,7z M2,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S1.45,13,2,13z M20,13l2,0c0.55,0,1-0.45,1-1 s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S19.45,13,20,13z M11,2v2c0,0.55,0.45,1,1,1s1-0.45,1-1V2c0-0.55-0.45-1-1-1S11,1.45,11,2z M11,20v2c0,0.55,0.45,1,1,1s1-0.45,1-1v-2c0-0.55-0.45-1-1-1C11.45,19,11,19.45,11,20z M5.99,4.58c-0.39-0.39-1.03-0.39-1.41,0 c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0s0.39-1.03,0-1.41L5.99,4.58z M18.36,16.95 c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0c0.39-0.39,0.39-1.03,0-1.41 L18.36,16.95z M19.42,5.99c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41 s1.03,0.39,1.41,0L19.42,5.99z M7.05,18.36c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06 c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L7.05,18.36z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP darkToggleIcon_wfgR"><path fill="currentColor" d="M9.37,5.51C9.19,6.15,9.1,6.82,9.1,7.5c0,4.08,3.32,7.4,7.4,7.4c0.68,0,1.35-0.09,1.99-0.27C17.45,17.19,14.93,19,12,19 c-3.86,0-7-3.14-7-7C5,9.07,6.81,6.55,9.37,5.51z M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36 c-0.98,1.37-2.58,2.26-4.4,2.26c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP systemToggleIcon_QzmC"><path fill="currentColor" d="m12 21c4.971 0 9-4.029 9-9s-4.029-9-9-9-9 4.029-9 9 4.029 9 9 9zm4.95-13.95c1.313 1.313 2.05 3.093 2.05 4.95s-0.738 3.637-2.05 4.95c-1.313 1.313-3.093 2.05-4.95 2.05v-14c1.857 0 3.637 0.737 4.95 2.05z"></path></svg></button></div><div class="navbarSearchContainer_Bca1"></div></div></div><div role="presentation" class="navbar-sidebar__backdrop"></div></nav><div id="__docusaurus_skipToContent_fallback" class="theme-layout-main main-wrapper mainWrapper_z2l0"><div class="docsWrapper_hBAB"><button aria-label="Scroll back to top" class="clean-btn theme-back-to-top-button backToTopButton_sjWU" type="button"></button><div class="docRoot_UBD9"><aside class="theme-doc-sidebar-container docSidebarContainer_YfHR"><div class="sidebarViewport_aRkj"><div class="sidebar_njMd"><nav aria-label="Docs sidebar" class="menu thin-scrollbar menu_SIkG"><ul class="theme-doc-sidebar-menu menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/docs/intro">Introduction</a></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/docs/getting-started/installation">Getting Started</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret menu__link--active" role="button" aria-expanded="true" href="/docs/architecture/overview">Architecture</a></div><ul class="menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/architecture/overview">Architecture Overview</a></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret menu__link--active" role="button" aria-expanded="true" tabindex="0" href="/docs/architecture/diagrams/class-diagram-domain-entities">Diagrams</a></div><ul class="menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/architecture/diagrams/class-diagram-domain-entities">Domain Entities - Class Diagram</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/architecture/diagrams/sequence-diagrams">Sequence Diagrams</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/architecture/diagrams/entity-relationship-diagram">Entity-Relationship Diagram</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link menu__link--active" aria-current="page" tabindex="0" href="/docs/architecture/diagrams/c4-architecture-diagrams">C4 Architecture Diagrams</a></li></ul></li></ul></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/docs/adrs/">Architecture Decision Records</a></div></li></ul></nav></div></div></aside><main class="docMainContainer_TBSr"><div class="container padding-top--md padding-bottom--lg"><div class="row"><div class="col docItemCol_VOVn"><div class="docItemContainer_Djhp"><article><nav class="theme-doc-breadcrumbs breadcrumbsContainer_Z_bl" aria-label="Breadcrumbs"><ul class="breadcrumbs"><li class="breadcrumbs__item"><a aria-label="Home page" class="breadcrumbs__link" href="/"><svg viewBox="0 0 24 24" class="breadcrumbHomeIcon_YNFT"><path d="M10 19v-5h4v5c0 .55.45 1 1 1h3c.55 0 1-.45 1-1v-7h1.7c.46 0 .68-.57.33-.87L12.67 3.6c-.38-.34-.96-.34-1.34 0l-8.36 7.53c-.34.3-.13.87.33.87H5v7c0 .55.45 1 1 1h3c.55 0 1-.45 1-1z" fill="currentColor"></path></svg></a></li><li class="breadcrumbs__item"><span class="breadcrumbs__link">Architecture</span></li><li class="breadcrumbs__item"><span class="breadcrumbs__link">Diagrams</span></li><li class="breadcrumbs__item breadcrumbs__item--active"><span class="breadcrumbs__link">C4 Architecture Diagrams</span></li></ul></nav><div class="tocCollapsible_ETCw theme-doc-toc-mobile tocMobile_ITEo"><button type="button" class="clean-btn tocCollapsibleButton_TO0P">On this page</button></div><div class="theme-doc-markdown markdown"><header><h1>C4 Architecture Diagrams</h1></header>
+<p>The C4 model provides a hierarchical approach to software architecture documentation, showing the system from different levels of detail. These diagrams use the C4 model notation to illustrate both the current RealEstate application implementation and planned future enhancements for scalability.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="implementation-status">Implementation Status<a href="#implementation-status" class="hash-link" aria-label="Direct link to Implementation Status" title="Direct link to Implementation Status">​</a></h2>
+<p><strong>Currently Implemented:</strong></p>
+<ul>
+<li>.NET 8 Web API with Clean Architecture</li>
+<li>Domain entities with business logic (Property, Owner, PropertyImage, PropertyTrace)</li>
+<li>CQRS light pattern with command/query handlers</li>
+<li>Entity Framework Core with SQL Server</li>
+<li>JWT authentication with ASP.NET Core Identity</li>
+<li>FluentValidation for input validation</li>
+<li>Unit testing infrastructure with NUnit</li>
+</ul>
+<p><strong>Future Scalability Planning:</strong></p>
+<ul>
+<li>Frontend applications (React SPA, React Native mobile)</li>
+<li>Load balancing and auto-scaling infrastructure</li>
+<li>External service integrations (payment, email, maps)</li>
+<li>Advanced caching and performance optimizations</li>
+<li>Production deployment with monitoring and CI/CD</li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="about-c4-diagrams">About C4 Diagrams<a href="#about-c4-diagrams" class="hash-link" aria-label="Direct link to About C4 Diagrams" title="Direct link to About C4 Diagrams">​</a></h2>
+<p>The C4 model consists of four levels:</p>
+<ul>
+<li><strong>Level 1</strong>: System Context - Shows how the system fits into the world</li>
+<li><strong>Level 2</strong>: Container - Shows the high-level technology choices</li>
+<li><strong>Level 3</strong>: Component - Shows how containers are made up of components</li>
+<li><strong>Level 4</strong>: Code - Shows how components are implemented (optional)</li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="system-context-diagram-level-1">System Context Diagram (Level 1)<a href="#system-context-diagram-level-1" class="hash-link" aria-label="Direct link to System Context Diagram (Level 1)" title="Direct link to System Context Diagram (Level 1)">​</a></h2>
+<p>Shows the RealEstate system and how it fits into the overall environment with external systems and users.</p>
+<p><img decoding="async" loading="lazy" alt="System Context Diagram" src="/assets/images/01-system-context-ed7db464c248db64f05fabd47f1109db.png" width="937" height="743" class="img_ev3q"></p>
+<p><strong>Key Elements:</strong></p>
+<ul>
+<li><strong>RealEstate System</strong>: The main software system being documented</li>
+<li><strong>Property Owners</strong>: Users who manage and list properties</li>
+<li><strong>Property Seekers</strong>: Users who search and view properties</li>
+<li><strong>Administrators</strong>: System administrators who manage the platform</li>
+<li><strong>External Systems</strong>: Third-party integrations (payment, mapping, etc.)</li>
+</ul>
+<p><strong>Current Implementation:</strong></p>
+<ul>
+<li><strong>RealEstate System</strong>: The .NET 8 Web API currently implemented with Clean Architecture</li>
+<li><strong>Property Owners</strong>: Authentication system supports user management (owners are managed as domain entities)</li>
+<li><strong>Administrators</strong>: JWT-based authentication allows for admin roles</li>
+</ul>
+<p><strong>Future Scalability Considerations:</strong></p>
+<ul>
+<li><strong>Property Seekers</strong>: Public-facing web interface for property browsing</li>
+<li><strong>External Systems</strong>: Payment processing, mapping services, email notifications, and cloud storage integrations</li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="container-diagram-level-2">Container Diagram (Level 2)<a href="#container-diagram-level-2" class="hash-link" aria-label="Direct link to Container Diagram (Level 2)" title="Direct link to Container Diagram (Level 2)">​</a></h2>
+<p>Shows the high-level technology choices and how responsibilities are distributed across containers.</p>
+<p><img decoding="async" loading="lazy" alt="Container Diagram" src="/assets/images/02-container-4a0700e110ecbf26d57775071ee8c59a.png" width="1609" height="1376" class="img_ev3q"></p>
+<p><strong>Containers:</strong></p>
+<ul>
+<li><strong>Web Application (SPA)</strong>: Single Page Application for property management</li>
+<li><strong>API Gateway</strong>: Entry point for all API requests</li>
+<li><strong>Real Estate API</strong>: .NET 8 Web API with business logic</li>
+<li><strong>Database</strong>: SQL Server database for persistent storage</li>
+<li><strong>File Storage</strong>: Cloud storage for property images</li>
+<li><strong>Identity Provider</strong>: Authentication and authorization service</li>
+</ul>
+<p><strong>Currently Implemented:</strong></p>
+<ul>
+<li><strong>Real Estate API</strong>: .NET 8 Web API with Clean Architecture, CQRS patterns, and JWT authentication</li>
+<li><strong>Database</strong>: SQL Server with Entity Framework Core, soft delete patterns, and audit trails</li>
+<li><strong>Identity Provider</strong>: ASP.NET Core Identity integrated within the API</li>
+</ul>
+<p><strong>Future Scalability Considerations:</strong></p>
+<ul>
+<li><strong>Web Application (SPA)</strong>: React-based single page application for property management</li>
+<li><strong>Mobile Application</strong>: React Native app for mobile property browsing</li>
+<li><strong>API Gateway</strong>: Load balancing and request routing (Nginx/Kong)</li>
+<li><strong>Cache Layer</strong>: Redis for performance optimization</li>
+<li><strong>File Storage</strong>: Cloud storage integration for property images and documents</li>
+<li><strong>Background Jobs</strong>: Async task processing for notifications and reports</li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="component-diagram-level-3---api-container">Component Diagram (Level 3) - API Container<a href="#component-diagram-level-3---api-container" class="hash-link" aria-label="Direct link to Component Diagram (Level 3) - API Container" title="Direct link to Component Diagram (Level 3) - API Container">​</a></h2>
+<p>Shows the major components within the Real Estate API container and their interactions.</p>
+<p><img decoding="async" loading="lazy" alt="API Components Diagram" src="/assets/images/03-api-components-515e5acc98f5b81025a632b2e143b08e.png" width="2601" height="1326" class="img_ev3q"></p>
+<p><strong>API Components:</strong></p>
+<ul>
+<li><strong>Controllers</strong>: HTTP request handlers (Properties, Owners, Auth)</li>
+<li><strong>Command Handlers</strong>: CQRS command processing</li>
+<li><strong>Query Handlers</strong>: CQRS query processing</li>
+<li><strong>Domain Services</strong>: Core business logic</li>
+<li><strong>Repositories</strong>: Data access layer</li>
+<li><strong>Authentication Module</strong>: JWT token handling</li>
+<li><strong>Validation Services</strong>: FluentValidation integration</li>
+</ul>
+<p><strong>Currently Implemented Components:</strong></p>
+<ul>
+<li><strong>Controllers</strong>: ASP.NET Core controllers for Properties, Owners, and Authentication</li>
+<li><strong>Command Handlers</strong>: CQRS light pattern for write operations (Create, Update, Delete)</li>
+<li><strong>Query Handlers</strong>: CQRS light pattern for read operations (Search, Get)</li>
+<li><strong>Domain Services</strong>: Core business logic in Property and Owner aggregates</li>
+<li><strong>Repositories</strong>: Repository pattern with Entity Framework Core</li>
+<li><strong>Authentication Module</strong>: JWT token generation and validation</li>
+<li><strong>Validation Services</strong>: FluentValidation with automatic registration</li>
+<li><strong>Unit of Work</strong>: Transaction management for data consistency</li>
+<li><strong>Domain Entities</strong>: Rich domain models (Property, Owner, PropertyImage, PropertyTrace)</li>
+</ul>
+<p><strong>Future Enhancement Considerations:</strong></p>
+<ul>
+<li><strong>Background Services</strong>: Async task processing for notifications and reports</li>
+<li><strong>File Service</strong>: Advanced file upload and management capabilities</li>
+<li><strong>Advanced Caching</strong>: Redis integration for improved performance</li>
+<li><strong>External Service Integrations</strong>: Payment processing, email notifications, and mapping services</li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="component-diagram-level-3---web-application">Component Diagram (Level 3) - Web Application<a href="#component-diagram-level-3---web-application" class="hash-link" aria-label="Direct link to Component Diagram (Level 3) - Web Application" title="Direct link to Component Diagram (Level 3) - Web Application">​</a></h2>
+<p>Shows the major components within the Web Application container.</p>
+<p><img decoding="async" loading="lazy" alt="Web App Components Diagram" src="/assets/images/04-webapp-components-7c328b44fb21b671d0b49796c1e534df.png" width="2358" height="1392" class="img_ev3q"></p>
+<p><strong>Web Application Components:</strong></p>
+<ul>
+<li><strong>Property Management</strong>: Property listing and editing features</li>
+<li><strong>Search &amp; Browse</strong>: Property search and filtering</li>
+<li><strong>User Management</strong>: Owner and user profile management</li>
+<li><strong>Authentication</strong>: Login and authorization flows</li>
+<li><strong>API Client</strong>: HTTP client for backend communication</li>
+<li><strong>State Management</strong>: Application state handling</li>
+</ul>
+<p><strong>Note:</strong> <em>This diagram represents the planned architecture for a future frontend application. Currently, the system only includes the backend API.</em></p>
+<p><strong>Planned Web Application Components:</strong></p>
+<ul>
+<li><strong>Property Management</strong>: React components for listing and editing properties</li>
+<li><strong>Search &amp; Browse</strong>: Property search and filtering interface</li>
+<li><strong>User Management</strong>: Owner and user profile management pages</li>
+<li><strong>Authentication</strong>: Login and authorization flows</li>
+<li><strong>API Client</strong>: HTTP client (Axios/Fetch) for backend communication</li>
+<li><strong>State Management</strong>: React Context or Redux for application state</li>
+<li><strong>Route Guards</strong>: Protected routes and navigation</li>
+<li><strong>Client Validation</strong>: Form validation and error handling</li>
+<li><strong>File Upload Service</strong>: Property image upload capabilities</li>
+<li><strong>Map Integration</strong>: Property location visualization</li>
+<li><strong>Payment Integration</strong>: Payment processing UI components</li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="deployment-diagram">Deployment Diagram<a href="#deployment-diagram" class="hash-link" aria-label="Direct link to Deployment Diagram" title="Direct link to Deployment Diagram">​</a></h2>
+<p>Shows how the containers are deployed to infrastructure.</p>
+<p><img decoding="async" loading="lazy" alt="Deployment Diagram" src="/assets/images/05-deployment-80e9004adfeebaf8fecc69e879d21e06.png" width="2850" height="1466" class="img_ev3q"></p>
+<p><strong>Deployment Environment:</strong></p>
+<ul>
+<li><strong>Production Environment</strong>: Cloud-hosted production deployment</li>
+<li><strong>Development Environment</strong>: Local development setup</li>
+<li><strong>CI/CD Pipeline</strong>: Automated build and deployment</li>
+<li><strong>Monitoring &amp; Logging</strong>: Application performance monitoring</li>
+</ul>
+<p><strong>Note:</strong> <em>This diagram represents the target production deployment architecture for future scaling. Currently, the system runs in development mode.</em></p>
+<p><strong>Current Development Environment:</strong></p>
+<ul>
+<li><strong>Local Development</strong>: .NET 8 API running locally with SQL Server LocalDB</li>
+<li><strong>Basic Testing</strong>: Unit tests with NUnit and integration testing capabilities</li>
+</ul>
+<p><strong>Future Production Architecture:</strong></p>
+<ul>
+<li><strong>Load Balancing</strong>: Application Load Balancer for distributing traffic</li>
+<li><strong>Auto Scaling</strong>: Multiple API instances for handling increased load</li>
+<li><strong>Database Replication</strong>: Primary database with read replicas for performance</li>
+<li><strong>Cache Cluster</strong>: Redis cluster for high-performance caching</li>
+<li><strong>Cloud Storage</strong>: Object storage for property images and documents</li>
+<li><strong>CI/CD Pipeline</strong>: Automated build, test, and deployment workflows</li>
+<li><strong>Monitoring &amp; Logging</strong>: Application insights, centralized logging, and observability</li>
+<li><strong>Content Delivery Network</strong>: Global content distribution for static assets</li>
+</ul></div><footer class="theme-doc-footer docusaurus-mt-lg"><div class="row margin-top--sm theme-doc-footer-edit-meta-row"><div class="col"><a href="https://github.com/your-org/realestate/tree/main/docs/docs/architecture/diagrams/c4-architecture-diagrams.md" target="_blank" rel="noopener noreferrer" class="theme-edit-this-page"><svg fill="currentColor" height="20" width="20" viewBox="0 0 40 40" class="iconEdit_Z9Sw" aria-hidden="true"><g><path d="m34.5 11.7l-3 3.1-6.3-6.3 3.1-3q0.5-0.5 1.2-0.5t1.1 0.5l3.9 3.9q0.5 0.4 0.5 1.1t-0.5 1.2z m-29.5 17.1l18.4-18.5 6.3 6.3-18.4 18.4h-6.3v-6.2z"></path></g></svg>Edit this page</a></div><div class="col lastUpdated_JAkA"></div></div></footer></article><nav class="docusaurus-mt-lg pagination-nav" aria-label="Docs pages"><a class="pagination-nav__link pagination-nav__link--prev" href="/docs/architecture/diagrams/entity-relationship-diagram"><div class="pagination-nav__sublabel">Previous</div><div class="pagination-nav__label">Entity-Relationship Diagram</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/docs/adrs/"><div class="pagination-nav__sublabel">Next</div><div class="pagination-nav__label">Architecture Decision Records (ADRs)</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#implementation-status" class="table-of-contents__link toc-highlight">Implementation Status</a></li><li><a href="#about-c4-diagrams" class="table-of-contents__link toc-highlight">About C4 Diagrams</a></li><li><a href="#system-context-diagram-level-1" class="table-of-contents__link toc-highlight">System Context Diagram (Level 1)</a></li><li><a href="#container-diagram-level-2" class="table-of-contents__link toc-highlight">Container Diagram (Level 2)</a></li><li><a href="#component-diagram-level-3---api-container" class="table-of-contents__link toc-highlight">Component Diagram (Level 3) - API Container</a></li><li><a href="#component-diagram-level-3---web-application" class="table-of-contents__link toc-highlight">Component Diagram (Level 3) - Web Application</a></li><li><a href="#deployment-diagram" class="table-of-contents__link toc-highlight">Deployment Diagram</a></li></ul></div></div></div></div></main></div></div></div><footer class="theme-layout-footer footer footer--dark"><div class="container container-fluid"><div class="row footer__links"><div class="theme-layout-footer-column col footer__col"><div class="footer__title">Docs</div><ul class="footer__items clean-list"><li class="footer__item"><a class="footer__link-item" href="/docs/intro">Getting Started</a></li><li class="footer__item"><a class="footer__link-item" href="/docs/architecture/overview">Architecture</a></li><li class="footer__item"><a class="footer__link-item" href="/docs/architecture/diagrams/class-diagram-domain-entities">Diagrams</a></li></ul></div><div class="theme-layout-footer-column col footer__col"><div class="footer__title">Development</div><ul class="footer__items clean-list"><li class="footer__item"><a class="footer__link-item" href="/docs/adrs">ADRs</a></li></ul></div><div class="theme-layout-footer-column col footer__col"><div class="footer__title">More</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://github.com/your-org/realestate" target="_blank" rel="noopener noreferrer" class="footer__link-item">GitHub<svg width="13.5" height="13.5" aria-hidden="true" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li></ul></div></div><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2025 RealEstate Team. Built with Docusaurus.</div></div></div></footer></div>
+</body>
+</html>

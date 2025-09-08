@@ -1,0 +1,24 @@
+{
+  "id": "adrs/clean-architecture-adoption",
+  "title": "ADR-001: Adoption of Clean Architecture Pattern",
+  "description": "Status",
+  "source": "@site/docs/adrs/clean-architecture-adoption.md",
+  "sourceDirName": "adrs",
+  "slug": "/adrs/clean-architecture-adoption",
+  "permalink": "/docs/adrs/clean-architecture-adoption",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/your-org/realestate/tree/main/docs/docs/adrs/clean-architecture-adoption.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Architecture Decision Records (ADRs)",
+    "permalink": "/docs/adrs/"
+  },
+  "next": {
+    "title": "ADR-002: CQRS Light Implementation Without MediatR",
+    "permalink": "/docs/adrs/cqrs-light-implementation"
+  }
+}

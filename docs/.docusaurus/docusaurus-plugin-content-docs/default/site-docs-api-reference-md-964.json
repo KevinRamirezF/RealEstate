@@ -1,0 +1,24 @@
+{
+  "id": "api-reference",
+  "title": "API Reference",
+  "description": "Welcome to the RealEstate API Reference! Here you can explore and test all available endpoints interactively.",
+  "source": "@site/docs/api-reference.md",
+  "sourceDirName": ".",
+  "slug": "/api-reference",
+  "permalink": "/docs/api-reference",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/your-org/realestate/tree/main/docs/docs/api-reference.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "C4 Architecture Diagrams",
+    "permalink": "/docs/architecture/diagrams/c4-architecture-diagrams"
+  },
+  "next": {
+    "title": "Architecture Decision Records (ADRs)",
+    "permalink": "/docs/adrs/"
+  }
+}

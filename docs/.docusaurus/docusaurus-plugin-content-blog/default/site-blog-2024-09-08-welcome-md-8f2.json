@@ -1,0 +1,49 @@
+{
+  "permalink": "/blog/welcome-to-realestate-api-docs",
+  "source": "@site/blog/2024-09-08-welcome.md",
+  "title": "Welcome to RealEstate API Documentation",
+  "description": "We're excited to launch the comprehensive documentation for our RealEstate API! This documentation site provides everything you need to understand, implement, and contribute to our real estate management system.",
+  "date": "2024-09-08T00:00:00.000Z",
+  "tags": [
+    {
+      "inline": true,
+      "label": "documentation",
+      "permalink": "/blog/tags/documentation"
+    },
+    {
+      "inline": true,
+      "label": "architecture",
+      "permalink": "/blog/tags/architecture"
+    },
+    {
+      "inline": true,
+      "label": "api",
+      "permalink": "/blog/tags/api"
+    }
+  ],
+  "readingTime": 1.68,
+  "hasTruncateMarker": true,
+  "authors": [
+    {
+      "name": "RealEstate Team",
+      "title": "Development Team",
+      "url": "https://github.com/your-org/realestate",
+      "imageURL": "https://github.com/identicons/realestate.png",
+      "key": "realestate-team",
+      "page": null
+    }
+  ],
+  "frontMatter": {
+    "slug": "welcome-to-realestate-api-docs",
+    "title": "Welcome to RealEstate API Documentation",
+    "authors": [
+      "realestate-team"
+    ],
+    "tags": [
+      "documentation",
+      "architecture",
+      "api"
+    ]
+  },
+  "unlisted": false
+}

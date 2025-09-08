@@ -1,0 +1,24 @@
+{
+  "id": "architecture/diagrams/class-diagram-domain-entities",
+  "title": "Domain Entities - Class Diagram",
+  "description": "This class diagram shows the core domain entities and their relationships in the RealEstate application. The entities follow Domain-Driven Design principles with private setters, factory methods, and rich domain behavior.",
+  "source": "@site/docs/architecture/diagrams/class-diagram-domain-entities.md",
+  "sourceDirName": "architecture/diagrams",
+  "slug": "/architecture/diagrams/class-diagram-domain-entities",
+  "permalink": "/docs/architecture/diagrams/class-diagram-domain-entities",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/your-org/realestate/tree/main/docs/docs/architecture/diagrams/class-diagram-domain-entities.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Architecture Overview",
+    "permalink": "/docs/architecture/overview"
+  },
+  "next": {
+    "title": "Sequence Diagrams",
+    "permalink": "/docs/architecture/diagrams/sequence-diagrams"
+  }
+}

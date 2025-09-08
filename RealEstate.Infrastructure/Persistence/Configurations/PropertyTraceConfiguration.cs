@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using RealEstate.Domain.Entities;
+using RealEstate.Domain.Enums;
 
 namespace RealEstate.Infrastructure.Persistence.Configurations
 {
@@ -16,6 +17,7 @@ namespace RealEstate.Infrastructure.Persistence.Configurations
                 .HasColumnName("property_id");
 
             builder.Property(pt => pt.EventType)
+                .HasConversion<string>()
                 .HasColumnName("event_type");
 
             builder.Property(pt => pt.EventDate)
@@ -26,17 +28,17 @@ namespace RealEstate.Infrastructure.Persistence.Configurations
                 .HasMaxLength(180)
                 .HasColumnName("actor_name");
 
-            builder.Property(pt => pt.OldValue)
+            builder.Property(pt => pt.OldTotalPrice)
                 .HasColumnType("decimal(14,2)")
-                .HasColumnName("old_value");
+                .HasColumnName("old_total_price");
 
-            builder.Property(pt => pt.NewValue)
+            builder.Property(pt => pt.OldPriceBase)
                 .HasColumnType("decimal(14,2)")
-                .HasColumnName("new_value");
+                .HasColumnName("old_price_base");
 
-            builder.Property(pt => pt.TaxAmount)
+            builder.Property(pt => pt.OldTaxAmount)
                 .HasColumnType("decimal(14,2)")
-                .HasColumnName("tax_amount");
+                .HasColumnName("old_tax_amount");
 
             builder.Property(pt => pt.Notes)
                 .HasColumnType("text")
@@ -52,6 +54,12 @@ namespace RealEstate.Infrastructure.Persistence.Configurations
 
             builder.HasIndex(pt => pt.EventType)
                 .HasDatabaseName("idx_property_traces_type");
+
+            builder.HasIndex(pt => new { pt.PropertyId, pt.EventType, pt.EventDate })
+                .HasDatabaseName("idx_property_traces_complete");
+
+            builder.HasIndex(pt => new { pt.EventDate, pt.EventType })
+                .HasDatabaseName("idx_property_traces_timeline");
 
             // Relationships
             builder.HasOne<Property>()

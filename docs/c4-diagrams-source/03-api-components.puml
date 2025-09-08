@@ -1,0 +1,96 @@
+@startuml "API Components - RealEstate Application"
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+LAYOUT_WITH_LEGEND()
+
+title Component Diagram for RealEstate API
+
+Container(webApp, "Web Application", "React SPA", "Provides property management interface")
+Container(mobileApp, "Mobile Application", "React Native", "Mobile property browsing")
+ContainerDb(database, "Database", "SQL Server", "Stores application data")
+Container(fileStorage, "File Storage", "Cloud Storage", "Stores property images")
+Container(cacheLayer, "Cache Layer", "Redis", "Performance caching")
+
+System_Ext(paymentSystem, "Payment System", "Payment processing")
+System_Ext(mapsService, "Maps Service", "Geolocation services")
+System_Ext(emailSystem, "Email System", "Notifications")
+
+Container_Boundary(api, "RealEstate API") {
+    Component(authController, "Authentication Controller", "ASP.NET Core Controller", "Handles user authentication and JWT token generation")
+    Component(propertiesController, "Properties Controller", "ASP.NET Core Controller", "Handles property CRUD operations")
+    Component(ownersController, "Owners Controller", "ASP.NET Core Controller", "Manages property owner information")
+    Component(imagesController, "Images Controller", "ASP.NET Core Controller", "Handles property image upload/management")
+    
+    Component(authMiddleware, "Authentication Middleware", "ASP.NET Core Middleware", "JWT token validation and user context")
+    Component(validationMiddleware, "Validation Middleware", "ASP.NET Core Middleware", "Request validation and error handling")
+    Component(cacheMiddleware, "Output Cache Middleware", "ASP.NET Core Middleware", "HTTP response caching with ETag")
+    
+    Component(commandHandlers, "Command Handlers", "Application Services", "CQRS command processing (Create, Update, Delete)")
+    Component(queryHandlers, "Query Handlers", "Application Services", "CQRS query processing (Search, Get)")
+    Component(validators, "FluentValidation", "Validation Services", "Business rule validation")
+    Component(mappers, "Data Mappers", "Mapping Services", "DTO to Entity mapping")
+    
+    Component(domainServices, "Domain Services", "Domain Layer", "Core business logic and rules")
+    Component(propertyAggregate, "Property Aggregate", "Domain Entity", "Property entity with business methods")
+    Component(ownerAggregate, "Owner Aggregate", "Domain Entity", "Owner entity with business methods")
+    
+    Component(unitOfWork, "Unit of Work", "Infrastructure", "Transaction management")
+    Component(propertyRepository, "Property Repository", "Infrastructure", "Property data access")
+    Component(ownerRepository, "Owner Repository", "Infrastructure", "Owner data access")
+    Component(identityRepository, "Identity Repository", "Infrastructure", "User data access")
+    
+    Component(backgroundServices, "Background Services", "Infrastructure", "Async task processing")
+    Component(notificationService, "Notification Service", "Infrastructure", "Email and notification handling")
+    Component(fileService, "File Service", "Infrastructure", "File upload and storage management")
+}
+
+Rel(webApp, authController, "Login/Register", "JSON/HTTPS")
+Rel(webApp, propertiesController, "Property operations", "JSON/HTTPS")
+Rel(webApp, ownersController, "Owner operations", "JSON/HTTPS")
+Rel(webApp, imagesController, "Image operations", "JSON/HTTPS")
+Rel(mobileApp, propertiesController, "Browse properties", "JSON/HTTPS")
+
+Rel(authController, authMiddleware, "Uses")
+Rel(propertiesController, authMiddleware, "Uses")
+Rel(ownersController, authMiddleware, "Uses")
+Rel(imagesController, authMiddleware, "Uses")
+
+Rel(propertiesController, validationMiddleware, "Uses")
+Rel(propertiesController, cacheMiddleware, "Uses")
+
+Rel(authController, commandHandlers, "Calls")
+Rel(propertiesController, commandHandlers, "Calls")
+Rel(propertiesController, queryHandlers, "Calls")
+Rel(ownersController, commandHandlers, "Calls")
+Rel(ownersController, queryHandlers, "Calls")
+
+Rel(commandHandlers, validators, "Uses")
+Rel(commandHandlers, mappers, "Uses")
+Rel(queryHandlers, mappers, "Uses")
+
+Rel(commandHandlers, domainServices, "Uses")
+Rel(domainServices, propertyAggregate, "Uses")
+Rel(domainServices, ownerAggregate, "Uses")
+
+Rel(commandHandlers, unitOfWork, "Uses")
+Rel(queryHandlers, propertyRepository, "Uses")
+Rel(queryHandlers, ownerRepository, "Uses")
+Rel(commandHandlers, propertyRepository, "Uses")
+Rel(commandHandlers, ownerRepository, "Uses")
+Rel(authController, identityRepository, "Uses")
+
+Rel(unitOfWork, database, "Manages transactions", "SQL")
+Rel(propertyRepository, database, "Reads/Writes", "SQL")
+Rel(ownerRepository, database, "Reads/Writes", "SQL")
+Rel(identityRepository, database, "Reads/Writes", "SQL")
+
+Rel(queryHandlers, cacheLayer, "Caches data", "TCP")
+Rel(fileService, fileStorage, "Stores files", "HTTPS/API")
+Rel(imagesController, fileService, "Uses")
+
+Rel(backgroundServices, notificationService, "Queues notifications")
+Rel(notificationService, emailSystem, "Sends emails", "SMTP")
+Rel(domainServices, paymentSystem, "Process payments", "HTTPS/API")
+Rel(propertyAggregate, mapsService, "Get coordinates", "HTTPS/API")
+
+@enduml

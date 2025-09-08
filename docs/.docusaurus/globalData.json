@@ -1,0 +1,108 @@
+{
+  "docusaurus-plugin-content-docs": {
+    "default": {
+      "path": "/docs",
+      "versions": [
+        {
+          "name": "current",
+          "label": "Next",
+          "isLast": true,
+          "path": "/docs",
+          "mainDocId": "intro",
+          "docs": [
+            {
+              "id": "adrs/clean-architecture-adoption",
+              "path": "/docs/adrs/clean-architecture-adoption",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "adrs/cqrs-light-implementation",
+              "path": "/docs/adrs/cqrs-light-implementation",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "adrs/domain-driven-design-patterns",
+              "path": "/docs/adrs/domain-driven-design-patterns",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "adrs/ef-core-repository-pattern",
+              "path": "/docs/adrs/ef-core-repository-pattern",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "adrs/fluentvalidation-input-validation",
+              "path": "/docs/adrs/fluentvalidation-input-validation",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "adrs/index",
+              "path": "/docs/adrs/",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "adrs/soft-delete-implementation",
+              "path": "/docs/adrs/soft-delete-implementation",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "api-reference",
+              "path": "/docs/api-reference",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "architecture/diagrams/c4-architecture-diagrams",
+              "path": "/docs/architecture/diagrams/c4-architecture-diagrams",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "architecture/diagrams/class-diagram-domain-entities",
+              "path": "/docs/architecture/diagrams/class-diagram-domain-entities",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "architecture/diagrams/entity-relationship-diagram",
+              "path": "/docs/architecture/diagrams/entity-relationship-diagram",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "architecture/diagrams/sequence-diagrams",
+              "path": "/docs/architecture/diagrams/sequence-diagrams",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "architecture/overview",
+              "path": "/docs/architecture/overview",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "getting-started/configuration",
+              "path": "/docs/getting-started/configuration",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "getting-started/installation",
+              "path": "/docs/getting-started/installation",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "intro",
+              "path": "/docs/intro",
+              "sidebar": "tutorialSidebar"
+            }
+          ],
+          "draftIds": [],
+          "sidebars": {
+            "tutorialSidebar": {
+              "link": {
+                "path": "/docs/intro",
+                "label": "intro"
+              }
+            }
+          }
+        }
+      ],
+      "breadcrumbs": true
+    }
+  }
+}
