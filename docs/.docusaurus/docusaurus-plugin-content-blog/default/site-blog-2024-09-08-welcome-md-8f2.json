@@ -1,6 +1,5 @@
 {
   "permalink": "/blog/welcome-to-realestate-api-docs",
-  "editUrl": "https://github.com/your-org/realestate/tree/main/docs/blog/2024-09-08-welcome.md",
   "source": "@site/blog/2024-09-08-welcome.md",
   "title": "Welcome to RealEstate API Documentation",
   "description": "We're excited to launch the comprehensive documentation for our RealEstate API! This documentation site provides everything you need to understand, implement, and contribute to our real estate management system.",

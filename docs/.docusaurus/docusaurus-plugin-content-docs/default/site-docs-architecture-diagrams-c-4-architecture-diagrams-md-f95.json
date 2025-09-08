@@ -1,0 +1,24 @@
+{
+  "id": "architecture/diagrams/c4-architecture-diagrams",
+  "title": "C4 Architecture Diagrams",
+  "description": "The C4 model provides a hierarchical approach to software architecture documentation, showing the system from different levels of detail. These diagrams use the C4 model notation to illustrate both the current RealEstate application implementation and planned future enhancements for scalability.",
+  "source": "@site/docs/architecture/diagrams/c4-architecture-diagrams.md",
+  "sourceDirName": "architecture/diagrams",
+  "slug": "/architecture/diagrams/c4-architecture-diagrams",
+  "permalink": "/docs/architecture/diagrams/c4-architecture-diagrams",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/your-org/realestate/tree/main/docs/docs/architecture/diagrams/c4-architecture-diagrams.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Entity-Relationship Diagram",
+    "permalink": "/docs/architecture/diagrams/entity-relationship-diagram"
+  },
+  "next": {
+    "title": "API Reference",
+    "permalink": "/docs/api-reference"
+  }
+}

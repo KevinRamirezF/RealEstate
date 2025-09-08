@@ -53,62 +53,100 @@ export default [
     exact: true
   },
   {
-    path: '/blog',
-    component: ComponentCreator('/blog', 'b07'),
-    exact: true
-  },
-  {
-    path: '/blog/archive',
-    component: ComponentCreator('/blog/archive', '182'),
-    exact: true
-  },
-  {
-    path: '/blog/authors',
-    component: ComponentCreator('/blog/authors', '0b7'),
-    exact: true
-  },
-  {
-    path: '/blog/tags',
-    component: ComponentCreator('/blog/tags', '287'),
-    exact: true
-  },
-  {
-    path: '/blog/tags/api',
-    component: ComponentCreator('/blog/tags/api', '1e9'),
-    exact: true
-  },
-  {
-    path: '/blog/tags/architecture',
-    component: ComponentCreator('/blog/tags/architecture', '76e'),
-    exact: true
-  },
-  {
-    path: '/blog/tags/documentation',
-    component: ComponentCreator('/blog/tags/documentation', 'a71'),
-    exact: true
-  },
-  {
-    path: '/blog/welcome-to-realestate-api-docs',
-    component: ComponentCreator('/blog/welcome-to-realestate-api-docs', '5bc'),
-    exact: true
-  },
-  {
     path: '/database/',
     component: ComponentCreator('/database/', '99c'),
     exact: true
   },
   {
     path: '/docs',
-    component: ComponentCreator('/docs', '01d'),
+    component: ComponentCreator('/docs', '1c1'),
     routes: [
       {
         path: '/docs',
-        component: ComponentCreator('/docs', 'db5'),
+        component: ComponentCreator('/docs', '5cf'),
         routes: [
           {
             path: '/docs',
-            component: ComponentCreator('/docs', 'dfb'),
+            component: ComponentCreator('/docs', '518'),
             routes: [
+              {
+                path: '/docs/adrs/',
+                component: ComponentCreator('/docs/adrs/', 'b8d'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/adrs/clean-architecture-adoption',
+                component: ComponentCreator('/docs/adrs/clean-architecture-adoption', '873'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/adrs/cqrs-light-implementation',
+                component: ComponentCreator('/docs/adrs/cqrs-light-implementation', '964'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/adrs/domain-driven-design-patterns',
+                component: ComponentCreator('/docs/adrs/domain-driven-design-patterns', '1de'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/adrs/ef-core-repository-pattern',
+                component: ComponentCreator('/docs/adrs/ef-core-repository-pattern', 'f72'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/adrs/fluentvalidation-input-validation',
+                component: ComponentCreator('/docs/adrs/fluentvalidation-input-validation', 'eb7'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/adrs/soft-delete-implementation',
+                component: ComponentCreator('/docs/adrs/soft-delete-implementation', 'f45'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/api-reference',
+                component: ComponentCreator('/docs/api-reference', '756'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/architecture/diagrams/c4-architecture-diagrams',
+                component: ComponentCreator('/docs/architecture/diagrams/c4-architecture-diagrams', '18f'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/architecture/diagrams/class-diagram-domain-entities',
+                component: ComponentCreator('/docs/architecture/diagrams/class-diagram-domain-entities', 'df9'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/architecture/diagrams/entity-relationship-diagram',
+                component: ComponentCreator('/docs/architecture/diagrams/entity-relationship-diagram', 'e05'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/architecture/diagrams/sequence-diagrams',
+                component: ComponentCreator('/docs/architecture/diagrams/sequence-diagrams', 'c39'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/architecture/overview',
+                component: ComponentCreator('/docs/architecture/overview', '833'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
               {
                 path: '/docs/getting-started/configuration',
                 component: ComponentCreator('/docs/getting-started/configuration', '468'),

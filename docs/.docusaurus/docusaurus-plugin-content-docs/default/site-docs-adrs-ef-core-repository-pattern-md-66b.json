@@ -1,0 +1,24 @@
+{
+  "id": "adrs/ef-core-repository-pattern",
+  "title": "ADR-003: Entity Framework Core with Repository Pattern and Unit of Work",
+  "description": "Status",
+  "source": "@site/docs/adrs/ef-core-repository-pattern.md",
+  "sourceDirName": "adrs",
+  "slug": "/adrs/ef-core-repository-pattern",
+  "permalink": "/docs/adrs/ef-core-repository-pattern",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/your-org/realestate/tree/main/docs/docs/adrs/ef-core-repository-pattern.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "ADR-002: CQRS Light Implementation Without MediatR",
+    "permalink": "/docs/adrs/cqrs-light-implementation"
+  },
+  "next": {
+    "title": "ADR-004: Domain-Driven Design Patterns Implementation",
+    "permalink": "/docs/adrs/domain-driven-design-patterns"
+  }
+}

@@ -63,95 +63,6 @@
     },
     "config": "config---adrs-5-e-9-525"
   },
-  "/blog-b07": {
-    "__comp": "__comp---theme-blog-list-pagea-6-a-7ba",
-    "__context": {
-      "plugin": "plugin---blog-369-22e"
-    },
-    "sidebar": "sidebar---blog-814-8ac",
-    "items": [
-      {
-        "content": "content---blog-64-a-51e"
-      }
-    ],
-    "__props": "__props---blogc-15-573"
-  },
-  "/blog/archive-182": {
-    "__comp": "__comp---theme-blog-archive-page-9-e-4-1d8",
-    "__context": {
-      "plugin": "plugin---blog-369-22e"
-    },
-    "__props": "__props---blog-archivef-81-229"
-  },
-  "/blog/authors-0b7": {
-    "__comp": "__comp---theme-blog-pages-blog-authors-list-page-621-70c",
-    "__context": {
-      "data": {
-        "blogMetadata": "blogMetadata---blog-authorsace-e7d"
-      },
-      "plugin": "plugin---blog-369-22e"
-    },
-    "sidebar": "sidebar---blog-814-8ac",
-    "__props": "__props---blog-authorsef-8-44f"
-  },
-  "/blog/tags-287": {
-    "__comp": "__comp---theme-blog-tags-list-page-01-a-d0b",
-    "__context": {
-      "plugin": "plugin---blog-369-22e"
-    },
-    "sidebar": "sidebar---blog-814-8ac",
-    "__props": "__props---blog-tags-3-a-2-fa2"
-  },
-  "/blog/tags/api-1e9": {
-    "__comp": "__comp---theme-blog-tags-posts-page-687-b6c",
-    "__context": {
-      "plugin": "plugin---blog-369-22e"
-    },
-    "sidebar": "sidebar---blog-814-8ac",
-    "items": [
-      {
-        "content": "content---blog-64-a-51e"
-      }
-    ],
-    "__props": "__props---blog-tags-apif-52-55e"
-  },
-  "/blog/tags/architecture-76e": {
-    "__comp": "__comp---theme-blog-tags-posts-page-687-b6c",
-    "__context": {
-      "plugin": "plugin---blog-369-22e"
-    },
-    "sidebar": "sidebar---blog-814-8ac",
-    "items": [
-      {
-        "content": "content---blog-64-a-51e"
-      }
-    ],
-    "__props": "__props---blog-tags-architecture-852-acb"
-  },
-  "/blog/tags/documentation-a71": {
-    "__comp": "__comp---theme-blog-tags-posts-page-687-b6c",
-    "__context": {
-      "plugin": "plugin---blog-369-22e"
-    },
-    "sidebar": "sidebar---blog-814-8ac",
-    "items": [
-      {
-        "content": "content---blog-64-a-51e"
-      }
-    ],
-    "__props": "__props---blog-tags-documentationaf-8-3c5"
-  },
-  "/blog/welcome-to-realestate-api-docs-5bc": {
-    "__comp": "__comp---theme-blog-post-pageccc-cab",
-    "__context": {
-      "data": {
-        "blogMetadata": "blogMetadata---blog-authorsace-e7d"
-      },
-      "plugin": "plugin---blog-369-22e"
-    },
-    "sidebar": "sidebar---blog-814-8ac",
-    "content": "content---blog-welcome-to-realestate-api-docs-8-f-2-35e"
-  },
   "/database/-99c": {
     "__comp": "__comp---site-src-pages-database-index-tsxa-18-e67",
     "__context": {
@@ -159,18 +70,70 @@
     },
     "config": "config---adrs-5-e-9-525"
   },
-  "/docs-01d": {
+  "/docs-1c1": {
     "__comp": "__comp---theme-docs-root-5-e-9-0b6",
     "__context": {
       "plugin": "plugin---docsaba-d7c"
     }
   },
-  "/docs-db5": {
+  "/docs-5cf": {
     "__comp": "__comp---theme-doc-version-roota-7-b-5de",
     "__props": "__props---docs-005-788"
   },
-  "/docs-dfb": {
+  "/docs-518": {
     "__comp": "__comp---theme-doc-roota-94-67a"
+  },
+  "/docs/adrs/-b8d": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-adrs-1-bc-1d4"
+  },
+  "/docs/adrs/clean-architecture-adoption-873": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-adrs-clean-architecture-adoption-1-dc-144"
+  },
+  "/docs/adrs/cqrs-light-implementation-964": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-adrs-cqrs-light-implementationc-76-c48"
+  },
+  "/docs/adrs/domain-driven-design-patterns-1de": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-adrs-domain-driven-design-patterns-628-4d9"
+  },
+  "/docs/adrs/ef-core-repository-pattern-f72": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-adrs-ef-core-repository-pattern-66-b-b4c"
+  },
+  "/docs/adrs/fluentvalidation-input-validation-eb7": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-adrs-fluentvalidation-input-validationb-84-666"
+  },
+  "/docs/adrs/soft-delete-implementation-f45": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-adrs-soft-delete-implementation-4-d-3-678"
+  },
+  "/docs/api-reference-756": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-api-reference-964-9b8"
+  },
+  "/docs/architecture/diagrams/c4-architecture-diagrams-18f": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-architecture-diagrams-c-4-architecture-diagramsf-95-035"
+  },
+  "/docs/architecture/diagrams/class-diagram-domain-entities-df9": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-architecture-diagrams-class-diagram-domain-entitiesa-36-56a"
+  },
+  "/docs/architecture/diagrams/entity-relationship-diagram-e05": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-architecture-diagrams-entity-relationship-diagram-9-e-1-b95"
+  },
+  "/docs/architecture/diagrams/sequence-diagrams-c39": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-architecture-diagrams-sequence-diagrams-416-c58"
+  },
+  "/docs/architecture/overview-833": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-architecture-overview-0-b-1-a4c"
   },
   "/docs/getting-started/configuration-468": {
     "__comp": "__comp---theme-doc-item-178-a40",

@@ -29,16 +29,6 @@ export default {
           "sidebarPath": "./sidebars.ts",
           "editUrl": "https://github.com/your-org/realestate/tree/main/docs/"
         },
-        "blog": {
-          "showReadingTime": true,
-          "feedOptions": {
-            "type": [
-              "rss",
-              "atom"
-            ]
-          },
-          "editUrl": "https://github.com/your-org/realestate/tree/main/docs/"
-        },
         "theme": {
           "customCss": "./src/css/custom.css"
         }
@@ -61,28 +51,23 @@ export default {
           "label": "Documentation"
         },
         {
-          "to": "/architecture",
+          "to": "/docs/architecture/overview",
           "label": "Architecture",
           "position": "left"
         },
         {
-          "to": "/api-reference",
+          "to": "/docs/architecture/diagrams/class-diagram-domain-entities",
+          "label": "Diagrams",
+          "position": "left"
+        },
+        {
+          "to": "/docs/api-reference",
           "label": "API Reference",
           "position": "left"
         },
         {
-          "to": "/database",
-          "label": "Database Schema",
-          "position": "left"
-        },
-        {
-          "to": "/adrs",
+          "to": "/docs/adrs",
           "label": "ADRs",
-          "position": "left"
-        },
-        {
-          "to": "/blog",
-          "label": "Blog",
           "position": "left"
         },
         {
@@ -105,11 +90,11 @@ export default {
             },
             {
               "label": "Architecture",
-              "to": "/architecture"
+              "to": "/docs/architecture/overview"
             },
             {
-              "label": "API Reference",
-              "to": "/api-reference"
+              "label": "Diagrams",
+              "to": "/docs/architecture/diagrams/class-diagram-domain-entities"
             }
           ]
         },
@@ -118,21 +103,13 @@ export default {
           "items": [
             {
               "label": "ADRs",
-              "to": "/adrs"
-            },
-            {
-              "label": "Database Schema",
-              "to": "/database"
+              "to": "/docs/adrs"
             }
           ]
         },
         {
           "title": "More",
           "items": [
-            {
-              "label": "Blog",
-              "to": "/blog"
-            },
             {
               "label": "GitHub",
               "href": "https://github.com/your-org/realestate"

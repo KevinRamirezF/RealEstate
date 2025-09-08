@@ -1,7 +1,7 @@
 {
   "id": "getting-started/configuration",
   "title": "Configuration Guide",
-  "description": "Learn how to configure the RealEstate API for different environments and customize settings.",
+  "description": "Learn how to configure and customize the RealEstate application when running with Docker Compose.",
   "source": "@site/docs/getting-started/configuration.md",
   "sourceDirName": "getting-started",
   "slug": "/getting-started/configuration",
@@ -16,5 +16,9 @@
   "previous": {
     "title": "Installation Guide",
     "permalink": "/docs/getting-started/installation"
+  },
+  "next": {
+    "title": "Architecture Overview",
+    "permalink": "/docs/architecture/overview"
   }
 }

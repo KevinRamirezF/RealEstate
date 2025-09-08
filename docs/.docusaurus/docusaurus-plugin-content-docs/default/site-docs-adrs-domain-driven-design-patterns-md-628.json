@@ -1,0 +1,24 @@
+{
+  "id": "adrs/domain-driven-design-patterns",
+  "title": "ADR-004: Domain-Driven Design Patterns Implementation",
+  "description": "Status",
+  "source": "@site/docs/adrs/domain-driven-design-patterns.md",
+  "sourceDirName": "adrs",
+  "slug": "/adrs/domain-driven-design-patterns",
+  "permalink": "/docs/adrs/domain-driven-design-patterns",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/your-org/realestate/tree/main/docs/docs/adrs/domain-driven-design-patterns.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "ADR-003: Entity Framework Core with Repository Pattern and Unit of Work",
+    "permalink": "/docs/adrs/ef-core-repository-pattern"
+  },
+  "next": {
+    "title": "ADR-005: FluentValidation for Comprehensive Input Validation",
+    "permalink": "/docs/adrs/fluentvalidation-input-validation"
+  }
+}
