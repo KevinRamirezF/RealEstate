@@ -1,0 +1,98 @@
+services:
+  # SQL Server Database
+  realestate-db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: realestate-database-dev
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=RealEstate123!
+      - MSSQL_PID=Developer
+    ports:
+      - "1433:1433"
+    volumes:
+      - realestate_dev_data:/var/opt/mssql
+    networks:
+      - realestate-network
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P RealEstate123! -Q 'SELECT 1' -C || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+
+  # RealEstate API - DEVELOPMENT MODE
+  realestate-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: realestate-api-dev
+    environment:
+      # 🟢 DEVELOPMENT CONFIGURATION
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+      - DatabaseSettings__ConnectionString=Server=realestate-db;Database=RealEstateDB;User Id=sa;Password=RealEstate123!;TrustServerCertificate=true;MultipleActiveResultSets=true
+      - DatabaseSettings__Provider=SqlServer
+      - DatabaseSettings__CommandTimeout=30
+      - DatabaseSettings__EnableSensitiveDataLogging=true
+      - DatabaseSettings__EnableDetailedErrors=true
+      # Temporarily disable SQL Server logging in development - use console only
+      - Serilog__WriteTo__1__Name=Console
+      - Serilog__WriteTo__1__Args=
+      - Logging__LogLevel__Default=Debug
+      - Logging__LogLevel__Microsoft.AspNetCore=Information
+      - Logging__LogLevel__Microsoft.EntityFrameworkCore=Information
+      # 🔍 EXTRA DEBUG SETTINGS
+      - DOTNET_LOGGING__CONSOLE__DISABLECOLORS=false
+      - DOTNET_ENVIRONMENT=Development
+    ports:
+      - "5000:8080"
+    depends_on:
+      realestate-db:
+        condition: service_healthy
+    networks:
+      - realestate-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    # 🔄 Para development, restart solo en failure
+    restart: on-failure
+    # 🎯 OPTIONAL: Mount source code for hot reload
+    # volumes:
+    #   - ./RealEstate.API:/app/RealEstate.API
+    #   - ./RealEstate.Application:/app/RealEstate.Application
+
+  # Documentation with Docusaurus - DEVELOPMENT MODE
+  realestate-docs:
+    build:
+      context: ./docs
+      dockerfile: Dockerfile
+    container_name: realestate-docs-dev
+    ports:
+      - "3000:8080"  # Mapeando el puerto 8080 del contenedor al 3000 del host
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ./docs:/app
+      - /app/node_modules
+    depends_on:
+      realestate-api:
+        condition: service_healthy
+    networks:
+      - realestate-network
+    # Healthcheck removed as Docusaurus doesn't have a built-in health endpoint
+    # and we don't want to fail the container just because of this
+    restart: on-failure
+
+volumes:
+  realestate_dev_data:
+    driver: local
+
+networks:
+  realestate-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16

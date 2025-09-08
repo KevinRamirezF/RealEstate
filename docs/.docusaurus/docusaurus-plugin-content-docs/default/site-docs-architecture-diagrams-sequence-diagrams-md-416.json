@@ -1,0 +1,24 @@
+{
+  "id": "architecture/diagrams/sequence-diagrams",
+  "title": "Sequence Diagrams",
+  "description": "This document contains sequence diagrams for the most important operations in the RealEstate application, showing the flow of data and control through the different layers of the Clean Architecture.",
+  "source": "@site/docs/architecture/diagrams/sequence-diagrams.md",
+  "sourceDirName": "architecture/diagrams",
+  "slug": "/architecture/diagrams/sequence-diagrams",
+  "permalink": "/docs/architecture/diagrams/sequence-diagrams",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/your-org/realestate/tree/main/docs/docs/architecture/diagrams/sequence-diagrams.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Domain Entities - Class Diagram",
+    "permalink": "/docs/architecture/diagrams/class-diagram-domain-entities"
+  },
+  "next": {
+    "title": "Entity-Relationship Diagram",
+    "permalink": "/docs/architecture/diagrams/entity-relationship-diagram"
+  }
+}

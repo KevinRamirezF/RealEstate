@@ -130,20 +130,26 @@ A comprehensive Real Estate management API built for luxury real estate operatio
             // Add global exception handling (must be first in pipeline)
             app.UseGlobalExceptionHandler();
 
-            if (app.Environment.IsDevelopment())
+            // Enable Swagger in all environments for Docker setup
+            app.UseSwagger();
+            app.MapScalarApiReference(options =>
             {
-                app.UseSwagger();
-                app.MapScalarApiReference(options =>
-                {
-                    options.Title = "Million Realty API Documentation";
-                    options.Theme = ScalarTheme.Default;
-                    options.DefaultHttpClient = new(ScalarTarget.CSharp, ScalarClient.HttpClient);
-                    options.OpenApiRoutePattern = "/swagger/{documentName}/swagger.json";
-                });
-                
-                // Redirect root to Scalar documentation
-                app.MapGet("/", () => Results.Redirect("/scalar"));
-            }
+                options.Title = "Million Realty API Documentation";
+                options.Theme = ScalarTheme.Default;
+                options.DefaultHttpClient = new(ScalarTarget.CSharp, ScalarClient.HttpClient);
+                options.OpenApiRoutePattern = "/swagger/{documentName}/swagger.json";
+            });
+            
+            // Redirect root to Scalar documentation
+            app.MapGet("/", () => Results.Redirect("/scalar"));
+            
+            // Health check endpoint for Docker
+            app.MapGet("/health", () => Results.Ok(new { 
+                status = "healthy", 
+                timestamp = DateTime.UtcNow,
+                version = "1.0.0",
+                environment = app.Environment.EnvironmentName
+            }));
 
             app.UseHttpsRedirection();
 

@@ -1,0 +1,24 @@
+{
+  "id": "architecture/diagrams/entity-relationship-diagram",
+  "title": "Entity-Relationship Diagram",
+  "description": "This document shows the database schema and relationships for the RealEstate application. The schema follows Domain-Driven Design principles with proper normalization and audit trail support.",
+  "source": "@site/docs/architecture/diagrams/entity-relationship-diagram.md",
+  "sourceDirName": "architecture/diagrams",
+  "slug": "/architecture/diagrams/entity-relationship-diagram",
+  "permalink": "/docs/architecture/diagrams/entity-relationship-diagram",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/your-org/realestate/tree/main/docs/docs/architecture/diagrams/entity-relationship-diagram.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Sequence Diagrams",
+    "permalink": "/docs/architecture/diagrams/sequence-diagrams"
+  },
+  "next": {
+    "title": "C4 Architecture Diagrams",
+    "permalink": "/docs/architecture/diagrams/c4-architecture-diagrams"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "id": "adrs/index",
+  "title": "Architecture Decision Records (ADRs)",
+  "description": "This section documents the architectural decisions made during the development of the RealEstate API application. Each ADR follows a structured format including context, decision, status, and consequences to provide comprehensive reasoning behind design choices.",
+  "source": "@site/docs/adrs/index.md",
+  "sourceDirName": "adrs",
+  "slug": "/adrs/",
+  "permalink": "/docs/adrs/",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/your-org/realestate/tree/main/docs/docs/adrs/index.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "API Reference",
+    "permalink": "/docs/api-reference"
+  },
+  "next": {
+    "title": "ADR-001: Adoption of Clean Architecture Pattern",
+    "permalink": "/docs/adrs/clean-architecture-adoption"
+  }
+}

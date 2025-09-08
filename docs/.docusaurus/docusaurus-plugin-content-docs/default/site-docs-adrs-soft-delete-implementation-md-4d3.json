@@ -1,0 +1,20 @@
+{
+  "id": "adrs/soft-delete-implementation",
+  "title": "ADR-006: Soft Delete Implementation with Global Query Filters",
+  "description": "Status",
+  "source": "@site/docs/adrs/soft-delete-implementation.md",
+  "sourceDirName": "adrs",
+  "slug": "/adrs/soft-delete-implementation",
+  "permalink": "/docs/adrs/soft-delete-implementation",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/your-org/realestate/tree/main/docs/docs/adrs/soft-delete-implementation.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "ADR-005: FluentValidation for Comprehensive Input Validation",
+    "permalink": "/docs/adrs/fluentvalidation-input-validation"
+  }
+}

@@ -1,0 +1,110 @@
+@startuml "Deployment - RealEstate Application"
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Deployment.puml
+
+LAYOUT_WITH_LEGEND()
+
+title Deployment Diagram for RealEstate Application
+
+Deployment_Node(cdn, "Content Delivery Network", "CloudFlare/AWS CloudFront"){
+    Container(webAppCDN, "Static Web App", "React SPA", "Cached static assets and SPA")
+}
+
+Deployment_Node(cloud, "Cloud Environment", "AWS/Azure/GCP"){
+    Deployment_Node(loadBalancer, "Load Balancer", "Application Load Balancer"){
+        Container(lb, "Load Balancer", "ALB/nginx", "Distributes traffic across API instances")
+    }
+    
+    Deployment_Node(webTier, "Web Tier", "Auto Scaling Group"){
+        Deployment_Node(apiServer1, "API Server 1", "Container/Docker"){
+            Container(api1, "RealEstate API", ".NET 8 Web API", "API instance handling requests")
+        }
+        Deployment_Node(apiServer2, "API Server 2", "Container/Docker"){
+            Container(api2, "RealEstate API", ".NET 8 Web API", "API instance handling requests")
+        }
+    }
+    
+    Deployment_Node(cacheCluster, "Cache Cluster", "Redis Cluster"){
+        ContainerDb(redis1, "Redis Primary", "Redis", "Primary cache instance")
+        ContainerDb(redis2, "Redis Replica", "Redis", "Cache replica for failover")
+    }
+    
+    Deployment_Node(database, "Database Tier", "Managed Database Service"){
+        ContainerDb(primaryDB, "Primary Database", "SQL Server", "Main database instance")
+        ContainerDb(replicaDB, "Read Replica", "SQL Server", "Read-only replica for reporting")
+    }
+    
+    Deployment_Node(storage, "Object Storage", "Cloud Storage"){
+        Container(fileStorage, "File Storage", "S3/Azure Blob", "Property images and documents")
+    }
+    
+    Deployment_Node(monitoring, "Monitoring & Logging", "Observability Platform"){
+        Container(appInsights, "Application Insights", "Azure Monitor/CloudWatch", "Application telemetry")
+        Container(logAggregation, "Log Aggregation", "ELK Stack/Splunk", "Centralized logging")
+    }
+}
+
+Deployment_Node(cicd, "CI/CD Pipeline", "DevOps Platform"){
+    Container(buildServer, "Build Server", "GitHub Actions/Azure DevOps", "Automated build and deployment")
+    Container(artifactRepo, "Artifact Repository", "Container Registry", "Docker images and packages")
+}
+
+Deployment_Node(external, "External Services"){
+    System_Ext(paymentGateway, "Payment Gateway", "Stripe/PayPal API")
+    System_Ext(emailService, "Email Service", "SendGrid/AWS SES")
+    System_Ext(mapsAPI, "Maps API", "Google Maps/Bing Maps")
+    System_Ext(identityProvider, "Identity Provider", "Auth0/Azure AD B2C")
+}
+
+Deployment_Node(mobile, "Mobile Devices"){
+    Container(mobileApp, "Mobile App", "React Native", "iOS/Android application")
+}
+
+Deployment_Node(userDevice, "User Devices"){
+    Container(webBrowser, "Web Browser", "Chrome/Safari/Edge", "User's web browser")
+}
+
+' User interactions
+Rel(webBrowser, cdn, "Loads SPA", "HTTPS")
+Rel(webBrowser, loadBalancer, "API requests", "HTTPS")
+Rel(mobileApp, loadBalancer, "API requests", "HTTPS")
+
+' Load balancer distribution
+Rel(loadBalancer, api1, "Routes requests", "HTTPS")
+Rel(loadBalancer, api2, "Routes requests", "HTTPS")
+
+' API to data tier
+Rel(api1, primaryDB, "Reads/Writes", "SQL/TLS")
+Rel(api2, primaryDB, "Reads/Writes", "SQL/TLS")
+Rel(api1, redis1, "Cache operations", "TCP/TLS")
+Rel(api2, redis1, "Cache operations", "TCP/TLS")
+Rel(api1, fileStorage, "File operations", "HTTPS")
+Rel(api2, fileStorage, "File operations", "HTTPS")
+
+' Database replication
+Rel(primaryDB, replicaDB, "Replicates data", "SQL/TLS")
+
+' Cache replication
+Rel(redis1, redis2, "Replicates cache", "Redis protocol")
+
+' External service integrations
+Rel(api1, paymentGateway, "Payment processing", "HTTPS/API")
+Rel(api1, emailService, "Send notifications", "HTTPS/API")
+Rel(api1, mapsAPI, "Geocoding", "HTTPS/API")
+Rel(api1, identityProvider, "Authentication", "OAuth/HTTPS")
+Rel(api2, paymentGateway, "Payment processing", "HTTPS/API")
+Rel(api2, emailService, "Send notifications", "HTTPS/API")
+Rel(api2, mapsAPI, "Geocoding", "HTTPS/API")
+Rel(api2, identityProvider, "Authentication", "OAuth/HTTPS")
+
+' Monitoring and logging
+Rel(api1, appInsights, "Telemetry", "HTTPS")
+Rel(api2, appInsights, "Telemetry", "HTTPS")
+Rel(api1, logAggregation, "Application logs", "HTTPS/TCP")
+Rel(api2, logAggregation, "Application logs", "HTTPS/TCP")
+
+' CI/CD pipeline
+Rel(buildServer, artifactRepo, "Stores artifacts", "HTTPS")
+Rel(buildServer, apiServer1, "Deploys", "SSH/HTTPS")
+Rel(buildServer, apiServer2, "Deploys", "SSH/HTTPS")
+
+@enduml

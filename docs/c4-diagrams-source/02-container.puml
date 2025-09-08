@@ -1,0 +1,47 @@
+@startuml "Container - RealEstate Application"
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+LAYOUT_WITH_LEGEND()
+
+title Container Diagram for RealEstate Application
+
+Person(propertyOwner, "Property Owner", "Real estate owner who lists and manages properties")
+Person(propertySeekers, "Property Seekers", "Users searching for properties to buy or rent")
+Person(admin, "System Administrator", "Manages the platform and user accounts")
+
+System_Boundary(c1, "RealEstate System") {
+    Container(webApp, "Web Application", "React SPA", "Provides property management interface to users via web browser")
+    Container(mobileApp, "Mobile Application", "React Native", "Provides property browsing on mobile devices")
+    Container(apiGateway, "API Gateway", "Nginx/Kong", "Routes requests and handles cross-cutting concerns")
+    Container(apiApp, "RealEstate API", ".NET 8 Web API", "Provides real estate functionality via JSON/HTTPS API")
+    ContainerDb(database, "Database", "SQL Server", "Stores property data, users, transactions, audit logs")
+    Container(fileStorage, "File Storage", "Cloud Storage", "Stores property images and documents")
+    Container(cacheLayer, "Cache Layer", "Redis", "Caches frequently accessed data for performance")
+    Container(backgroundJobs, "Background Jobs", ".NET Background Service", "Handles async tasks like notifications, reports")
+}
+
+System_Ext(paymentSystem, "Payment System", "Handles payments and transactions")
+System_Ext(mapsService, "Maps Service", "Provides geolocation services")
+System_Ext(emailSystem, "Email System", "Sends notifications")
+System_Ext(identityProvider, "Identity Provider", "External authentication")
+
+Rel(propertyOwner, webApp, "Manages properties", "HTTPS")
+Rel(propertySeekers, webApp, "Searches properties", "HTTPS")
+Rel(propertySeekers, mobileApp, "Browses properties", "HTTPS")
+Rel(admin, webApp, "Administers system", "HTTPS")
+
+Rel(webApp, apiGateway, "Makes API calls", "JSON/HTTPS")
+Rel(mobileApp, apiGateway, "Makes API calls", "JSON/HTTPS")
+Rel(apiGateway, apiApp, "Routes requests", "JSON/HTTPS")
+
+Rel(apiApp, database, "Reads from and writes to", "SQL/TCP")
+Rel(apiApp, fileStorage, "Stores and retrieves files", "HTTPS/API")
+Rel(apiApp, cacheLayer, "Reads from and writes to", "TCP")
+Rel(apiApp, backgroundJobs, "Queues tasks", "In-Process/Queue")
+
+Rel(apiApp, paymentSystem, "Processes payments", "JSON/HTTPS")
+Rel(apiApp, mapsService, "Gets location data", "JSON/HTTPS")
+Rel(backgroundJobs, emailSystem, "Sends notifications", "SMTP")
+Rel(apiApp, identityProvider, "Authenticates users", "OAuth/HTTPS")
+
+@enduml
